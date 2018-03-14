@@ -61,7 +61,7 @@
                                     ]);
 
                                     //Setting chart title and size
-                                    var options = {'title': 'Usage of Delivery Vehicle Type', 'width': 650, 'height': 700};
+                                    var options = {'title': 'Usage of Delivery Vehicle Type', 'width': 650, 'height': 400};
 
                                     // Display the chart inside the <div> element with id="pieChart"
                                     var chart = new google.visualization.PieChart(document.getElementById('pieChart'));
