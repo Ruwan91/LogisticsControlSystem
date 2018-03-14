@@ -331,7 +331,7 @@
 
                 <%--Add new driver section starts here --%>
                 <section>
-                    <div class="space container" id="add_new_driver_div" style="box-shadow: 0 0 1px black;display: none;font-size: 20px;">
+                    <div class="space container" id="add_new_driver_div" style="box-shadow: 0 0 1px black;display: none;">
                         <form class="form-horizontal" action="#" style="margin-top: 5px;margin-left: 15%;">
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Driver Name</label>
