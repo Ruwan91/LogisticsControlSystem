@@ -8,21 +8,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Cargo Logistic System</title>
+        <title> Logistic Management System</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script> 
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script> 
+
+
+ 
 
   
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
-
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+  
     <style>
     
      .navbar-text a:hover{background-color: white;color: black;}
@@ -35,11 +42,11 @@
    </head>
 
 
-   <body id="hmbdy"  style="background-color: #bec0bc;">
+   <body id="hmbdy"  style="background-color: #bec0bc;" >
         <div class=" container" ng-app="myApp">
             <header>
                 <div class="head container" style="background-color:#12b2ef; ">
-                    <a href="#/!" id="menue" style="text-decoration: none;color:black; "><h1 style="font-family: baskerville Old Face;font-size: 50px;">Cargo Management System</h1></a>
+                    <a href="#/!" id="menue" style="text-decoration: none;color:black; " ><h1 style="font-family: baskerville Old Face;font-size: 50px;color: white;">Logistic Management System</h1></a>
                     <div class="container" style="margin-left: 80%;margin-bottom: 20px;">
                       <span class="text"><a href="" style="text-decoration: none; "  >Singn Up</a></span>
                        <span class="text"><a href="" style="text-decoration: none; ">Login</a></span>
@@ -55,8 +62,8 @@
  
     
     <div class="navbar navbar-inverse" style="background-color: #222222b8;   box-shadow: 0 0 2px 1px black;">
-      <div class=" navbar-header " >
-          <span class="navbar-brand"><a href="#/!" id="homelink" style="text-decoration: none;">Home</a></span>
+      <div class="navbar-header" >
+          <span class="navbar-brand"><a href="#/!" id="homelink" style="text-decoration: none;color: white;" >Home</a></span>
       </div>
 
       <button class="navbar-toggle" data-toggle="collapse" data-target="#menu">
@@ -130,7 +137,7 @@
                 </div>
             </footer>
         </div>
-   
+                
     </body>
 </html>
 
