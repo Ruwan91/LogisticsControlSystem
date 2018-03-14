@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TO DO supply a title</title>
+        <title>Cargo Logistic System</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -23,39 +23,73 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
 
+    <style>
+    
+     .navbar-text a:hover{background-color: white;color: black;}
+    .navbar-text a:active{background-color: red;}
+    .itemblock{overflow-wrap: break-word;padding: 0px;border-radius:10px;margin-top:5px;background-color: blue;box-shadow: 0 0 6px 0px black;}
+     .navbar-nav li{border-left:1px solid white;} 
+     .navbar-inverse .navbar-nav>li>a:hover {
+          background-color: #7c7c7c8f;
+    </style>
+   </head>
 
-    </head>
 
-
-    <body >
-        <div class="body container" ng-app="myApp">
+   <body id="hmbdy"  style="background-color: #bec0bc;">
+        <div class=" container" ng-app="myApp">
             <header>
-                <div class="head container" style="background-color: greenyellow;">
-                    <h1>Cargo Management System</h1>
+                <div class="head container" style="background-color:#12b2ef; ">
+                    <a href="#/!" id="menue" style="text-decoration: none;color:black; "><h1 style="font-family: baskerville Old Face;font-size: 50px;">Cargo Management System</h1></a>
+                    <div class="container" style="margin-left: 80%;margin-bottom: 20px;">
+                      <span class="text"><a href="" style="text-decoration: none; "  >Singn Up</a></span>
+                       <span class="text"><a href="" style="text-decoration: none; ">Login</a></span>
+                    </div>
                 </div> 
             
             </header>
             
-            <div class="content container" style="background-color: blueviolet;padding-right: 0px !important;padding-left: 0px !important;">
+            <div class="body container" style="padding-right: 0px !important;padding-left: 0px !important;">
             
-                <div class="sidebar container"  style="background-color: brown;width: 25%;margin-left: 0px;float: left;">
-                    <h3>side bar</h3>
-                    <ul><li><a href="#/!" >Menu1</a></li>
-                        
-                        <li><a href="#!warehousing" >Warehousing</a></li>
-                    </ul>
-                </div>
-                <div class="container" style="background-color: cyan;width: 75%;padding-right: 0px;margin-left: 25%;padding-left: 0px;">
-                    <h1>content</h1>
-   
-                 <%-- AngularJS  codes  --%>
-                 
-                 <div ng-view class="container" style="background-color: black;width: 100%;padding-right: 0px;">
-                     
-                 </div>
+              	 <!-- Navigation Bar -->
+
+ 
+    
+    <div class="navbar navbar-inverse" style="background-color: #222222b8;   box-shadow: 0 0 2px 1px black;">
+      <div class=" navbar-header " >
+          <span class="navbar-brand"><a href="#/!" id="homelink" style="text-decoration: none;">Home</a></span>
+      </div>
+
+      <button class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+     
+      
+      <div class="container">
+      <ul class="nav navbar-nav navbar-collapse collapse" id="menu" style="">
+          <li> <a href="#!customer" id="customer" >Customer</a></li>
+                       <li>  <a href="#!order" id="order" >Order</a></li>
+                       <li>  <a href="#!cargosoursing" id="cargosourcing" >Cargo Sourcing</a></li>
+                      <li> <a href="#!payment" id="payment" >Payment</a></li>
+                      <li>   <a href="#!delivery" id="delivery" >Delivery</a></li>
+                       <li> <a href="#!tracking" id="tracking" >Tracking</a></li>
+                       <li>  <a href="#!payroll" id="payroll" >Payroll</a></li>
+                       <li> <a href="#!warehousing" id="warehousing" >Warehousing</a></li>
+      </ul>
+      </div>
+       
+    </div>
+                <div class="pages_content container" style="padding-right: 0px;padding-left: 0px;margin-top: 5px;">
                     
-                   </div>         
-                             <script>
+                    
+                    
+                    <%-- AngularJS  codes  --%>
+                 
+                    <div ng-view class="container" id="view" style="background-color: black;width: 100%;padding-right: 0px; padding-left: 0px;display: block;"></div>
+                     
+                            <script>
                                 var app   = angular.module("myApp", ["ngRoute"]);
                                   app.config(function($routeProvider) {
                                   $routeProvider.
@@ -63,20 +97,40 @@
                                
                                    when("/warehousing",{
                                       templateUrl : "warehousing.jsp"
+                                   }).
+                                   when("/",{
+                                       templateUrl : "home.jsp"
                                    });
 
                                  });
                              </script>
-                 <%-- AngularJS  END  --%>
+                    <%-- AngularJS  END  --%>
+                        
+                    
+                </div>         
+                    <script>
+              
+                    </script>
  
                 </div>
      
             	
             <footer>
-                <div class="footer container" style="background-color: yellow;"><h1>Footer</h1></div>
+                <div class="footer container" style="margin-top: 5px;    box-shadow: 0 0 2px black;">
+                    <div class="container col-sm-4">
+                        <h5>Contact us</h5>
+                    </div>
+                    <div class="container col-sm-4">
+                        <h5>Any suggestions</h5>
+                    </div>
+                     <div class="container col-sm-4">
+                        <h5>Company</h5>
+                    </div>
+                
+                </div>
             </footer>
         </div>
-
+   
     </body>
 </html>
 
