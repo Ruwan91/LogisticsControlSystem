@@ -107,7 +107,11 @@
                                    }).
                                    when("/",{
                                        templateUrl : "home.jsp"
+                                   }).
+                                   when("/tracking",{
+                                        templateUrl : "tracking.jsp"
                                    });
+                           
 
                                  });
                              </script>
