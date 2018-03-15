@@ -194,9 +194,9 @@
                                 </div>
                             </div>
                             <div class="form-group" >
-                                <label class="control-label col-sm-2">Invoice NO</label>
+                                <label class="control-label col-sm-2">Order Id</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" placeholder="Enter Invoice Number." id="invoiceId" required="true">
+                                    <input type="text" class="form-control" placeholder="Enter Invoice Number." id="orderId" required="true">
                                 </div>
                             </div>
                             <div class="form-group">
