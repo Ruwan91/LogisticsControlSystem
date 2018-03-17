@@ -70,7 +70,7 @@
 			indexLabel: "{y} %", 
 			dataPoints: [ 
 				{ label: "Normal Cargo",  y: 30.3, legendText: "Normal Cargo"}, 
-				{ label: "Danger Cargo",    y: 19.1, legendText: "Danger Cargo"  }, 
+				{ label: "Danger Cargo",    y: 5.1, legendText: "Danger Cargo"  }, 
 				{ label: "Food Cargo",   y: 4.0,  legendText: "Food Cargo" }, 
 				{ label: "Refregirator Cargo",       y: 3.8,  legendText: "Refregirator Cargo"}, 
 				
@@ -223,6 +223,12 @@
                   </div>
                   <div class="form-group" >
                       <label class="control-label col-sm-2">Due Date : </label>
+                       <div class="col-sm-5">
+                      <input type="text" class="form-control" id="due_date">
+                       </div>
+                  </div>
+                    <div class="form-group" >
+                      <label class="control-label col-sm-2"> Date : </label>
                        <div class="col-sm-5">
                       <input type="text" class="form-control" id="due_date">
                        </div>
@@ -539,6 +545,7 @@
             
                    <script>
                         function home(){
+                             location.reload(true);
                             document.getElementById("Whead").innerHTML='Warehouse Home';
                             document.getElementById("ware_home_div").style.display='block';
                              document.getElementById("insertcargo").style.display='none';
