@@ -38,15 +38,15 @@
      .navbar-nav li{border-left:1px solid white;} 
      .navbar-inverse .navbar-nav>li>a:hover {
           background-color: #7c7c7c8f;
-          #hmbdy{
+     }
+    #hmbdy{
    
-   background-color: #bec0bc;
-    background-image: url("img_tree.gif"), url("paper.gif");
-    background-repeat: no-repeat, repeat;
+             background-repeat: repeat;
     }
+   
     </style>
    </head>
-
+ <link rel="icon" href="istock-cargo-ship.jpg">
 
    <body id="hmbdy"  background="istock-cargo-ship.jpg">
         <div class=" container" ng-app="myApp">
@@ -85,7 +85,7 @@
                          <li> <a href="#!customer" id="customer" >Customer</a></li>
                        <li>  <a href="#!order" id="order" >Order</a></li>
                        <li>  <a href="#!cargosoursing" id="cargosourcing" >Cargo Sourcing</a></li>
-                      <li> <a href="#!payment" id="payment" >Payment</a></li>
+                      <li> <a href="#!payment" id="payment" >Finance</a></li>
                       <li>   <a href="#!delivery" id="delivery" onclick=" location.reload();">Delivery</a></li>
                        <li> <a href="#!tracking" id="tracking" >Tracking</a></li>
                        <li>  <a href="#!payroll" id="payroll" >Payroll</a></li>
