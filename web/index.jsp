@@ -18,6 +18,8 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script> 
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script> 
 
         <style>
             .navbar-text a:hover{background-color: white;color: black;}
@@ -85,7 +87,15 @@
                                         }).
                                         when("/", {
                                             templateUrl: "home.jsp"
-                                        });
+                                        }).when("/tracking", {
+                                    templateUrl: "tracking.jsp"
+
+                                }).when("/cargosoursing", {
+                                    templateUrl: "Cargo Sourcing.jsp"
+
+                                }).when("/payroll", {
+                                    templateUrl: "payroll.jsp"
+                                });
 
                             });
                         </script>
