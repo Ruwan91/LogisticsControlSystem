@@ -38,17 +38,23 @@
      .navbar-nav li{border-left:1px solid white;} 
      .navbar-inverse .navbar-nav>li>a:hover {
           background-color: #7c7c7c8f;
+          #hmbdy{
+   
+   background-color: #bec0bc;
+    background-image: url("img_tree.gif"), url("paper.gif");
+    background-repeat: no-repeat, repeat;
+    }
     </style>
    </head>
 
 
-   <body id="hmbdy"  style="background-color: #bec0bc;" >
+   <body id="hmbdy"  background="istock-cargo-ship.jpg">
         <div class=" container" ng-app="myApp">
             <header>
                 <div class="head container" style="background-color:#12b2ef; ">
-                    <a href="#/!" id="menue" style="text-decoration: none;color:black; " ><h1 style="font-family: baskerville Old Face;font-size: 50px;color: white;">Logistic Management System</h1></a>
+                    <a href="#/!" id="menue" style="text-decoration: none;color:black; " onclick=" location.reload();"><h1 style="font-family: baskerville Old Face;font-size: 50px;color: white;">Logistic Management System</h1></a>
                     <div class="container" style="margin-left: 80%;margin-bottom: 20px;">
-                      <span class="text"><a href="" style="text-decoration: none; "  >Singn Up</a></span>
+                      <span class="text"><a href="signup.jsp" style="text-decoration: none; "  >Singn Up</a></span>
                        <span class="text"><a href="" style="text-decoration: none; ">Login</a></span>
                     </div>
                 </div> 
@@ -63,7 +69,7 @@
     
     <div class="navbar navbar-inverse" style="background-color: #222222b8;   box-shadow: 0 0 2px 1px black;">
       <div class="navbar-header" >
-          <span class="navbar-brand"><a href="#/!" id="homelink" style="text-decoration: none;color: white;" >Home</a></span>
+          <span class="navbar-brand"><a href="#/!" id="homelink" style="text-decoration: none;color: white;" onclick=" location.reload();" >Home</a></span>
       </div>
 
       <button class="navbar-toggle" data-toggle="collapse" data-target="#menu">
@@ -76,14 +82,14 @@
       
       <div class="container">
       <ul class="nav navbar-nav navbar-collapse collapse" id="menu" style="">
-          <li> <a href="#!customer" id="customer" >Customer</a></li>
+                         <li> <a href="#!customer" id="customer" >Customer</a></li>
                        <li>  <a href="#!order" id="order" >Order</a></li>
                        <li>  <a href="#!cargosoursing" id="cargosourcing" >Cargo Sourcing</a></li>
                       <li> <a href="#!payment" id="payment" >Payment</a></li>
-                      <li>   <a href="#!delivery" id="delivery" >Delivery</a></li>
+                      <li>   <a href="#!delivery" id="delivery" onclick=" location.reload();">Delivery</a></li>
                        <li> <a href="#!tracking" id="tracking" >Tracking</a></li>
                        <li>  <a href="#!payroll" id="payroll" >Payroll</a></li>
-                       <li> <a href="#!warehousing" id="warehousing" >Warehousing</a></li>
+                       <li> <a href="#!warehousing" id="warehousing" onclick=" location.reload();" >Warehousing</a></li>
       </ul>
       </div>
        
@@ -109,7 +115,25 @@
                                        templateUrl : "home.jsp"
                                    }).
                                    when("/tracking",{
-                                        templateUrl : "tracking.jsp"
+                                        templateUrl : "tracking22.jsp"
+                                   }).
+                                   when("/delivery",{
+                                        templateUrl : "delivery.jsp"
+                                   }).
+                                   when("/payroll",{
+                                        templateUrl : "payroll.jsp"
+                                   }).
+                                   when("/customer",{
+                                        templateUrl : "customer.jsp"
+                                
+                                   }).when("/order",{
+                                        templateUrl : "order.jsp"
+                                        
+                                   }).when("/payment",{
+                                        templateUrl : "payment.jsp"
+                                        
+                                   }).when("/cargosoursing",{
+                                        templateUrl : "cargosoursing.jsp"
                                    });
                            
 
