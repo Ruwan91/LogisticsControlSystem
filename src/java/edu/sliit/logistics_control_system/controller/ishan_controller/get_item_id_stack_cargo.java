@@ -59,12 +59,12 @@ public class get_item_id_stack_cargo extends HttpServlet {
                                   
                                   
                                    rssqitem.next();
-                                    int itemid=Integer.parseInt(rssqitem.getString("itemid"));
+                                    int itemid=Integer.parseInt(rssqitem.getString("it.itemid"));
                                     
                                   
                                   
                                   
-                                    
+                                    out.print(itemid);
                        
                           
                                    

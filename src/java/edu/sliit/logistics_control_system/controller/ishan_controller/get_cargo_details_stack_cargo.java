@@ -112,6 +112,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                                   get_quantity[i]=Integer.parseInt(rsgetdetails.getString("qty")) ;
                                  get_currentdate[i]=rsgetdetails.getString("receiveddate");
                                  get_duedate[i]=rsgetdetails.getString("duedate");
+                                 
                                out.print("<tr>");
                                 out.print("<td>");
                                  out.print(get_cusid[i]);

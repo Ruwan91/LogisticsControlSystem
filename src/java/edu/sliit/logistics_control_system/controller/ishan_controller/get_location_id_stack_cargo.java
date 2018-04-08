@@ -67,7 +67,7 @@ public class get_location_id_stack_cargo extends HttpServlet {
                                   
                                   
                                   
-                                  
+                                  out.print(locationdescription_id);
                                   
                                     
                        

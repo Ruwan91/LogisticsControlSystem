@@ -261,7 +261,7 @@ chart.render();
                          
                       <script>
                       function    cargo_name_selected(){
-                          console.log("cargo_name_selected()");
+                          
                           var e = document.getElementById("sel1");
                           var odid = e.options[e.selectedIndex].value;
                           
@@ -276,6 +276,7 @@ chart.render();
                               xmlhttp.open("GET", "item_name_stack_cargo?odid="+odid , true);
                               
                               xmlhttp.send();
+                              console.log("cargo_name_selected()");
                           }
                       </script>
                       
@@ -294,7 +295,7 @@ chart.render();
                      function cargo_type_selected(){
                           var es = document.getElementById("sel1");
                           var odidcc= es.options[es.selectedIndex].value;
-                          console.log("cargo_type_selected() executed");
+                          
                           
                                var xmlhttp = new XMLHttpRequest();
                               xmlhttp.onreadystatechange = function() {
@@ -306,6 +307,7 @@ chart.render();
                               xmlhttp.open("GET", "cargo_type_stack_cargo?odidc="+odidcc , true);
                               
                               xmlhttp.send();
+                              console.log("cargo_type_selected() executed");
                           }
                       </script>
                        </div>
@@ -321,13 +323,13 @@ chart.render();
                             var z=1;
                             if(quantity >=z){
                                 validate_totalcost2();
-                                console.log("validate_totalcost1() executed");
+                                
                                 
                                 
                             }else return;
                             
                             
-                            
+                          console.log("validate_totalcost1() executed");  
                         }
                       </script>
                        </div>
@@ -341,7 +343,7 @@ chart.render();
                           function customer_name_selected(){
                           var es = document.getElementById("sel1");
                           var odidc= es.options[es.selectedIndex].value;
-                          console.log("customer_name_selected() executed");
+                         
                           
                                var xmlhttp = new XMLHttpRequest();
                               xmlhttp.onreadystatechange = function() {
@@ -353,6 +355,7 @@ chart.render();
                               xmlhttp.open("GET", "customer_name_stack_cargo?odidc="+odidc , true);
                               
                               xmlhttp.send();
+                               console.log("customer_name_selected() executed");
                           }
                       </script>
                        
@@ -367,7 +370,7 @@ chart.render();
                           function customer_id_selected(){
                           var es = document.getElementById("sel1");
                           var odidc= es.options[es.selectedIndex].value;
-                          console.log("customer_id_selected() executed");
+                         
                           
                                var xmlhttp = new XMLHttpRequest();
                               xmlhttp.onreadystatechange = function() {
@@ -379,6 +382,7 @@ chart.render();
                               xmlhttp.open("GET", "customer_id_stack_cargo?odidc="+odidc , true);
                               
                               xmlhttp.send();
+                               console.log("customer_id_selected() executed");
                           }
                       </script>
                        </div>
@@ -391,13 +395,15 @@ chart.render();
                            <input type="number" class="form-control" name="crental" min="1" required id="rentalpriceperunit_isertcargo" onkeyup="validate_totalcost3()">
                            <script>
                                function  validate_totalcost2(){
-                                   console.log("validate_totalcost2() executed");
+                                   
                                    var rentalperunit=document.getElementById("rentalpriceperunit_isertcargo").value;
                                    var t=1;
                                    if(rentalperunit >=t ){
                                        validate_totalcost3();
                                    }else return;
                                    
+                                   
+                                   console.log("validate_totalcost2() executed");
                                }
                            </script>
                        </div>
@@ -407,7 +413,7 @@ chart.render();
                           
                            <script>
                                function validate_totalcost3(){
-                               console.log("validate_totalcost3() executed");
+                               
                                var rentalperunit=document.getElementById("rentalpriceperunit_isertcargo").value;
                                var quantity=document.getElementById("cargo_quantity").value;
                                var xqw=rentalperunit * quantity;
@@ -415,11 +421,12 @@ chart.render();
                               
                                document.getElementById("totalcoste_insercargo").innerHTML=xqw;
                              
-                               
+                               console.log("validate_totalcost3() executed");
                            }
                            </script>
                        </div>
                   </div>
+                  
                   <div class="form-group" >
                       <label class="control-label col-sm-2"> Date : </label>
                        <div class="input-group date col-sm-3" data-provide="datepicker">
@@ -452,9 +459,17 @@ chart.render();
                     <div class="form-group" >
                       <label class="control-label col-sm-2">Due Date : </label>
                        <div class="input-group date col-sm-3" data-provide="datepicker">
-                           <input type="text" class="form-control" name="duedate" id="insertcargo_due_date" min="" required>
+                           <input type="text" class="form-control" name="duedate" id="insertcargo_due_date"  onkeyup="getonkypressdate()" required>
+                           <label class="control-label col-sm-2" id="datetest"></label>
                            <script>
-                               
+                               function getonkypressdate(){
+                               var dDate = document.getElementById('insertcargo_due_date').valueAsDate;
+var day =  dDate.getDate(); 
+var month=dDate.getMonth();
+var year=dDate.getFullYear();
+  
+document.getElementById('datetest').innerHTML =day;
+                               }
                             var today = new Date();
                             var dd = today.getDate();
                             var mm = today.getMonth()+1; //January is 0!
@@ -479,7 +494,48 @@ chart.render();
                                 </div>
                         </div>
                   </div>
-                    <button class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;"  onclick="validate(); getcargodetails_into_table();">Submit</button>
+                    <button type="button" class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;"  onclick="validate();  " onkeypress="getcargodetails_into_table();">Submit</button>
+                    <label id="get_item_id_for_isert_data" >itemssdsd</label>
+                    <script>
+                       
+                        
+                        function get_itemDI(){
+                            var es = document.getElementById("sel1");
+                          var odidc= es.options[es.selectedIndex].value;
+                          
+                         var xmlhttp1 = new XMLHttpRequest();
+                              xmlhttp1.onreadystatechange = function() {
+                                 if(this.readyState == 4 && this.status == 200) {
+                                     
+                                      document.getElementById("get_item_id_for_isert_data").innerHTML=this.responseText;
+                                 }
+                              };
+                              xmlhttp1.open("GET", "get_item_id_stack_cargo?odid="+odidc, true);
+                              
+                              xmlhttp1.send();
+                              console.log("get_itemDI() executed");
+                          }
+                    </script>
+                    <label id="get_location_id_for_isert_data" style="display: block;">location</label>
+                    <script>
+                         function get_locationDI(){
+                                var es = document.getElementById("sel1");
+                          var odidc= es.options[es.selectedIndex].value;
+                          
+                          var xmlhttp2 = new XMLHttpRequest();
+                              xmlhttp2.onreadystatechange = function() {
+                                 if(this.readyState == 4 && this.status == 200) {
+                                     
+                                      document.getElementById("get_location_id_for_isert_data").innerHTML=this.responseText;
+                                 }
+                              };
+                              xmlhttp2.open("GET", "get_location_id_stack_cargo?odid="+odidc, true);
+                              
+                              xmlhttp2.send();
+                              console.log("get_locationDI() executed");
+                          }
+                    </script>
+                     <div id="succeefully_inserted_data" style="display: block;"></div>
                    <script>
                         function  validate(){
                             console.log("validate() executed");
@@ -509,15 +565,22 @@ chart.render();
                           }
                        
                           function insertdata(){
-                              console.log("insertdata() executed");
-                              var esx = document.getElementById("cargo_cargotype");
-                          var cargotype= esx.options[esx.selectedIndex].innerHTML;
+                             
+                              
+                              get_itemDI();
+                              get_locationDI();
+                              
+                            
+                              
+                              
+                              
+                          var cargotype= document.getElementById("insert_cargo_type").innerHTML;
                           
                            var es = document.getElementById("sel1");
                           var odid= es.options[es.selectedIndex].value;
                           var cargoname=document.getElementById("c_name").innerHTML;
-                          
-                          
+                          var itemid=document.getElementById("get_item_id_for_isert_data").innerHTML;
+                          var locationid=document.getElementById("get_location_id_for_isert_data").innerHTML;
                           
                           var quantity=document.getElementById("cargo_quantity").value;
                           var cusname=document.getElementById("cc_customername").innerHTML;
@@ -531,30 +594,35 @@ chart.render();
                               xmlhttp.onreadystatechange = function() {
                                  if(this.readyState == 4 && this.status == 200) {
                                      
-                                      
+                                       document.getElementById("succeefully_inserted_data").innerHTML=this.responseText;
                                  }
                               };
-                              xmlhttp.open("GET", "Stack_Cargo?odid="+odid+"&cargoname="+cargoname+"&cargotype="+cargotype+"&quantity="+quantity+"&cusname="+cusname+"&cusid="+cusid+"&rent="+rent+"&cost="+cost+"&currentdate="+currentdate+"&duedate="+duedate , true);
+                              xmlhttp.open("GET", "Stack_Cargo?odid="+odid+"&cargoname="+cargoname+"&cargotype="+cargotype+"&quantity="+quantity+"&cusname="+cusname+"&cusid="+cusid+"&rent="+rent+"&cost="+cost+"&currentdate="+currentdate+"&duedate="+duedate+"&itemid="+itemid+"&locationid="+locationid , true);
                               console.log("insertdata() data send ok");
                               xmlhttp.send();
+                               console.log("insertdata() executed");
                           }
                       </script>
                        <script>
                          
                          function getcargodetails_into_table(){
-                          console.log("getcargodetails_into_table() executed");
+                          
                           
                                var xmlhttp = new XMLHttpRequest();
                               xmlhttp.onreadystatechange = function() {
                                  if(this.readyState == 4 && this.status == 200) {
-                                      document.getElementById("inerttablewarehousein_div").innerHTML = this.responseText;
+                                     
+                                      document.getElementById("inerttablewarehousein_div").innerHTML= this.responseText;
                                       
                                  }
                               };
                               xmlhttp.open("GET", "get_cargo_details_stack_cargo", true);
                               
                               xmlhttp.send();
+                              console.log("getcargodetails_into_table() executed");
                           }
+                          
+                          
                       </script>
                       
                 </form>
@@ -686,7 +754,7 @@ chart.render();
                       <input type="text" class="form-control" id="crental">
                        </div>
                   </div>
-                    <button type="submit" class="btn btn-default" onclick="javascript: reload()" style="margin-left: 60%;margin-bottom: 30px;">Submit</button>
+                    <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;">Submit</button>
                    
                 </form>
                
@@ -839,14 +907,7 @@ chart.render();
              
             
             <script>
-                function reload(){
-    var container = document.getElementById("releaseC_div");
-    var content = container.innerHTML;
-    container.innerHTML= content; 
-    
-   //this line is to watch the result in console , you can remove it later	
-    console.log("Refreshed"); 
-}
+
                         function home(){
                              location.reload(true);
                             document.getElementById("Whead").innerHTML='Warehouse Home';

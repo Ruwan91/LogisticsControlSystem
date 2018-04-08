@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -56,44 +57,41 @@ public class Stack_Cargo extends HttpServlet {
                           double cost=Integer.parseInt(request.getParameter("cost"));
                           String currentdate=request.getParameter("currentdate");
                           String duedate=request.getParameter("duedate");
-                          
+                           int itemid=Integer.parseInt(request.getParameter("itemid"));
+                            int locationid=Integer.parseInt(request.getParameter("locationid"));
                          
                                      Connection con=MySQLConnection.getConnection();
                                      Statement stmt=con.createStatement();
                                     
+                                    String duedateconcat[]=new  String[40];
+                                    String currentdateconcat[]=new  String[40];
                                     
-                                  String sqitem="SELECT it.itemid from item it,orderdetail ord ,order2 o WHERE it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid="+odid+" ORDER BY o.date DESC ";
-                                   String sqldid="SELECT locde.ldid  from item it,orderdetail ord ,order2 o, cargotype car,locationdescription locde WHERE   it.cargotypeid=car.cargotypeid and car.cargotypeid=locde.cargotypeid and it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid="+odid+"";
-                                   
-                                   ResultSet rssqitem=stmt.executeQuery(sqitem);
-                                   ResultSet rssqldid=stmt.executeQuery(sqldid);
-                                  
-                                   rssqitem.next();
-                                    int itemid=Integer.parseInt(rssqitem.getString("itemid"));
+                                    int  i=0;
+                                     StringTokenizer stdue = new StringTokenizer(duedate,"/");  
+                                     StringTokenizer stcurrent = new StringTokenizer(currentdate,"/");  
+                                     while (stdue.hasMoreTokens()) {  
+                                       duedateconcat[i] =stdue.nextToken();  
+                                       i++;
+                                    }  
+                                     int v=0;
+                                     while (stcurrent.hasMoreTokens()) {  
+                                       currentdateconcat[v] =stcurrent.nextToken();  
+                                       v++;
+                                    }
+                                     String due_month=duedateconcat[0];
+                                     String due_date=duedateconcat[1];
+                                     
+                                     String due_year=duedateconcat[2];
+                                     
+                                      String current_month=currentdateconcat[0];
+                                     String current_date=currentdateconcat[1];
                                     
-                                   rssqldid.next();
-                                   int locationdescription_id=Integer.parseInt(rssqldid.getString("ldid"));
-                                  
-                                    
-                                    
-                                      String cargoname_test="asas";
-                          
-                          int itemid_test=33;
-                           String cargotype_test="wewsa";
-                           int locationdescription_id_test=22;
-                         double quantity_test=5 ;
-                          String cusname_test="dfdf";
-                          int cusid_test=5;
-                          double rent_test=5;
-                          double cost_test=5;
-                          String currentdate_test="dfdf";
-                          String duedate_test="tyrt";
-                          
-                                   
-                                  stmt.executeUpdate("INSERT INTO warehousein (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid) VALUES (NULL, '500', '2', '40', '2020-05-28', '2018-04-08', '2', '3')");
+                                     String current_year=currentdateconcat[2];
+                                     
+                                  stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid) VALUES (NULL, "+quantity+", "+odid+", "+rent+", '"+due_year+"-"+due_month+"-"+due_date+"', '"+current_year+"-"+current_month+"-"+current_date+"', "+itemid+", "+locationid+")");
                                       
                                      
-                                   
+                                 
                     
                                       con.close();
                                 } catch (ClassNotFoundException ex) {
