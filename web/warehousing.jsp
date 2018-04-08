@@ -55,22 +55,9 @@ chart.render();
 
 
 </script>
- <%!    
-        public void conn(){
-                            try {
-                                
-                                    Connection con=MySQLConnection.getConnection();
-                                     Statement stmt=con.createStatement();
-                                     
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                }
- }
-                            %>
+
 </head>
-<body id="wareH" style="display: block;" >
+<body id="wareH" style="display: block;"  >
     
  
    <div class="warehousingfullbody container" style="background-color: #ffffff;box-shadow: 0 0 3px black;width: 100%;padding-top: 5px;padding-left: 0px;">
@@ -244,40 +231,22 @@ chart.render();
                       <div class="col-sm-3">
                       
                             
-                            <select class="form-control" id="sel1">
-                                
-                            <%
-                            try {
-                                     /* TODO output your page here. You may use following sample code. */
-                
-                                     Connection con=MySQLConnection.getConnection();
-                                     Statement stmt=con.createStatement();
-                                    String sql="SELECT o.orderid ,ord.orderdetailid,o.date FROM  order2 o,orderdetail ord WHERE o.orderid=ord.orderid and iswarehouse=1 ORDER BY o.date DESC ";
-                                    String sql2="";
-                                    ResultSet rs=stmt.executeQuery(sql);
-                                     int i=0;   
-                                     while(rs.next()){ i++;}
-                                     rs.beforeFirst();
-                                     int orderid[]=new int[i];
-                                    
-                                     i=0;
-                                       while( rs.next()){
-                                         
-                                         orderid[i]=rs.getInt("orderid");
-                                       
-                                        out.print("<option>"+orderid[i]+ "</option>");
-                                        i++;
-                                       }
-                                   
-                     
-                                    con.close();
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                            %>
-                            </select>
+                          <div id="insertorderid">
+                             <script>
+                             
+                          
+                               var xmlhttp = new XMLHttpRequest();
+                              xmlhttp.onreadystatechange = function() {
+                                 if(this.readyState == 4 && this.status == 200) {
+                                      document.getElementById("insertorderid").innerHTML = this.responseText;
+                                 }
+                              };
+                              xmlhttp.open("GET", "order_ID_stack_cargo" , true);
+                              xmlhttp.send();
+
+                             </script>
+                           
+                          </div>
                
                       </div>
                  
@@ -288,59 +257,130 @@ chart.render();
                   <div class="form-group" >
                       <label class="control-label col-sm-2">Cargo Name : </label>
                       <div class="col-sm-3">
-                      
+                          <label class="control-label" id="c_name"></label>
+                         
                       <script>
+                      function    cargo_name_selected(){
+                          console.log("cargo_name_selected()");
                           var e = document.getElementById("sel1");
                           var odid = e.options[e.selectedIndex].value;
-                          console.log(odid);
+                          
+                          
+                               var xmlhttp = new XMLHttpRequest();
+                              xmlhttp.onreadystatechange = function() {
+                                 if(this.readyState == 4 && this.status == 200) {
+                                      document.getElementById("c_name").innerHTML = this.responseText;
+                                      
+                                 }
+                              };
+                              xmlhttp.open("GET", "item_name_stack_cargo?odid="+odid , true);
+                              
+                              xmlhttp.send();
+                          }
                       </script>
-                      <%! int orderid=0;%>
-                      <%
-                            try {
-                                     /* TODO output your page here. You may use following sample code. */
-                                       
-                                     Connection con=MySQLConnection.getConnection();
-                                     Statement stmt=con.createStatement();
-                                    String sql="SELECT it.itemid,it.it_name,o.orderid,o.date from item it,orderdetail ord ,order2 o WHERE it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid=1 ORDER BY o.date DESC ";
-                                    String sql2="";
-                                    ResultSet rs=stmt.executeQuery(sql);
-                                     rs.next();                                 
-                                                                   
-                                     orderid=rs.getInt("orderid");
-                                    
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                            %>
-                            <input type="text" class="form-control" name="cname" value="<%=orderid%>">
+                      
+                      
+                     
+                           
                       </div>
                  
                  
                   
                       <label class="control-label col-sm-3">Cargo Type : </label>
                        <div class="col-sm-3">
-                      <input type="text" class="form-control" name="ctype">
+                           <label class="control-label col-sm-2" id="insert_cargo_type"></label>
+                           
+                       <script>
+                     function cargo_type_selected(){
+                          var es = document.getElementById("sel1");
+                          var odidcc= es.options[es.selectedIndex].value;
+                          console.log("cargo_type_selected() executed");
+                          
+                               var xmlhttp = new XMLHttpRequest();
+                              xmlhttp.onreadystatechange = function() {
+                                 if(this.readyState == 4 && this.status == 200) {
+                                      document.getElementById("insert_cargo_type").innerHTML = this.responseText;
+                                      
+                                 }
+                              };
+                              xmlhttp.open("GET", "cargo_type_stack_cargo?odidc="+odidcc , true);
+                              
+                              xmlhttp.send();
+                          }
+                      </script>
                        </div>
                    </div>
                    <div class="form-group" >
                       <label class="control-label col-sm-2">Quantity : </label>
                        <div class="col-sm-3">
-                      <input type="text" class="form-control" name="cquantity">
+                           <input type="number" class="form-control" name="cquantity" min="1" id="cargo_quantity"  required onkeyup="validate_totalcost1()">
+                      <script>
+                          
+                        function  validate_totalcost1(){
+                            var quantity=document.getElementById("cargo_quantity").value;
+                            var z=1;
+                            if(quantity >=z){
+                                validate_totalcost2();
+                                console.log("validate_totalcost1() executed");
+                                
+                                
+                            }else return;
+                            
+                            
+                            
+                        }
+                      </script>
                        </div>
                   </div>
                    <div class="form-group" >
                       <label class="control-label col-sm-2">Customer Name : </label>
                        <div class="col-sm-3">
-                      <input type="text" class="form-control" name="ccustomer">
+                           <label class="control-label" id="cc_customername"></label>
+                         
+                       <script>
+                          function customer_name_selected(){
+                          var es = document.getElementById("sel1");
+                          var odidc= es.options[es.selectedIndex].value;
+                          console.log("customer_name_selected() executed");
+                          
+                               var xmlhttp = new XMLHttpRequest();
+                              xmlhttp.onreadystatechange = function() {
+                                 if(this.readyState == 4 && this.status == 200) {
+                                      document.getElementById("cc_customername").innerHTML = this.responseText;
+                                      
+                                 }
+                              };
+                              xmlhttp.open("GET", "customer_name_stack_cargo?odidc="+odidc , true);
+                              
+                              xmlhttp.send();
+                          }
+                      </script>
+                       
                        </div>
-                 
                     
                  
                       <label class="control-label col-sm-3">Customer ID : </label>
                        <div class="col-sm-3">
-                      <input type="text" class="form-control" name="cuID">
+                           <label class="control-label" id="cu_cusid"></label>
+                          
+                      <script>
+                          function customer_id_selected(){
+                          var es = document.getElementById("sel1");
+                          var odidc= es.options[es.selectedIndex].value;
+                          console.log("customer_id_selected() executed");
+                          
+                               var xmlhttp = new XMLHttpRequest();
+                              xmlhttp.onreadystatechange = function() {
+                                 if(this.readyState == 4 && this.status == 200) {
+                                      document.getElementById("cu_cusid").innerHTML = this.responseText;
+                                      
+                                 }
+                              };
+                              xmlhttp.open("GET", "customer_id_stack_cargo?odidc="+odidc , true);
+                              
+                              xmlhttp.send();
+                          }
+                      </script>
                        </div>
                     </div>
                
@@ -348,17 +388,42 @@ chart.render();
                   <div class="form-group" >
                       <label class="control-label col-sm-2">Rental Price per Unit : </label>
                        <div class="col-sm-3">
-                      <input type="text" class="form-control" name="crental">
+                           <input type="number" class="form-control" name="crental" min="1" required id="rentalpriceperunit_isertcargo" onkeyup="validate_totalcost3()">
+                           <script>
+                               function  validate_totalcost2(){
+                                   console.log("validate_totalcost2() executed");
+                                   var rentalperunit=document.getElementById("rentalpriceperunit_isertcargo").value;
+                                   var t=1;
+                                   if(rentalperunit >=t ){
+                                       validate_totalcost3();
+                                   }else return;
+                                   
+                               }
+                           </script>
                        </div>
                       <label class="control-label col-sm-3">Total Cost : </label>
                        <div class="col-sm-3">
-                      <input type="text" class="form-control" name="cuID">
+                            <label class="control-label" id="totalcoste_insercargo"></label>
+                          
+                           <script>
+                               function validate_totalcost3(){
+                               console.log("validate_totalcost3() executed");
+                               var rentalperunit=document.getElementById("rentalpriceperunit_isertcargo").value;
+                               var quantity=document.getElementById("cargo_quantity").value;
+                               var xqw=rentalperunit * quantity;
+                              
+                              
+                               document.getElementById("totalcoste_insercargo").innerHTML=xqw;
+                             
+                               
+                           }
+                           </script>
                        </div>
                   </div>
                   <div class="form-group" >
                       <label class="control-label col-sm-2"> Date : </label>
                        <div class="input-group date col-sm-3" data-provide="datepicker">
-                           <input type="text" class="form-control" name="currentdate" id="WI_currentdate">
+                           <input type="text" class="form-control" name="currentdate" id="WI_currentdate" required>
                                 <div class="input-group-addon">
                                     <span class="glyphicon glyphicon-th"></span>
                                 </div>
@@ -379,6 +444,7 @@ chart.render();
 
                                 today = mm + '/' + dd + '/' + yyyy;
                                 document.getElementById("WI_currentdate").value=today;
+                                document.getElementById("insertcargo_due_date").setAttribute("min", today);
                                 
                                
                         </script>
@@ -386,46 +452,117 @@ chart.render();
                     <div class="form-group" >
                       <label class="control-label col-sm-2">Due Date : </label>
                        <div class="input-group date col-sm-3" data-provide="datepicker">
-                             <input type="text" class="form-control" name="duedate">
+                           <input type="text" class="form-control" name="duedate" id="insertcargo_due_date" min="" required>
+                           <script>
+                               
+                            var today = new Date();
+                            var dd = today.getDate();
+                            var mm = today.getMonth()+1; //January is 0!
+                            var yyyy = today.getFullYear();
+    
+                            if(dd<10) {
+                                dd = '0'+dd
+                            } 
+
+                            if(mm<10) {
+                                 mm = '0'+mm
+                            } 
+
+                                today = mm + '/' + dd + '/' + yyyy;
+                                
+                                document.getElementById("insertcargo_due_date").setAttribute("min", today);
+                                
+                               
+                        </script>
                                 <div class="input-group-addon">
                                     <span class="glyphicon glyphicon-th"></span>
                                 </div>
                         </div>
                   </div>
-                    <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;" action="warehousing.jsp" onclick="insertdata()">Submit</button>
-                   
+                    <button class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;"  onclick="validate(); getcargodetails_into_table();">Submit</button>
+                   <script>
+                        function  validate(){
+                            console.log("validate() executed");
+                           var duedate=  document.getElementById("insertcargo_due_date").value;
+                     
+                           var today = new Date();
+                            var dd = today.getDate();
+                            var mm = today.getMonth()+1; //January is 0!
+                            var yyyy = today.getFullYear();
+    
+                            if(dd<10) {
+                                dd = '0'+dd
+                            } 
+
+                            if(mm<10) {
+                                 mm = '0'+mm
+                            } 
+
+                                today = mm + '/' + dd + '/' + yyyy;
+                                
+                        if(duedate > today ){
+                             insertdata();
+                         }else{
+                             alert("due date must be greater than current date");
+                         }
+                         
+                          }
+                       
+                          function insertdata(){
+                              console.log("insertdata() executed");
+                              var esx = document.getElementById("cargo_cargotype");
+                          var cargotype= esx.options[esx.selectedIndex].innerHTML;
+                          
+                           var es = document.getElementById("sel1");
+                          var odid= es.options[es.selectedIndex].value;
+                          var cargoname=document.getElementById("c_name").innerHTML;
+                          
+                          
+                          
+                          var quantity=document.getElementById("cargo_quantity").value;
+                          var cusname=document.getElementById("cc_customername").innerHTML;
+                          var cusid=document.getElementById("cu_cusid").innerHTML;
+                          var rent=document.getElementById("rentalpriceperunit_isertcargo").value;
+                          var cost=document.getElementById("totalcoste_insercargo").innerHTML;
+                          var currentdate=document.getElementById("WI_currentdate").value;
+                          var duedate=document.getElementById("insertcargo_due_date").value;
+                          
+                               var xmlhttp = new XMLHttpRequest();
+                              xmlhttp.onreadystatechange = function() {
+                                 if(this.readyState == 4 && this.status == 200) {
+                                     
+                                      
+                                 }
+                              };
+                              xmlhttp.open("GET", "Stack_Cargo?odid="+odid+"&cargoname="+cargoname+"&cargotype="+cargotype+"&quantity="+quantity+"&cusname="+cusname+"&cusid="+cusid+"&rent="+rent+"&cost="+cost+"&currentdate="+currentdate+"&duedate="+duedate , true);
+                              console.log("insertdata() data send ok");
+                              xmlhttp.send();
+                          }
+                      </script>
+                       <script>
+                         
+                         function getcargodetails_into_table(){
+                          console.log("getcargodetails_into_table() executed");
+                          
+                               var xmlhttp = new XMLHttpRequest();
+                              xmlhttp.onreadystatechange = function() {
+                                 if(this.readyState == 4 && this.status == 200) {
+                                      document.getElementById("inerttablewarehousein_div").innerHTML = this.responseText;
+                                      
+                                 }
+                              };
+                              xmlhttp.open("GET", "get_cargo_details_stack_cargo", true);
+                              
+                              xmlhttp.send();
+                          }
+                      </script>
+                      
                 </form>
                
         <%-- .............Insertion Table..................................................--%>
                 
-                <div style="margin-top: 20px;margin-bottom: 20px;">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Customer ID</th>
-                                <th>Customer Name</th>
-                                <th>Cargo Name</th>
-                                <th>Cargo Type</th>
-                                <th>Quantity</th>
-                                <th>Receive Date</th>
-                                <th>Due Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                           
-                            <tr>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                            </tr>
-                            
-                      
-                        </tbody>
-                    </table>
+        <div style="margin-top: 20px;margin-bottom: 20px;" id="inerttablewarehousein_div">
+                  
                </div>
         
             </div>
@@ -722,6 +859,7 @@ chart.render();
                             
                         }
                         function insertcargo(){
+                       
                            
                              document.getElementById("Whead").innerHTML='Insert Cargo Details';
                              document.getElementById("ware_home_div").style.display='none';
@@ -730,7 +868,12 @@ chart.render();
                               document.getElementById("releaseC_div").style.display='none';
                                document.getElementById("Wspace_div").style.display='none';
                                  document.getElementById("historyC_div").style.display='none';
-                            
+                                 cargo_name_selected();
+                                 customer_name_selected();
+                                 customer_id_selected();
+                                 getcargodetails_into_table();
+                                 cargo_type_selected();
+                           
                         }
                         function search1(){
                              document.getElementById("Whead").innerHTML='Search Cargo Details';

@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ishan
  */
-@WebServlet(name = "Stack_Cargo", urlPatterns = {"/Stack_Cargo"})
-public class Stack_Cargo extends HttpServlet {
+@WebServlet(name = "get_item_id_stack_cargo", urlPatterns = {"/get_item_id_stack_cargo"})
+public class get_item_id_stack_cargo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,22 +40,12 @@ public class Stack_Cargo extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-             try {
+            /* TODO output your page here. You may use following sample code. */
+         try {
                                      /* TODO output your page here. You may use following sample code. */
                                       int odid=Integer.parseInt(request.getParameter("odid"));
                                        
-                          String cargoname=request.getParameter("cargoname");
-                          
-                          
-                           String cargotype=request.getParameter("cargotype");
-                           
-                         double quantity=Integer.parseInt(request.getParameter("quantity")) ;
-                          String cusname=request.getParameter("cusname");
-                          int cusid=Integer.parseInt(request.getParameter("cusid"));
-                          double rent=Integer.parseInt(request.getParameter("rent"));
-                          double cost=Integer.parseInt(request.getParameter("cost"));
-                          String currentdate=request.getParameter("currentdate");
-                          String duedate=request.getParameter("duedate");
+                        
                           
                          
                                      Connection con=MySQLConnection.getConnection();
@@ -63,34 +53,22 @@ public class Stack_Cargo extends HttpServlet {
                                     
                                     
                                   String sqitem="SELECT it.itemid from item it,orderdetail ord ,order2 o WHERE it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid="+odid+" ORDER BY o.date DESC ";
-                                   String sqldid="SELECT locde.ldid  from item it,orderdetail ord ,order2 o, cargotype car,locationdescription locde WHERE   it.cargotypeid=car.cargotypeid and car.cargotypeid=locde.cargotypeid and it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid="+odid+"";
+                                  
                                    
                                    ResultSet rssqitem=stmt.executeQuery(sqitem);
-                                   ResultSet rssqldid=stmt.executeQuery(sqldid);
+                                  
                                   
                                    rssqitem.next();
                                     int itemid=Integer.parseInt(rssqitem.getString("itemid"));
                                     
-                                   rssqldid.next();
-                                   int locationdescription_id=Integer.parseInt(rssqldid.getString("ldid"));
+                                  
+                                  
                                   
                                     
-                                    
-                                      String cargoname_test="asas";
-                          
-                          int itemid_test=33;
-                           String cargotype_test="wewsa";
-                           int locationdescription_id_test=22;
-                         double quantity_test=5 ;
-                          String cusname_test="dfdf";
-                          int cusid_test=5;
-                          double rent_test=5;
-                          double cost_test=5;
-                          String currentdate_test="dfdf";
-                          String duedate_test="tyrt";
+                       
                           
                                    
-                                  stmt.executeUpdate("INSERT INTO warehousein (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid) VALUES (NULL, '500', '2', '40', '2020-05-28', '2018-04-08', '2', '3')");
+                                
                                       
                                      
                                    
