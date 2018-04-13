@@ -12,36 +12,51 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
  * @author Ruwan
  */
 public class DriverAccess {
-    
+
     //Insert Driver details
-    public boolean addDriver(Driver driver) throws ClassNotFoundException, SQLException{
+    public boolean addDriver(Driver driver) throws ClassNotFoundException, SQLException {
         Connection connection = MySQLConnection.getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement("insert into driver values(?,?,?,?,?,?)");
-        prepareStatement.setInt(1,0);
-        prepareStatement.setString(2,driver.getName());
-        prepareStatement.setString(3,driver.getAddress());
-        prepareStatement.setString(4,driver.getNic());
-        prepareStatement.setString(5,driver.getLicenseno());
-        prepareStatement.setString(6,driver.getContact());
-        
+        prepareStatement.setInt(1, 0);
+        prepareStatement.setString(2, driver.getName());
+        prepareStatement.setString(3, driver.getAddress());
+        prepareStatement.setString(4, driver.getNic());
+        prepareStatement.setString(5, driver.getLicenseno());
+        prepareStatement.setString(6, driver.getContact());
+
         return 0 < prepareStatement.executeUpdate();
     }
-    
-    public Driver getDiverByDriverId(int driverid) throws ClassNotFoundException, SQLException{
+
+    public Driver getDiverByDriverId(int driverid) throws ClassNotFoundException, SQLException {
         Connection connection = MySQLConnection.getConnection();
         Statement createStatement = connection.createStatement();
-        String sql="select * from driver where driverid='"+driverid+"'";
+        String sql = "select * from driver where driverid='" + driverid + "'";
         ResultSet executeQuery = createStatement.executeQuery(sql);
-        Driver d=null;
+        Driver d = null;
         while (executeQuery.next()) {
-            d=new Driver(executeQuery.getInt(1), executeQuery.getString(2),executeQuery.getString(3),executeQuery.getString(4),executeQuery.getString(5),executeQuery.getString(6));
+            d = new Driver(executeQuery.getInt(1), executeQuery.getString(2), executeQuery.getString(3), executeQuery.getString(4), executeQuery.getString(5), executeQuery.getString(6));
         }
         return d;
+    }
+
+    public ArrayList<Driver> getAllDivers() throws ClassNotFoundException, SQLException {
+        Connection connection = MySQLConnection.getConnection();
+        Statement createStatement = connection.createStatement();
+        String sql = "select * from driver";
+        ResultSet executeQuery = createStatement.executeQuery(sql);
+        Driver d = null;
+        ArrayList<Driver> drivers = new ArrayList<>();
+        while (executeQuery.next()) {
+            d = new Driver(executeQuery.getInt(1), executeQuery.getString(2), executeQuery.getString(3), executeQuery.getString(4), executeQuery.getString(5), executeQuery.getString(6));
+            drivers.add(d);
+        }
+        return drivers;
     }
 }

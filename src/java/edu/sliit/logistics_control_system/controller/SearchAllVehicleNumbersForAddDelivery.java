@@ -5,11 +5,12 @@
  */
 package edu.sliit.logistics_control_system.controller;
 
-import edu.sliit.logistics_control_system.dbaccess.DriverAccess;
-import edu.sliit.logistics_control_system.model.Driver;
+import edu.sliit.logistics_control_system.dbaccess.VehicleAccess;
+import edu.sliit.logistics_control_system.model.Vehicle;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Ruwan
  */
-public class AddDriver extends HttpServlet {
+public class SearchAllVehicleNumbersForAddDelivery extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,22 +38,28 @@ public class AddDriver extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            //Getting parameter values from delivery.jsp put them into local variables
-            String dname = request.getParameter("dname");
-            String driveraddress = request.getParameter("driveraddress");
-            String nic = request.getParameter("drivernic");
-            String dlicennumber = request.getParameter("dlicennumber");
-            String drivercontact = request.getParameter("drivercontact");
-            Driver d = new Driver(0, dname, driveraddress, nic, dlicennumber, drivercontact);
-            DriverAccess access = new DriverAccess();
+
+            VehicleAccess va = new VehicleAccess();
+            ArrayList<Vehicle> vehicleList = null;
             try {
-                if (access.addDriver(d)) {
-                    out.print("Driver Added Successfully..");
-                } else {
-                    out.print("Added Failed..");
+                vehicleList = va.getVehicleList();
+            } catch (SQLException ex) {
+                Logger.getLogger(SearchAllVehicleNumbersForAddDelivery.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(SearchAllVehicleNumbersForAddDelivery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (vehicleList != null) {
+                //create the vehicle number list to send to delivery vehicle number section
+                out.print("<select class=\"form-control\" id=\"delvnumber\" name=\"delvnumber\" >");
+                out.print("<option value=\"none\" id=\"selected_delvnumber\">");
+                out.print("Select Vehicle Number");
+                out.print("</option>");
+                for (Vehicle vehicle : vehicleList) {
+                    out.print("<option>");
+                    out.print(vehicle.getVnumber());
+                    out.print("</option>");
                 }
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, ex);
+                out.print("</select>");
             }
         }
     }

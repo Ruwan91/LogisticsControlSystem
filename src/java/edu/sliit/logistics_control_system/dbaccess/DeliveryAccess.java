@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @author Ruwan
  */
 public class DeliveryAccess {
-    
+
     //Insert Delivery
     public boolean addDelivery(Delivery delivery) throws ClassNotFoundException, SQLException {
         Connection connection = MySQLConnection.getConnection();
@@ -35,16 +35,16 @@ public class DeliveryAccess {
 
         return 0 < prepareStatement.executeUpdate();
     }
-    
-    public ArrayList<Delivery> getAllDeliveryDetails() throws ClassNotFoundException, SQLException{
+
+    public ArrayList<Delivery> getAllDeliveryDetails() throws ClassNotFoundException, SQLException {
         Connection connection = MySQLConnection.getConnection();
         Statement createStatement = connection.createStatement();
-        String sql="Select * from delivery";
+        String sql = "Select * from delivery";
         ResultSet executeQuery = createStatement.executeQuery(sql);
-        Delivery d=null;
-        ArrayList<Delivery> deliverys=new ArrayList<>();
-        while(executeQuery.next()){
-            d=new Delivery(executeQuery.getInt(1), executeQuery.getInt(2),executeQuery.getInt(3),executeQuery.getInt(4), executeQuery.getDouble(5),executeQuery.getString(6), executeQuery.getString(7), executeQuery.getInt(8));
+        Delivery d = null;
+        ArrayList<Delivery> deliverys = new ArrayList<>();
+        while (executeQuery.next()) {
+            d = new Delivery(executeQuery.getInt(1), executeQuery.getInt(2), executeQuery.getInt(3), executeQuery.getInt(4), executeQuery.getDouble(5), executeQuery.getString(6), executeQuery.getString(7), executeQuery.getInt(8));
             deliverys.add(d);
         }
         return deliverys;

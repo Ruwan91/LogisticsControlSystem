@@ -70,8 +70,8 @@
     <input id="lt" type="hidden" value="139.6657">
     <form class="form-control">
         <div class="form-group" style="width: 600px">
-             <lable>Shipment Id</lable>
-             <input id="shipmentid" type="text" class="form-control" style="width: 200px">
+            <lable>Shipment Id</lable>
+            <input id="shipmentid" type="text" class="form-control" style="width: 200px">
         </div>
         <div class="form-group">
             <button class="btn btn-primary" type="submit" onclick="return Button1_onclick()">Find Current Location</button>

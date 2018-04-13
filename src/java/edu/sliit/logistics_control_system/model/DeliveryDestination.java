@@ -10,6 +10,7 @@ package edu.sliit.logistics_control_system.model;
  * @author Ruwan
  */
 public class DeliveryDestination {
+
     private int ddid;
     private String destination;
     private double kms;

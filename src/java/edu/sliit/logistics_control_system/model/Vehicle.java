@@ -10,6 +10,7 @@ package edu.sliit.logistics_control_system.model;
  * @author Ruwan
  */
 public class Vehicle {
+
     private int vehicleid;
     private int vtypeid;
     private String vnumber;

@@ -40,7 +40,7 @@
 
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" onclick="deliverydash()">Dashboard</a></li>
-                            <li><a data-toggle="tab" onclick="newdelivery(); fillTheDeliveryDestinationList();">New Delivery</a></li>
+                            <li><a data-toggle="tab" onclick="newdelivery(); fillTheDeliveryDestinationList(); fillTheDeliveryVehicleNumberList(); fillTheDriverList();">New Delivery</a></li>
                             <li><a data-toggle="tab" onclick="searchdelivery()">Search Delivery</a></li>
                             <li><a data-toggle="tab" onclick="alldelivery(); loadAllDeliveries();">All Delivery</a></li>
                             <li><a data-toggle="tab" onclick="newdriver()">Add New Driver</a></li>
@@ -53,7 +53,7 @@
             <div class="deliverycontent container" style="width: 100%;margin-left: 0%;margin-top: 5px;padding-left: 0px;padding-right: 0px;">
                 <div class="container" style="margin-left: 30%;"><h1 id="Whead">Delivery Dashboard</h1></div>
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
-                <%-- Delivery dashboard starts here --%>
+                <%-- 1./ Delivery dashboard starts here --%>
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
                 <section>
                     <div class="delivery_dash container tab-content" id="delivery_dash_div" style="box-shadow: 0 0 1px black;display: block;">
@@ -72,39 +72,39 @@
 
 
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
-                <%--New Delivery section starts here --%>
+                <%-- 2./ New Delivery section starts here --%>
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
                 <section>
                     <div class="new_delivery container" id="new_delivery" style="display:none;margin-left: 0%;padding-left: 0px;margin-top: 10px;box-shadow: 0 0 1px black;">
                         <form class="form-horizontal" style="margin-top: 5px;margin-left: 15%;" onload="fillTheDeliveryDestinationList()">
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Vehicle Number</label>
-                                <div class="col-sm-5">
-                                    <input type="text" class="form-control" placeholder="Enter Vehicle Number." id="delvnumber" required="true">
+                                <div class="col-sm-5" id="selectingDeleveryVehicleNumbers_div">
+                                    <%-- Here loading the Delivery Vehicle Number list using ajax fillTheDeliveryVehicleNumberList() method --%>
                                 </div>
                             </div>
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Delivery Destination</label>
                                 <div class="col-sm-5" id="selectingDeleveryDistance_div">
-                                    <%-- Here loading the Delivery Destinations list using ajax using fillTheDeliveryDestinationList() method --%>
+                                    <%-- Here loading the Delivery Destinations list using ajax fillTheDeliveryDestinationList() method --%>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2">Driver ID</label>
-                                <div class="col-sm-5">
-                                    <input type="text" class="form-control" placeholder="Enter Driver ID" id="deldriverid" required="true">
+                                <label class="control-label col-sm-2">Driver</label>
+                                <div class="col-sm-5" id="selectingDriverId_div">
+                                    <%-- Here loading the Driver names with ids list using ajax fillTheDeliveryDestinationList() method --%>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2">Date</label>
                                 <div class="col-sm-5">
-                                    <input type="date" class="form-control" id="deldate" required="true">
+                                    <input type="date" class="form-control" id="deldate" required="true" >
                                 </div>
                             </div>
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Order Id</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" placeholder="Enter Invoice Number." id="delorderId" required="true">
+                                    <input type="number" class="form-control" placeholder="Enter Invoice Number." id="delorderId" required="true">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -116,7 +116,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2"></label>
                                 <div class="col-sm-5">
-                                    <button type="submit" class="btn btn-primary" onclick="addDeliveryForm()">Save & Print Delivery Report </button>
+                                    <button type="submit" class="btn btn-primary" onclick="addDeliveryForm()">Save Delivery </button>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -136,7 +136,7 @@
                                 var delorderId = document.getElementById("delorderId").value;
                                 var deldestaddress = document.getElementById("deldestaddress").value;
 
-                                if (delvnumber !== '' && delddname !== 'none' && deldriverid !== '' && deldate !== '' && delorderId !== '' && deldestaddress !== '') {
+                                if (delvnumber !== 'none' && delddname !== 'none' && deldriverid !== 'none' && deldate !== '' && delorderId !== '' && deldestaddress !== '') {
                                     var request = createXMLHttpRequest();
                                     var url = "AddDelivery?delvnumber=" + delvnumber + "&delddname=" + delddname + "&deldriverid=" + deldriverid + "&deldate=" + deldate + "&delorderId=" + delorderId + "&deldestaddress=" + deldestaddress;
                                     request.open("GET", url, true);
@@ -154,9 +154,9 @@
                                                 console.log(deldestaddress);
 
                                                 document.getElementById("addDeliveryResult").innerHTML = request.responseText;
-                                                document.getElementById("delvnumber").value = "";
-                                                document.getElementById("delddname").value = "";
-                                                document.getElementById("deldriverid").value = "";
+                                                fillTheDeliveryDestinationList();
+                                                fillTheDeliveryVehicleNumberList();
+                                                fillTheDriverList();
                                                 document.getElementById("deldate").value = "";
                                                 document.getElementById("delorderId").value = "";
                                                 document.getElementById("deldestaddress").value = "";
@@ -184,6 +184,41 @@
                                 }
 
                             }
+
+                            //Loading Delivery Vehicle numbers to New Delivery Form Vehicle
+                            function fillTheDeliveryVehicleNumberList() {
+                                var request = createXMLHttpRequest();
+                                var url = "SearchAllVehicleNumbersForAddDelivery";
+                                request.open("GET", url, true);
+
+                                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                request.send(null);
+                                request.onreadystatechange = function () {
+                                    if (request.readyState == 4) {
+                                        if (request.status == 200) {
+                                            document.getElementById("selectingDeleveryVehicleNumbers_div").innerHTML = request.responseText;
+                                        }
+                                    }
+                                }
+
+                            }
+                            //Loading Drivers name with id to New Delivery Form Friver Id
+                            function fillTheDriverList() {
+                                var request = createXMLHttpRequest();
+                                var url = "SearchAllDriverNamesForAddDelivery";
+                                request.open("GET", url, true);
+
+                                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                request.send(null);
+                                request.onreadystatechange = function () {
+                                    if (request.readyState == 4) {
+                                        if (request.status == 200) {
+                                            document.getElementById("selectingDriverId_div").innerHTML = request.responseText;
+                                        }
+                                    }
+                                }
+
+                            }
                         </script>
                     </div>
                 </section>
@@ -191,7 +226,7 @@
 
 
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
-                <%--Search Delivery section starts here --%>
+                <%-- 3./ Search Delivery section starts here --%>
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
                 <section>
                     <div class="search container" id="search_delivery_div" style="box-shadow: 0 0 1px black;display: none">
@@ -259,11 +294,11 @@
                 <%--Search Delivery section ends here --%>
 
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
-                <%--Search All Delivery section starts here --%>
+                <%-- 4./ Search All Delivery section starts here --%>
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
                 <section>
                     <div class="release container" id="search_all_delivery" style="box-shadow: 0 0 1px black;display: none">
-                        <form class="form-horizontal" action="#" style="margin-top: 5px;margin-left: 15%;">
+                        <form class="form-horizontal" action="#" style="margin-top: 5px;margin-left: 0%;">
                             <div class="container" id="searchedAllDeliveryDetail_div">
                                 <%-- Here loading all the delivery details as a table with ajax using loadAllDeliveries() method --%>
                             </div>
@@ -292,7 +327,7 @@
 
 
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
-                <%--Add new vehicle section starts here --%>
+                <%-- 5./ Add new vehicle section starts here --%>
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
                 <section>
                     <div class="add_new_vehicle_div container" id="add_new_vehicle_div" style="box-shadow: 0 0 1px black;display: none">
@@ -306,21 +341,21 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2">Vehicle Number</label>
                                 <div class="col-sm-5">
-                                    <input class="form-control" id="newvnumber" required="true">
+                                    <input class="form-control" id="newvnumber" required="true" placeholder="CAF6070">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-sm-2">Fixed Charge</label>
+                                <label class="control-label col-sm-2">Fixed Charge (Rs.)</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="fixcharge"  required="true">
+                                    <input type="text" class="form-control" id="fixcharge"  required="true" onkeyup="validateCurrency1()" placeholder="1000">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label col-sm-2">Charges Per km </label>
+                                <label class="control-label col-sm-2" >Charges Per km (Rs.)</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="perkm"  required="true">
+                                    <input type="text" class="form-control" id="perkm"  required="true" onkeyup="validateCurrency2()" placeholder="10">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -342,7 +377,7 @@
                                 var newvnumber = document.getElementById("newvnumber").value;
                                 var fixcharge = document.getElementById("fixcharge").value;
                                 var perkm = document.getElementById("perkm").value;
-                                
+
                                 if (vtypename !== 'none' && newvnumber !== '' && fixcharge !== '' && perkm !== '') {
                                     var request = createXMLHttpRequest();
                                     var url = "AddVehicle?vtypename=" + vtypename + "&newvnumber=" + newvnumber + "&fixcharge=" + fixcharge + "&perkm=" + perkm;
@@ -354,7 +389,7 @@
                                         if (request.readyState == 4) {
                                             if (request.status == 200) {
                                                 document.getElementById("addVehicleResult").innerHTML = request.responseText;
-                                                document.getElementById("vtypename").value = "Select Vehicle Type";
+                                                fillVihicleTypeList();
                                                 document.getElementById("newvnumber").value = "";
                                                 document.getElementById("fixcharge").value = "";
                                                 document.getElementById("perkm").value = "";
@@ -381,13 +416,32 @@
 
                             }
 
+                            function validateCurrency1() {
+                                var regex = /^\d+(\.\d{1,2})?$/;
+                                var x = document.getElementById("fixcharge").value;
+                                if (regex.test(x) !== true) {
+                                    x = x.substring(0, x.length - 1);
+                                    document.getElementById("fixcharge").value = x;
+                                }
+                            }
+                            
+                            function validateCurrency2() {
+                                var regex = /^\d+(\.\d{1,2})?$/;
+                                var x = document.getElementById("perkm").value;
+                                if (regex.test(x) !== true) {
+                                    x = x.substring(0, x.length - 1);
+                                    document.getElementById("perkm").value = x;
+                                }
+                            }
+
+
                         </script>
                     </div>  
                 </section>   
                 <%--Add new vehicle section ends here --%>
 
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
-                <%--Add new driver section starts here --%>
+                <%-- 6./ Add new driver section starts here --%>
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
                 <section>
                     <div class="space container" id="add_new_driver_div" style="box-shadow: 0 0 1px black;display: none;">
@@ -395,7 +449,7 @@
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Driver Name</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" placeholder="Enter Name.." id="dname" name="dname" required="true">
+                                    <input type="text" class="form-control" placeholder="Enter Name.." id="dname" name="dname" required="true" onkeyup="validateName()">
                                 </div>
                             </div>
 
@@ -409,7 +463,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2">NIC Number</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" placeholder="Enter NIC.." id="drivernic" name="drivernic" required="true">
+                                    <input type="text" class="form-control" placeholder="Enter NIC.." id="drivernic" name="drivernic" required="true" onkeyup="validateNIC()">
                                 </div>
                             </div>
 
@@ -423,7 +477,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2">Contact No</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" placeholder="Phone number.." id="drivercontact" name="drivercontact" required="true">
+                                    <input type="text" class="form-control" placeholder="Phone number.." id="drivercontact" name="drivercontact" required="true" onkeyup="validatePhone()">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -469,6 +523,32 @@
                                     }
                                 }
                             }
+                            function validateName() {
+                                var regex = /^[a-zA-Z\s]+$/;
+                                var x = document.getElementById("dname").value;
+                                if (regex.test(x) !== true) {
+                                    x = x.substring(0, x.length - 1);
+                                    document.getElementById("dname").value = x;
+                                }
+                            }
+                            
+                            function validateNIC() {
+                                var x = document.getElementById("drivernic").value;
+                                if (regex.test(x) !== true) {
+                                    x = x.substring(0, x.length - 1);
+                                    document.getElementById("drivernic").value = x;
+                                }
+                            }
+                            
+                            function validatePhone() {
+                                var x = document.getElementById("drivercontact").value;
+                                if (isNaN(x) || x.length > 10) {
+                                    x = x.substring(0, x.length - 1);
+                                    document.getElementById("drivercontact").value = x;
+                                }
+                            }
+    
+                            
                         </script>
                     </div>  
                 </section> 

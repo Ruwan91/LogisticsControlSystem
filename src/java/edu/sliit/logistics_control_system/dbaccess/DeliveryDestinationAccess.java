@@ -18,44 +18,44 @@ import java.util.ArrayList;
  * @author Ruwan
  */
 public class DeliveryDestinationAccess {
-    
+
     //Get all Delivery Destination when give Delivery Destination Name
-    public DeliveryDestination getDeliveryDestinationByName(String ddName) throws ClassNotFoundException, SQLException{
+    public DeliveryDestination getDeliveryDestinationByName(String ddName) throws ClassNotFoundException, SQLException {
         Connection connection = MySQLConnection.getConnection();
         Statement createStatement = connection.createStatement();
-        String sql="select * from deliverydistance where destination='"+ddName+"'";
+        String sql = "select * from deliverydistance where destination='" + ddName + "'";
         ResultSet executeQuery = createStatement.executeQuery(sql);
-        DeliveryDestination dd=null;
-        
+        DeliveryDestination dd = null;
+
         while (executeQuery.next()) {
-            dd=new DeliveryDestination(executeQuery.getInt(1), executeQuery.getString(2), executeQuery.getDouble(3));
+            dd = new DeliveryDestination(executeQuery.getInt(1), executeQuery.getString(2), executeQuery.getDouble(3));
         }
         return dd;
     }
-    
+
     //Get all Delivery Destinations
-    public ArrayList<DeliveryDestination> getAllDeliveryDestinations() throws ClassNotFoundException, SQLException{
+    public ArrayList<DeliveryDestination> getAllDeliveryDestinations() throws ClassNotFoundException, SQLException {
         Connection connection = MySQLConnection.getConnection();
         Statement createStatement = connection.createStatement();
-        String sql="select * from deliverydistance";
+        String sql = "select * from deliverydistance";
         ResultSet executeQuery = createStatement.executeQuery(sql);
-        DeliveryDestination dd=null;
-        ArrayList<DeliveryDestination> deliveryDestinationList=new ArrayList<>();
+        DeliveryDestination dd = null;
+        ArrayList<DeliveryDestination> deliveryDestinationList = new ArrayList<>();
         while (executeQuery.next()) {
-            dd=new DeliveryDestination(executeQuery.getInt(1), executeQuery.getString(2), executeQuery.getDouble(3));
+            dd = new DeliveryDestination(executeQuery.getInt(1), executeQuery.getString(2), executeQuery.getDouble(3));
             deliveryDestinationList.add(dd);
         }
         return deliveryDestinationList;
     }
-    
-    public DeliveryDestination getAllDeliveryDestinationBYDeliveryDestinationId(int ddid) throws ClassNotFoundException, SQLException{
+
+    public DeliveryDestination getAllDeliveryDestinationBYDeliveryDestinationId(int ddid) throws ClassNotFoundException, SQLException {
         Connection connection = MySQLConnection.getConnection();
         Statement createStatement = connection.createStatement();
-        String sql="select * from deliverydistance where ddid='"+ddid+"'";
+        String sql = "select * from deliverydistance where ddid='" + ddid + "'";
         ResultSet executeQuery = createStatement.executeQuery(sql);
-        DeliveryDestination dd=null;
+        DeliveryDestination dd = null;
         while (executeQuery.next()) {
-            dd=new DeliveryDestination(executeQuery.getInt(1), executeQuery.getString(2), executeQuery.getDouble(3));
+            dd = new DeliveryDestination(executeQuery.getInt(1), executeQuery.getString(2), executeQuery.getDouble(3));
         }
         return dd;
     }

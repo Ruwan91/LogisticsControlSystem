@@ -44,7 +44,11 @@ public class AddDelivery extends HttpServlet {
             //Getting Delivery details from delivery form
             String vnumber = request.getParameter("delvnumber");
             String ddname = request.getParameter("delddname");
-            int driverid = Integer.parseInt(request.getParameter("deldriverid"));
+            String drivernamewithid = request.getParameter("deldriverid");
+            //Separate name with the driver id using String split() using regex "-"
+            String[] splitedString = drivernamewithid.split("-");
+            //splitted string second element  of array splitedString id value is containing splitedString[1] 
+            int driverId = Integer.parseInt(splitedString[1]);
             String date = request.getParameter("deldate");
             String destaddress = request.getParameter("deldestaddress");
             int orderId = Integer.parseInt(request.getParameter("delorderId"));
@@ -69,9 +73,9 @@ public class AddDelivery extends HttpServlet {
                 double fixcharge = vehicle.getFixcharge();
                 double perkm = vehicle.getPerkm();
                 amount = (kms * perkm) + fixcharge;
-                System.out.println("Charge is:"+ amount+"...........................");
+                System.out.println("Charge is:" + amount + "...........................");
                 //creating delivery object
-                Delivery delivery = new Delivery(0, vehicle.getVehicleid(), deliveryDestination.getDdid(), driverid, amount, date, destaddress, orderId);
+                Delivery delivery = new Delivery(0, vehicle.getVehicleid(), deliveryDestination.getDdid(), driverId, amount, date, destaddress, orderId);
                 DeliveryAccess da = new DeliveryAccess();
                 try {
                     //Adding Driver and print theresult

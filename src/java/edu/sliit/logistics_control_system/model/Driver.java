@@ -10,6 +10,7 @@ package edu.sliit.logistics_control_system.model;
  * @author Ruwan
  */
 public class Driver {
+
     private int driverid;
     private String name;
     private String address;

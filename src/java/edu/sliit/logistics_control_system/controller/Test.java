@@ -17,19 +17,19 @@ import java.util.logging.Logger;
  * @author Ruwan
  */
 public class Test {
+
     public static void main(String[] args) {
-        MySQLConnection connection=new MySQLConnection();
+        MySQLConnection connection = new MySQLConnection();
         try {
             Connection connection1 = connection.getConnection();
             Statement createStatement = connection1.createStatement();
             int execute = createStatement.executeUpdate("insert into test value(0,'Saman')");
-            if(execute > 0){
+            if (execute > 0) {
                 System.out.println("Working well");
-            }else{
+            } else {
                 System.out.println("NOt working");
             }
-                
-            
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

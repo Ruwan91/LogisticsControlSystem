@@ -18,31 +18,31 @@ import java.util.ArrayList;
  * @author Ruwan
  */
 public class VehicleTypeAccess {
-    
+
     //Retriving all vehicle types
-     public ArrayList<VehicleType> getAllVehicleTypes() throws ClassNotFoundException, SQLException{
+    public ArrayList<VehicleType> getAllVehicleTypes() throws ClassNotFoundException, SQLException {
         Connection connection = MySQLConnection.getConnection();
         Statement createStatement = connection.createStatement();
-        String sql="select * from vehicletype";
+        String sql = "select * from vehicletype";
         ResultSet executeQuery = createStatement.executeQuery(sql);
-        VehicleType vt=null;
-        ArrayList<VehicleType> vehicleTypeList=new ArrayList<>();
+        VehicleType vt = null;
+        ArrayList<VehicleType> vehicleTypeList = new ArrayList<>();
         while (executeQuery.next()) {
-            vt=new VehicleType(executeQuery.getInt(1), executeQuery.getString(2));
+            vt = new VehicleType(executeQuery.getInt(1), executeQuery.getString(2));
             vehicleTypeList.add(vt);
         }
         return vehicleTypeList;
     }
-     
-     public VehicleType getVehicleTypeBYVTypeName(String vtypeName) throws SQLException, ClassNotFoundException{
-         Connection connection = MySQLConnection.getConnection();
+
+    public VehicleType getVehicleTypeBYVTypeName(String vtypeName) throws SQLException, ClassNotFoundException {
+        Connection connection = MySQLConnection.getConnection();
         Statement createStatement = connection.createStatement();
-        String sql="select * from vehicletype where type='"+vtypeName+"'";
+        String sql = "select * from vehicletype where type='" + vtypeName + "'";
         ResultSet executeQuery = createStatement.executeQuery(sql);
-        VehicleType vt=null;
+        VehicleType vt = null;
         while (executeQuery.next()) {
-            vt=new VehicleType(executeQuery.getInt(1), executeQuery.getString(2));
+            vt = new VehicleType(executeQuery.getInt(1), executeQuery.getString(2));
         }
         return vt;
-     }
+    }
 }

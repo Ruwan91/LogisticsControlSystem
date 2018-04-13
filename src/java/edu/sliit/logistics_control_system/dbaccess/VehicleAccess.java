@@ -12,32 +12,62 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
  * @author Ruwan
  */
 public class VehicleAccess {
-    public boolean addVehicle(Vehicle vehicle) throws ClassNotFoundException, SQLException{
+
+    public boolean addVehicle(Vehicle vehicle) throws ClassNotFoundException, SQLException {
         Connection connection = MySQLConnection.getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement("insert into vehicle values(?,?,?,?,?)");
-        prepareStatement.setInt(1,0);
-        prepareStatement.setInt(2,vehicle.getVtypeid());
-        prepareStatement.setString(3,vehicle.getVnumber());
-        prepareStatement.setDouble(4,vehicle.getFixcharge());
-        prepareStatement.setDouble(5,vehicle.getPerkm());
-        
+        prepareStatement.setInt(1, 0);
+        prepareStatement.setInt(2, vehicle.getVtypeid());
+        prepareStatement.setString(3, vehicle.getVnumber());
+        prepareStatement.setDouble(4, vehicle.getFixcharge());
+        prepareStatement.setDouble(5, vehicle.getPerkm());
+
         return 0 < prepareStatement.executeUpdate();
     }
-    
-    public Vehicle getVehicleByVnumber(String vnumber) throws SQLException, ClassNotFoundException{
+
+    public Vehicle getVehicleByVnumber(String vnumber) throws SQLException, ClassNotFoundException {
         Connection connection = MySQLConnection.getConnection();
         Statement createStatement = connection.createStatement();
-        String sql="Select * from vehicle where vnumber='"+vnumber+"'";
+        String sql = "Select * from vehicle where vnumber='" + vnumber + "'";
         ResultSet executeQuery = createStatement.executeQuery(sql);
-        Vehicle v=null;
-        while(executeQuery.next()){
-            v=new Vehicle(executeQuery.getInt(1), executeQuery.getInt(2), executeQuery.getString(3), executeQuery.getDouble(4), executeQuery.getDouble(5));
+        Vehicle v = null;
+        while (executeQuery.next()) {
+            v = new Vehicle(executeQuery.getInt(1), executeQuery.getInt(2), executeQuery.getString(3), executeQuery.getDouble(4), executeQuery.getDouble(5));
+        }
+        return v;
+    }
+
+    public ArrayList<Vehicle> getVehicleList() throws SQLException, ClassNotFoundException {
+        Connection connection = MySQLConnection.getConnection();
+        Statement createStatement = connection.createStatement();
+        String sql = "Select * from vehicle";
+        ResultSet executeQuery = createStatement.executeQuery(sql);
+        Vehicle v = null;
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        while (executeQuery.next()) {
+            v = new Vehicle(executeQuery.getInt(1), executeQuery.getInt(2), executeQuery.getString(3), executeQuery.getDouble(4), executeQuery.getDouble(5));
+            if (null != v) {
+                vehicles.add(v);
+            }
+        }
+        return vehicles;
+    }
+    
+    public Vehicle getVehicleById(int vid) throws SQLException, ClassNotFoundException {
+        Connection connection = MySQLConnection.getConnection();
+        Statement createStatement = connection.createStatement();
+        String sql = "Select * from vehicle where vehicleid='" + vid + "'";
+        ResultSet executeQuery = createStatement.executeQuery(sql);
+        Vehicle v = null;
+        while (executeQuery.next()) {
+            v = new Vehicle(executeQuery.getInt(1), executeQuery.getInt(2), executeQuery.getString(3), executeQuery.getDouble(4), executeQuery.getDouble(5));
         }
         return v;
     }

@@ -24,6 +24,14 @@
         <servlet-name>SearchedAllDeliveryDetail</servlet-name>
         <servlet-class>edu.sliit.logistics_control_system.controller.SearchedAllDeliveryDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchAllVehicleNumbersForAddDelivery</servlet-name>
+        <servlet-class>edu.sliit.logistics_control_system.controller.SearchAllVehicleNumbersForAddDelivery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchAllDriverNamesForAddDelivery</servlet-name>
+        <servlet-class>edu.sliit.logistics_control_system.controller.SearchAllDriverNamesForAddDelivery</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AddDelivery</servlet-name>
         <url-pattern>/AddDelivery</url-pattern>
@@ -47,6 +55,14 @@
     <servlet-mapping>
         <servlet-name>SearchedAllDeliveryDetail</servlet-name>
         <url-pattern>/SearchedAllDeliveryDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchAllVehicleNumbersForAddDelivery</servlet-name>
+        <url-pattern>/SearchAllVehicleNumbersForAddDelivery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchAllDriverNamesForAddDelivery</servlet-name>
+        <url-pattern>/SearchAllDriverNamesForAddDelivery</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

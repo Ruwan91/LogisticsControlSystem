@@ -10,6 +10,7 @@ import edu.sliit.logistics_control_system.model.Driver;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Ruwan
  */
-public class AddDriver extends HttpServlet {
+public class SearchAllDriverNamesForAddDelivery extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,22 +38,24 @@ public class AddDriver extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            //Getting parameter values from delivery.jsp put them into local variables
-            String dname = request.getParameter("dname");
-            String driveraddress = request.getParameter("driveraddress");
-            String nic = request.getParameter("drivernic");
-            String dlicennumber = request.getParameter("dlicennumber");
-            String drivercontact = request.getParameter("drivercontact");
-            Driver d = new Driver(0, dname, driveraddress, nic, dlicennumber, drivercontact);
-            DriverAccess access = new DriverAccess();
+            DriverAccess da = new DriverAccess();
+            ArrayList<Driver> allDivers = null;
             try {
-                if (access.addDriver(d)) {
-                    out.print("Driver Added Successfully..");
-                } else {
-                    out.print("Added Failed..");
-                }
+                allDivers = da.getAllDivers();
             } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(AddDriver.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SearchAllDriverNamesForAddDelivery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (allDivers != null) {
+                out.print("<select class=\"form-control\" id=\"deldriverid\" name=\"deldriverid\" >");
+                out.print("<option value=\"none\" id=\"selected_deldriverid\">");
+                out.print("Select Driver");
+                out.print("</option>");
+                for (Driver driver : allDivers) {
+                    out.print("<option>");
+                    out.print(driver.getName() + "-" + driver.getDriverid());
+                    out.print("</option>");
+                }
+                out.print("</select>");
             }
         }
     }

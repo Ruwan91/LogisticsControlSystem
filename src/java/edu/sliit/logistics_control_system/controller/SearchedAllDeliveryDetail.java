@@ -5,13 +5,14 @@
  */
 package edu.sliit.logistics_control_system.controller;
 
-import com.mysql.jdbc.exceptions.DeadlockTimeoutRollbackMarker;
 import edu.sliit.logistics_control_system.dbaccess.DeliveryAccess;
 import edu.sliit.logistics_control_system.dbaccess.DeliveryDestinationAccess;
 import edu.sliit.logistics_control_system.dbaccess.DriverAccess;
+import edu.sliit.logistics_control_system.dbaccess.VehicleAccess;
 import edu.sliit.logistics_control_system.model.Delivery;
 import edu.sliit.logistics_control_system.model.DeliveryDestination;
 import edu.sliit.logistics_control_system.model.Driver;
+import edu.sliit.logistics_control_system.model.Vehicle;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -52,7 +53,7 @@ public class SearchedAllDeliveryDetail extends HttpServlet {
                 Logger.getLogger(SearchedAllDeliveryDetail.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (allDeliveryDetails != null) {
-                out.print("<table class=\"table\" >");
+                out.print("<table class=\"table table-striped table-hover\" >");
                 out.print("<thead class=\"thead-dark\">");
                 out.print("<tr>");
                 out.print("<th scope=\"col\">");
@@ -87,14 +88,23 @@ public class SearchedAllDeliveryDetail extends HttpServlet {
                     out.print("<td>");
                     out.print(d.getDeliveryid());
                     out.print("</td>");
-                    out.print("< td >");
-                    out.print(d.getVehicleid());
+                    out.print("<td>");
+                    VehicleAccess va = new VehicleAccess();
+                    Vehicle v = null;
+                    try {
+                        v = va.getVehicleById(d.getVehicleid());
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(SearchedAllDeliveryDetail.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (v != null) {
+                        out.print(v.getVnumber());
+                    }
                     out.print("</td>");
-                    out.print("< td >");
+                    out.print("<td>");
                     DeliveryDestinationAccess dda = new DeliveryDestinationAccess();
                     DeliveryDestination deliveryDestination = null;
                     try {
-                        deliveryDestination = dda.getAllDeliveryDestinationBYDeliveryDestinationId(d.getDeliveryid());
+                        deliveryDestination = dda.getAllDeliveryDestinationBYDeliveryDestinationId(d.getDdid());
                     } catch (ClassNotFoundException | SQLException ex) {
                         Logger.getLogger(SearchedAllDeliveryDetail.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -102,7 +112,7 @@ public class SearchedAllDeliveryDetail extends HttpServlet {
                         out.print(deliveryDestination.getDestination() + " - " + deliveryDestination.getKms() + "km");
                     }
                     out.print("</td>");
-                    out.print("< td >");
+                    out.print("<td>");
                     DriverAccess driacc = new DriverAccess();
                     Driver d1 = null;
                     try {
@@ -114,16 +124,16 @@ public class SearchedAllDeliveryDetail extends HttpServlet {
                         out.print(d1.getName());
                     }
                     out.print("</td>");
-                    out.print("< td >");
+                    out.print("<td>");
                     out.print(d.getDate());
                     out.print("</td>");
-                    out.print("< td >");
+                    out.print("<td>");
                     out.print(d.getCharge());
                     out.print("</td>");
-                    out.print("< td >");
+                    out.print("<td>");
                     out.print(d.getDestaddress());
                     out.print("</td>");
-                    out.print("< td >");
+                    out.print("<td>");
                     out.print(d.getOrderid());
                     out.print("</td>");
                     out.print("</tr>");
