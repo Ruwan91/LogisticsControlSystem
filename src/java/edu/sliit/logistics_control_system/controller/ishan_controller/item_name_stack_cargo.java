@@ -57,7 +57,11 @@ public class item_name_stack_cargo extends HttpServlet {
 
                 int i = 0;
 
-                out.print("<select class=\"form-control\" id=\"c_name\"  onclick=\"cargo_type_selected();  get_locationDI();  get_itemDI();\"  >");
+                out.print("<select class=\"form-control\" id=\"c_name\"  onchange=\"cargo_type_selected();   get_locationDI();  get_itemDI(); \"  >");
+                out.print("<option>");
+                out.print("Select a Cargo Name");
+
+                out.print("</option>");
                 while (rs.next()) {
 
                     item_id[i] = Integer.parseInt(rs.getString("it.itemid"));

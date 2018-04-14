@@ -5,15 +5,8 @@
  */
 package edu.sliit.logistics_control_system.controller.ishan_controller;
 
-import edu.sliit.logistics_control_system.connection.MySQLConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ishan
  */
-@WebServlet(name = "delete_stack_cargo", urlPatterns = {"/delete_stack_cargo"})
-public class delete_stack_cargo extends HttpServlet {
+@WebServlet(name = "edit_stack_cargo", urlPatterns = {"/edit_stack_cargo"})
+public class edit_stack_cargo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,21 +34,15 @@ public class delete_stack_cargo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            try {
-                /* TODO output your page here. You may use following sample code. */
-                int w_id = Integer.parseInt(request.getParameter("w_id"));
-
-                Connection con = MySQLConnection.getConnection();
-                Statement stmt = con.createStatement();
-
-                stmt.executeUpdate("DELETE FROM `warehousein` WHERE `warehousein`.`warehouseinid` =" + w_id + "");
-                out.print(w_id);
-                con.close();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet edit_stack_cargo</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet edit_stack_cargo at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

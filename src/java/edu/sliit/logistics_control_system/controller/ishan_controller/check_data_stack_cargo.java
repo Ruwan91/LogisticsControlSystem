@@ -43,8 +43,7 @@ public class check_data_stack_cargo extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             try {
                 /* TODO output your page here. You may use following sample code. */
-                int orderid;
-                int itemid;
+
                 int od = Integer.parseInt(request.getParameter("odid"));
                 int it = Integer.parseInt(request.getParameter("itid"));
 
@@ -54,13 +53,14 @@ public class check_data_stack_cargo extends HttpServlet {
 
                 ResultSet rs = stmt.executeQuery(sql);
 
-            
-                orderid = rs.getInt("orderid");
-                itemid = rs.getInt("itemid");
-                if (orderid == od && itemid == it) {
+              
+
+                if (rs.next()) {
 
                     out.print("12");
-                }else{out.print("");}
+                } else {
+                    out.print("");
+                }
 
                 con.close();
             } catch (ClassNotFoundException ex) {

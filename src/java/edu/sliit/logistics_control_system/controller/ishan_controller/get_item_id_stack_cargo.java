@@ -56,7 +56,7 @@ public class get_item_id_stack_cargo extends HttpServlet {
 
                 rs.next();
 
-                item_id = rs.getInt("it.itemid");
+                item_id = rs.getInt("itemid");
 
                 out.print(item_id);
 

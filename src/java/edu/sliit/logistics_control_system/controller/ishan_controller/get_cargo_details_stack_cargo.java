@@ -47,14 +47,17 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                 Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
 
-                String getdetails = "SELECT warin.warehouseinid, cu.custid,cu.firstname,it.it_name,car.ctype_name,warin.qty,warin.receiveddate,warin.duedate FROM customer cu,item it,cargotype car,warehousein warin,order2,orderdetail WHERE cu.custid=order2.custid and order2.orderid=warin.orderid and it.itemid=orderdetail.itemid and orderdetail.orderid=order2.orderid and it.cargotypeid=car.cargotypeid order by warin.receiveddate desc";
+                String getdetails = "SELECT warin.warehouseinid, warin.orderid,warin.rentalperunit,cu.custid,cu.firstname,it.it_name,car.ctype_name,warin.qty,warin.receiveddate,warin.duedate FROM customer cu,item it,cargotype car,warehousein warin,order2,orderdetail WHERE cu.custid=order2.custid and order2.orderid=warin.orderid and it.itemid=orderdetail.itemid and orderdetail.orderid=order2.orderid and it.cargotypeid=car.cargotypeid order by warin.receiveddate desc";
                 ResultSet rsgetdetails = stmt.executeQuery(getdetails);
 
                 out.print("<table class=\"table table-bordered table-hover\"  id=\"insert_cargo_table\" >");
                 out.print("<thead>");
                 out.print("<tr>");
-                out.print("<th style=\"display:block;\">");
+                out.print("<th>");
                 out.print("Warehouse ID");
+                out.print("</th>");
+                out.print("<th>");
+                out.print("Order ID");
                 out.print("</th>");
                 out.print("<th>");
                 out.print("Customer ID");
@@ -72,6 +75,9 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                 out.print("Quantity");
                 out.print("</th>");
                 out.print("<th>");
+                out.print("Rent per unit");
+                out.print("</th>");
+                out.print("<th>");
                 out.print("Receive Date");
                 out.print("</th>");
                 out.print("<th>");
@@ -85,33 +91,41 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                 out.print("<tbody>");
 
                 int get_wareid[] = new int[100];
+                int order_id[] = new int[100];
                 int get_cusid[] = new int[100];
                 String get_cusname[] = new String[100];
                 String get_cargoname[] = new String[100];
                 String get_cargotype[] = new String[100];
                 int get_quantity[] = new int[100];
+                double rent[] = new double[100];
                 String get_currentdate[] = new String[100];
                 String get_duedate[] = new String[100];
 
                 int i = 0;
                 int x = 1;
-
+                int y=1;
                 while (rsgetdetails.next()) {
 
                     get_wareid[i] = Integer.parseInt(rsgetdetails.getString("warehouseinid"));
+                    order_id[i]=rsgetdetails.getInt("warin.orderid");
                     get_cusid[i] = Integer.parseInt(rsgetdetails.getString("custid"));
                     get_cusname[i] = rsgetdetails.getString("firstname");
                     get_cargoname[i] = rsgetdetails.getString("it_name");
                     get_cargotype[i] = rsgetdetails.getString("ctype_name");
                     get_quantity[i] = Integer.parseInt(rsgetdetails.getString("qty"));
+                    rent[i]=rsgetdetails.getDouble("warin.rentalperunit");
                     get_currentdate[i] = rsgetdetails.getString("receiveddate");
                     get_duedate[i] = rsgetdetails.getString("duedate");
 
                     out.print("<tr id=\"" + x + "\">");
-                    out.print("<td style=\"display:block;\">");
+                    out.print("<td>");
                     out.print(get_wareid[i]);
                     out.print("</td>");
-
+                    
+                     out.print("<td>");
+                    out.print(order_id[i]);
+                    out.print("</td>");
+                    
                     out.print("<td>");
                     out.print(get_cusid[i]);
                     out.print("</td>");
@@ -131,6 +145,11 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                     out.print("<td>");
                     out.print(get_quantity[i]);
                     out.print("</td>");
+                    
+                    out.print("<td>");
+                    out.print(rent[i]);
+                    out.print("</td>");
+                    
 
                     out.print("<td>");
                     out.print(get_currentdate[i]);
@@ -141,7 +160,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                     out.print("</td>");
 
                     out.print("<td>");
-                    out.print("<button class=\"btn btn-default\"  >");
+                    out.print("<button class=\"btn btn-default\"  id=\"" + y + "\" onclick=\"edit_table(this.id)\">");
                     out.print(" <span class=\"glyphicon glyphicon-pencil\">");
                     out.print("</span>");
                     out.print("</button>");
@@ -154,6 +173,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                     out.print("</tr>");
                     i++;
                     x++;
+                    y++;
                 }
 
                 out.print("</tbody>");

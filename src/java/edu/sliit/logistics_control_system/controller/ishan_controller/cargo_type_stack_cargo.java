@@ -51,11 +51,12 @@ public class cargo_type_stack_cargo extends HttpServlet {
 
                 String sql = "SELECT cargotype.ctype_name from  cargotype,order2,orderdetail,item WHERE order2.orderid=orderdetail.orderid and item.itemid=orderdetail.itemid and item.cargotypeid=cargotype.cargotypeid and order2.orderid=" + c + " and  item.it_name='" + iname + "'";
                 ResultSet rs = stmt.executeQuery(sql);
-                rs.next();
-                String item_id = rs.getString("ctype_name");
+                
+                if(rs.next()){
+                String item_id = rs.getString("cargotype.ctype_name");
 
                 out.print(item_id);
-
+                }
                 con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
