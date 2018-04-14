@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ishan
  */
-@WebServlet(name = "order_ID_stack_cargo", urlPatterns = {"/order_ID_stack_cargo"})
-public class order_ID_stack_cargo extends HttpServlet {
+@WebServlet(name = "delete_stack_cargo", urlPatterns = {"/delete_stack_cargo"})
+public class delete_stack_cargo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,30 +43,13 @@ public class order_ID_stack_cargo extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             try {
                 /* TODO output your page here. You may use following sample code. */
-                String cargoname;
+                int w_id = Integer.parseInt(request.getParameter("w_id"));
 
                 Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
 
-                String sql = "SELECT  DISTINCT o.orderid FROM  order2 o,orderdetail ord WHERE o.orderid=ord.orderid and iswarehouse=1 ORDER BY o.date DESC ";
-                ResultSet rs = stmt.executeQuery(sql);
+                stmt.executeUpdate("DELETE FROM `warehousein` WHERE `warehousein`.`warehouseinid` =" + w_id + "");
 
-                int orderid[] = new int[20];
-
-                int i = 0;
-
-                out.print("<select class=\"form-control\" id=\"sel1\"  onclick=\" customer_id_selected(); customer_name_selected();  cargo_name_selected();  cargo_type_selected();\"  >");
-                while (rs.next()) {
-
-                    orderid[i] = rs.getInt("o.orderid");
-
-                    out.print("<option>");
-                    out.print(orderid[i]);
-                    out.print("</option>");
-
-                    i++;
-                }
-                out.print("</select>");
                 con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);

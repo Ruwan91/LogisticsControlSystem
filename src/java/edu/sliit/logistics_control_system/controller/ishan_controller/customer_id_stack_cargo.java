@@ -41,28 +41,27 @@ public class customer_id_stack_cargo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-          try {
-                                     /* TODO output your page here. You may use following sample code. */
-                                      String cus_id;
-                                      
-                                        int c=Integer.parseInt(request.getParameter("odidc"));
-                                     Connection con=MySQLConnection.getConnection();
-                                     Statement stmt=con.createStatement();
-                                    
-                                    String sql="SELECT cu.custid,cu.lastname FROM customer cu,order2 o WHERE cu.custid=o.custid AND o.orderid ="+c;
-                                    ResultSet rs=stmt.executeQuery(sql);
-                                   rs.next();
-                                   cus_id=rs.getString("cu.custid");
-                                   
-                                  
-                                out.print(cus_id);
-                                
-                                con.close();
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+            try {
+                /* TODO output your page here. You may use following sample code. */
+                String cus_id;
+
+                int c = Integer.parseInt(request.getParameter("odidc"));
+                Connection con = MySQLConnection.getConnection();
+                Statement stmt = con.createStatement();
+
+                String sql = "SELECT cu.custid,cu.lastname FROM customer cu,order2 o WHERE cu.custid=o.custid AND o.orderid =" + c;
+                ResultSet rs = stmt.executeQuery(sql);
+                rs.next();
+                cus_id = rs.getString("cu.custid");
+
+                out.print(cus_id);
+
+                con.close();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

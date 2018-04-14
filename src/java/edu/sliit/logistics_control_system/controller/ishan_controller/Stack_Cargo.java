@@ -41,64 +41,63 @@ public class Stack_Cargo extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-             try {
-                                     /* TODO output your page here. You may use following sample code. */
-                                      int odid=Integer.parseInt(request.getParameter("odid"));
-                                       
-                          String cargoname=request.getParameter("cargoname");
-                          
-                          
-                           String cargotype=request.getParameter("cargotype");
-                           
-                         double quantity=Integer.parseInt(request.getParameter("quantity")) ;
-                          String cusname=request.getParameter("cusname");
-                          int cusid=Integer.parseInt(request.getParameter("cusid"));
-                          double rent=Integer.parseInt(request.getParameter("rent"));
-                          double cost=Integer.parseInt(request.getParameter("cost"));
-                          String currentdate=request.getParameter("currentdate");
-                          String duedate=request.getParameter("duedate");
-                           int itemid=Integer.parseInt(request.getParameter("itemid"));
-                            int locationid=Integer.parseInt(request.getParameter("locationid"));
-                         
-                                     Connection con=MySQLConnection.getConnection();
-                                     Statement stmt=con.createStatement();
-                                    
-                                    String duedateconcat[]=new  String[40];
-                                    String currentdateconcat[]=new  String[40];
-                                    
-                                    int  i=0;
-                                     StringTokenizer stdue = new StringTokenizer(duedate,"/");  
-                                     StringTokenizer stcurrent = new StringTokenizer(currentdate,"/");  
-                                     while (stdue.hasMoreTokens()) {  
-                                       duedateconcat[i] =stdue.nextToken();  
-                                       i++;
-                                    }  
-                                     int v=0;
-                                     while (stcurrent.hasMoreTokens()) {  
-                                       currentdateconcat[v] =stcurrent.nextToken();  
-                                       v++;
-                                    }
-                                     String due_month=duedateconcat[0];
-                                     String due_date=duedateconcat[1];
-                                     
-                                     String due_year=duedateconcat[2];
-                                     
-                                      String current_month=currentdateconcat[0];
-                                     String current_date=currentdateconcat[1];
-                                    
-                                     String current_year=currentdateconcat[2];
-                                     
-                                  stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid) VALUES (NULL, "+quantity+", "+odid+", "+rent+", '"+due_year+"-"+due_month+"-"+due_date+"', '"+current_year+"-"+current_month+"-"+current_date+"', "+itemid+", "+locationid+")");
-                                      
-                                     
-                                 
-                    
-                                      con.close();
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+            try {
+                /* TODO output your page here. You may use following sample code. */
+                int odid = Integer.parseInt(request.getParameter("odid"));
+
+                String cargoname = request.getParameter("cargoname");
+
+                String cargotype = request.getParameter("cargotype");
+
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                String cusname = request.getParameter("cusname");
+                int cusid = Integer.parseInt(request.getParameter("cusid"));
+                double rent = Double.parseDouble(request.getParameter("rent"));
+                double cost = Double.parseDouble(request.getParameter("cost"));
+                String currentdate = request.getParameter("currentdate");
+                String duedate = request.getParameter("duedate");
+                int itemid = Integer.parseInt(request.getParameter("itemid"));
+                int locationid = Integer.parseInt(request.getParameter("locationid"));
+
+                Connection con = MySQLConnection.getConnection();
+                Statement stmt = con.createStatement();
+
+                String duedateconcat[] = new String[40];
+                String currentdateconcat[] = new String[40];
+
+                int i = 0;
+                StringTokenizer stdue = new StringTokenizer(duedate, "/");
+                StringTokenizer stcurrent = new StringTokenizer(currentdate, "/");
+                while (stdue.hasMoreTokens()) {
+                    duedateconcat[i] = stdue.nextToken();
+                    i++;
+                }
+                int v = 0;
+                while (stcurrent.hasMoreTokens()) {
+                    currentdateconcat[v] = stcurrent.nextToken();
+                    v++;
+                }
+                String due_month = duedateconcat[0];
+                String due_date = duedateconcat[1];
+
+                String due_year = duedateconcat[2];
+
+                String current_month = currentdateconcat[0];
+                String current_date = currentdateconcat[1];
+
+                String current_year = currentdateconcat[2];
+
+                int executeUpdate = stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid) VALUES (NULL, " + quantity + ", " + odid + ", " + rent + ", '" + due_year + "-" + due_month + "-" + due_date + "', '" + current_year + "-" + current_month + "-" + current_date + "', " + itemid + ", " + locationid + ")");
+                if (executeUpdate > 0) {
+                    out.print("successfully added");
+                }
+
+                con.close();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

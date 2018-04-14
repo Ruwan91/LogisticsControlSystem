@@ -76,7 +76,7 @@
                 <%-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --%>
                 <section>
                     <div class="new_delivery container" id="new_delivery" style="display:none;margin-left: 0%;padding-left: 0px;margin-top: 10px;box-shadow: 0 0 1px black;">
-                        <form class="form-horizontal" style="margin-top: 5px;margin-left: 15%;" onload="fillTheDeliveryDestinationList()">
+                        <form class="form-horizontal" style="margin-top: 5px;margin-left: 15%;" >
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Vehicle Number</label>
                                 <div class="col-sm-5">

@@ -41,44 +41,31 @@ public class get_item_id_stack_cargo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-         try {
-                                     /* TODO output your page here. You may use following sample code. */
-                                      int odid=Integer.parseInt(request.getParameter("odid"));
-                                       
-                        
-                          
-                         
-                                     Connection con=MySQLConnection.getConnection();
-                                     Statement stmt=con.createStatement();
-                                    
-                                    
-                                  String sqitem="SELECT it.itemid from item it,orderdetail ord ,order2 o WHERE it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid="+odid+" ORDER BY o.date DESC ";
-                                  
-                                   
-                                   ResultSet rssqitem=stmt.executeQuery(sqitem);
-                                  
-                                  
-                                   rssqitem.next();
-                                    int itemid=Integer.parseInt(rssqitem.getString("it.itemid"));
-                                    
-                                  
-                                  
-                                  
-                                    out.print(itemid);
-                       
-                          
-                                   
-                                
-                                      
-                                     
-                                   
-                    
-                                      con.close();
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+            try {
+                /* TODO output your page here. You may use following sample code. */
+                int odid = Integer.parseInt(request.getParameter("odid"));
+                String itname = request.getParameter("itname");
+
+                Connection con = MySQLConnection.getConnection();
+                Statement stmt = con.createStatement();
+
+                String sql = "SELECT it.itemid ,it.it_name from item it,orderdetail ord ,order2 o WHERE it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid=" + odid + " and  it.it_name='" + itname + "'";
+
+                ResultSet rs = stmt.executeQuery(sql);
+                int item_id;
+
+                rs.next();
+
+                item_id = rs.getInt("it.itemid");
+
+                out.print(item_id);
+
+                con.close();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

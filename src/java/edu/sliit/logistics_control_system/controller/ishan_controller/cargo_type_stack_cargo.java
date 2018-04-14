@@ -41,26 +41,27 @@ public class cargo_type_stack_cargo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-             try {
-                                     /* TODO output your page here. You may use following sample code. */
-                                   
-                                        int c=Integer.parseInt(request.getParameter("odidc"));
-                                     Connection con=MySQLConnection.getConnection();
-                                     Statement stmt=con.createStatement();
-                                    
-                                    String sql="SELECT cargotype.ctype_name from  cargotype,order2,orderdetail,item WHERE order2.orderid=orderdetail.orderid and item.itemid=orderdetail.itemid and item.cargotypeid=cargotype.cargotypeid and order2.orderid="+c;
-                                    ResultSet rs=stmt.executeQuery(sql);
-                                   rs.next();
-                                  String item_id=rs.getString("ctype_name");
-                                  
-                                out.print(item_id);
-                                
-                                con.close();
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+            try {
+                /* TODO output your page here. You may use following sample code. */
+
+                int c = Integer.parseInt(request.getParameter("odidc"));
+                String iname = request.getParameter("itname");
+                Connection con = MySQLConnection.getConnection();
+                Statement stmt = con.createStatement();
+
+                String sql = "SELECT cargotype.ctype_name from  cargotype,order2,orderdetail,item WHERE order2.orderid=orderdetail.orderid and item.itemid=orderdetail.itemid and item.cargotypeid=cargotype.cargotypeid and order2.orderid=" + c + " and  item.it_name='" + iname + "'";
+                ResultSet rs = stmt.executeQuery(sql);
+                rs.next();
+                String item_id = rs.getString("ctype_name");
+
+                out.print(item_id);
+
+                con.close();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

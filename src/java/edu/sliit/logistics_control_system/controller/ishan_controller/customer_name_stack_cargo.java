@@ -41,28 +41,28 @@ public class customer_name_stack_cargo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-      try {
-                                     /* TODO output your page here. You may use following sample code. */
-                                      String cus_first_name;
-                                       String cus_last_name;
-                                        int c=Integer.parseInt(request.getParameter("odidc"));
-                                     Connection con=MySQLConnection.getConnection();
-                                     Statement stmt=con.createStatement();
-                                    
-                                    String sql="SELECT cu.firstname,cu.lastname FROM customer cu,order2 o WHERE cu.custid=o.custid AND o.orderid ="+c;
-                                    ResultSet rs=stmt.executeQuery(sql);
-                                   rs.next();
-                                   cus_first_name=rs.getString("cu.firstname");
-                                    cus_last_name=rs.getString("cu.lastname");
-                                  
-                                out.print(cus_first_name+" "+cus_last_name);
-                                
-                                con.close();
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+            try {
+                /* TODO output your page here. You may use following sample code. */
+                String cus_first_name;
+                String cus_last_name;
+                int c = Integer.parseInt(request.getParameter("odidc"));
+                Connection con = MySQLConnection.getConnection();
+                Statement stmt = con.createStatement();
+
+                String sql = "SELECT cu.firstname,cu.lastname FROM customer cu,order2 o WHERE cu.custid=o.custid AND o.orderid =" + c;
+                ResultSet rs = stmt.executeQuery(sql);
+                rs.next();
+                cus_first_name = rs.getString("cu.firstname");
+                cus_last_name = rs.getString("cu.lastname");
+
+                out.print(cus_first_name + " " + cus_last_name);
+
+                con.close();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

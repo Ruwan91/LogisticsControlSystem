@@ -42,124 +42,129 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             try {
-                                     /* TODO output your page here. You may use following sample code. */
-                     
-                         
-                                     Connection con=MySQLConnection.getConnection();
-                                     Statement stmt=con.createStatement();
-                                    
-                                    
-                              
-                                      
-                                     
-                                     String getdetails="SELECT cu.custid,cu.firstname,it.it_name,car.ctype_name,warin.qty,warin.receiveddate,warin.duedate FROM customer cu,item it,cargotype car,warehousein warin,order2,orderdetail WHERE cu.custid=order2.custid and order2.orderid=warin.orderid and it.itemid=orderdetail.itemid and orderdetail.orderid=order2.orderid and it.cargotypeid=car.cargotypeid";
-                                     ResultSet rsgetdetails=stmt.executeQuery(getdetails);
-                                     
-                                     
-                        out.print("<table class=\"table table-bordered table-hover\">");  
-                        out.print("<thead>");
-                            out.print("<tr>");
-                                out.print("<th>");
-                                out.print("Customer ID");
-                                      out.print("</th>");
-                                out.print("<th>");
-                                out.print("Customer Name");
-                                        out.print("</th>");
-                                out.print("<th>");
-                                        out.print("Cargo Name");
-                                        out.print("</th>");
-                                out.print("<th>");
-                                out.print("Cargo Type");
-                                        out.print("</th>");
-                                out.print("<th>");
-                                out.print("Quantity");
-                                        out.print("</th>");
-                                out.print("<th>");
-                                out.print("Receive Date");
-                                        out.print("</th>");
-                                out.print("<th>");
-                                out.print("Due Date");
-                                        out.print("</th>");
-                            out.print("</tr>");
-                        out.print("</thead>");
-                        out.print("<tbody>");
-                           
-                        
-                        
-                        
-                        
-                            
-                            
-                            int get_cusid[]=new int[100];
-                            String get_cusname[]=new String[100];
-                             String get_cargoname[]=new String[100];
-                             String get_cargotype[]=new String[100];
-                             int get_quantity[]=new int[100];
-                             String get_currentdate[]=new String[100];
-                             String get_duedate[]=new String[100];
-                             
-                             int i=0;
-                             
-                         
-                            
-                            
-                            while(rsgetdetails.next()){
-                                
-                                   get_cusid[i]=Integer.parseInt(rsgetdetails.getString("custid"));
-                                 get_cusname[i]=rsgetdetails.getString("firstname");
-                                  get_cargoname[i]=rsgetdetails.getString("it_name");
-                                 get_cargotype[i]=rsgetdetails.getString("ctype_name");
-                                  get_quantity[i]=Integer.parseInt(rsgetdetails.getString("qty")) ;
-                                 get_currentdate[i]=rsgetdetails.getString("receiveddate");
-                                 get_duedate[i]=rsgetdetails.getString("duedate");
-                                 
-                               out.print("<tr>");
-                                out.print("<td>");
-                                 out.print(get_cusid[i]);
-                                 out.print("</td>");
-                                 
-                                
-                                  out.print("<td>");
-                                 out.print(get_cusname[i]);
-                                  out.print("</td>");
-                                  
-                                    out.print("<td>");
-                                    out.print(get_cargoname[i]);
-                                     out.print("</td>");
-                                 
-                                  
-                                  out.print("<td>");
-                                  out.print(get_cargotype[i]);
-                                   out.print("</td>");
-                                   
-                                  out.print("<td>");
-                                  out.print(get_quantity[i]);
-                                   out.print("</td>");
-                                   
-                                  out.print("<td>");
-                                  out.print(get_currentdate[i]);
-                                   out.print("</td>");
-                                   
-                                  out.print("<td>");
-                                  out.print(get_duedate[i]);
-                                   out.print("</td>");
-                                 i++;
-                                 out.print("</tr>");
-                            }
-                                         
-                                         
-                            
-                            
-                      
-                        out.print("</tbody>");
-                    out.print("</table>");
-                    
-                                      con.close();
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+                /* TODO output your page here. You may use following sample code. */
+
+                Connection con = MySQLConnection.getConnection();
+                Statement stmt = con.createStatement();
+
+                String getdetails = "SELECT warin.warehouseinid, cu.custid,cu.firstname,it.it_name,car.ctype_name,warin.qty,warin.receiveddate,warin.duedate FROM customer cu,item it,cargotype car,warehousein warin,order2,orderdetail WHERE cu.custid=order2.custid and order2.orderid=warin.orderid and it.itemid=orderdetail.itemid and orderdetail.orderid=order2.orderid and it.cargotypeid=car.cargotypeid order by warin.receiveddate desc";
+                ResultSet rsgetdetails = stmt.executeQuery(getdetails);
+
+                out.print("<table class=\"table table-bordered table-hover\"  id=\"insert_cargo_table\" >");
+                out.print("<thead>");
+                out.print("<tr>");
+                out.print("<th style=\"display:block;\">");
+                out.print("Warehouse ID");
+                out.print("</th>");
+                out.print("<th>");
+                out.print("Customer ID");
+                out.print("</th>");
+                out.print("<th>");
+                out.print("Customer Name");
+                out.print("</th>");
+                out.print("<th>");
+                out.print("Cargo Name");
+                out.print("</th>");
+                out.print("<th>");
+                out.print("Cargo Type");
+                out.print("</th>");
+                out.print("<th>");
+                out.print("Quantity");
+                out.print("</th>");
+                out.print("<th>");
+                out.print("Receive Date");
+                out.print("</th>");
+                out.print("<th>");
+                out.print("Due Date");
+                out.print("</th>");
+                out.print("<th>");
+                out.print("options");
+                out.print("</th>");
+                out.print("</tr>");
+                out.print("</thead>");
+                out.print("<tbody>");
+
+                int get_wareid[] = new int[100];
+                int get_cusid[] = new int[100];
+                String get_cusname[] = new String[100];
+                String get_cargoname[] = new String[100];
+                String get_cargotype[] = new String[100];
+                int get_quantity[] = new int[100];
+                String get_currentdate[] = new String[100];
+                String get_duedate[] = new String[100];
+
+                int i = 0;
+                int x = 1;
+
+                while (rsgetdetails.next()) {
+
+                    get_wareid[i] = Integer.parseInt(rsgetdetails.getString("warehouseinid"));
+                    get_cusid[i] = Integer.parseInt(rsgetdetails.getString("custid"));
+                    get_cusname[i] = rsgetdetails.getString("firstname");
+                    get_cargoname[i] = rsgetdetails.getString("it_name");
+                    get_cargotype[i] = rsgetdetails.getString("ctype_name");
+                    get_quantity[i] = Integer.parseInt(rsgetdetails.getString("qty"));
+                    get_currentdate[i] = rsgetdetails.getString("receiveddate");
+                    get_duedate[i] = rsgetdetails.getString("duedate");
+
+                    out.print("<tr id=\"" + x + "\">");
+                    out.print("<td style=\"display:block;\">");
+                    out.print(get_wareid[i]);
+                    out.print("</td>");
+
+                    out.print("<td>");
+                    out.print(get_cusid[i]);
+                    out.print("</td>");
+
+                    out.print("<td>");
+                    out.print(get_cusname[i]);
+                    out.print("</td>");
+
+                    out.print("<td>");
+                    out.print(get_cargoname[i]);
+                    out.print("</td>");
+
+                    out.print("<td>");
+                    out.print(get_cargotype[i]);
+                    out.print("</td>");
+
+                    out.print("<td>");
+                    out.print(get_quantity[i]);
+                    out.print("</td>");
+
+                    out.print("<td>");
+                    out.print(get_currentdate[i]);
+                    out.print("</td>");
+
+                    out.print("<td>");
+                    out.print(get_duedate[i]);
+                    out.print("</td>");
+
+                    out.print("<td>");
+                    out.print("<button class=\"btn btn-default\"  >");
+                    out.print(" <span class=\"glyphicon glyphicon-pencil\">");
+                    out.print("</span>");
+                    out.print("</button>");
+                    out.print("<button class=\"btn btn-default\">");
+                    out.print(" <span class=\"glyphicon glyphicon-remove\"  id=\"" + x + "\" onclick=\"delete_table(this.id)\" >");
+                    out.print("</span>");
+                    out.print("</button>");
+                    out.print("</td>");
+
+                    out.print("</tr>");
+                    i++;
+                    x++;
+                }
+
+                out.print("</tbody>");
+                out.print("</table>");
+
+                con.close();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
