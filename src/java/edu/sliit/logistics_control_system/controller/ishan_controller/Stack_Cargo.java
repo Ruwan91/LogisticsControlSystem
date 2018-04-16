@@ -66,30 +66,44 @@ public class Stack_Cargo extends HttpServlet {
                 String currentdateconcat[] = new String[40];
 
                 int i = 0;
-                StringTokenizer stdue = new StringTokenizer(duedate, "/");
-                StringTokenizer stcurrent = new StringTokenizer(currentdate, "/");
-                while (stdue.hasMoreTokens()) {
-                    duedateconcat[i] = stdue.nextToken();
-                    i++;
-                }
-                int v = 0;
-                while (stcurrent.hasMoreTokens()) {
-                    currentdateconcat[v] = stcurrent.nextToken();
-                    v++;
-                }
-                String due_month = duedateconcat[0];
-                String due_date = duedateconcat[1];
+                out.print(duedate.indexOf('-'));
+                if (duedate.indexOf('-') >= 0) {
+              
 
-                String due_year = duedateconcat[2];
+                    int executeUpdate = stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid) VALUES (NULL, " + quantity + ", " + odid + ", " + rent + ", '" +duedate+ "', '" + currentdate + "', " + itemid + ", " + locationid + ")");
+                    if (executeUpdate > 0) {
+                        out.print("successfully added");
+                    }
 
-                String current_month = currentdateconcat[0];
-                String current_date = currentdateconcat[1];
+                } else {
+                    out.print("/ selected");
+                    StringTokenizer stdue = new StringTokenizer(duedate, "/");
+                    while (stdue.hasMoreTokens()) {
+                        duedateconcat[i] = stdue.nextToken();
+                        i++;
+                    }
+                    StringTokenizer stcurrent = new StringTokenizer(currentdate, "/");
 
-                String current_year = currentdateconcat[2];
+                    int v = 0;
+                    while (stcurrent.hasMoreTokens()) {
+                        currentdateconcat[v] = stcurrent.nextToken();
+                        v++;
+                    }
+                    String due_month = duedateconcat[0];
+                    String due_datee = duedateconcat[1];
 
-                int executeUpdate = stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid) VALUES (NULL, " + quantity + ", " + odid + ", " + rent + ", '" + due_year + "-" + due_month + "-" + due_date + "', '" + current_year + "-" + current_month + "-" + current_date + "', " + itemid + ", " + locationid + ")");
-                if (executeUpdate > 0) {
-                    out.print("successfully added");
+                    String due_year = duedateconcat[2];
+
+                    String current_month = currentdateconcat[0];
+                    String current_date = currentdateconcat[1];
+
+                    String current_year = currentdateconcat[2];
+
+                    int executeUpdate = stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid) VALUES (NULL, " + quantity + ", " + odid + ", " + rent + ", '" + due_year + "-" + due_month + "-" + due_datee + "', '" + current_year + "-" + current_month + "-" + current_date + "', " + itemid + ", " + locationid + ")");
+                    if (executeUpdate > 0) {
+                        out.print("successfully added");
+                    }
+
                 }
 
                 con.close();

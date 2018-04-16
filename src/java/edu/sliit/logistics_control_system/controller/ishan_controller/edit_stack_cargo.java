@@ -5,8 +5,16 @@
  */
 package edu.sliit.logistics_control_system.controller.ishan_controller;
 
+import com.sun.xml.rpc.processor.modeler.j2ee.xml.string;
+import edu.sliit.logistics_control_system.connection.MySQLConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,15 +42,74 @@ public class edit_stack_cargo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet edit_stack_cargo</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet edit_stack_cargo at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            try {
+                /* TODO output your page here. You may use following sample code. */
+                int odid = Integer.parseInt(request.getParameter("odid"));
+                int wareid = Integer.parseInt(request.getParameter("wareid"));
+                String cargoname = request.getParameter("cargoname");
+
+                String cargotype = request.getParameter("cargotype");
+
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                String cusname = request.getParameter("cusname");
+                int cusid = Integer.parseInt(request.getParameter("cusid"));
+                double rent = Double.parseDouble(request.getParameter("rent"));
+                double cost = Double.parseDouble(request.getParameter("cost"));
+                String currentdate = request.getParameter("currentdate");
+                String duedate = request.getParameter("duedate");
+                int itemid = Integer.parseInt(request.getParameter("itemid"));
+                int locationid = Integer.parseInt(request.getParameter("locationid"));
+
+                Connection con = MySQLConnection.getConnection();
+                Statement stmt = con.createStatement();
+                
+                String duedateconcat[] = new String[40];
+                String currentdateconcat[] = new String[40];
+
+                int i = 0;
+                if(duedate.indexOf('-')>=0){
+                StringTokenizer stdue = new StringTokenizer(duedate, "-");
+                while (stdue.hasMoreTokens()) {
+                    duedateconcat[i] = stdue.nextToken();
+                    i++;
+                }
+                }else{
+                 StringTokenizer stdue = new StringTokenizer(duedate, "/"); 
+                 while (stdue.hasMoreTokens()) {
+                    duedateconcat[i] = stdue.nextToken();
+                    i++;
+                }
+                }
+                StringTokenizer stcurrent = new StringTokenizer(currentdate, "-");
+                
+                int v = 0;
+                while (stcurrent.hasMoreTokens()) {
+                    currentdateconcat[v] = stcurrent.nextToken();
+                    v++;
+                }
+                String due_month = duedateconcat[2];
+                String due_date = duedateconcat[0];
+
+                String due_year = duedateconcat[1];
+
+                String current_month = currentdateconcat[2];
+                String current_date = currentdateconcat[0];
+
+                String current_year = currentdateconcat[1];
+                out.print("due date "+due_date);
+                out.print("due month "+due_month);
+                out.print("due year "+due_year);
+                int executeUpdate = stmt.executeUpdate("UPDATE `warehousein` SET `qty` = " + quantity + ", `orderid`=" + odid + ", `rentalperunit` = " + rent + ", `duedate` = '"+ due_date    +"-"+due_year   +"-"+ due_month+"', `receiveddate` = '" +current_date    + "-" +current_year     + "-" +current_month + "', `itemid` = " + itemid + ", `ldid` = " + locationid + " WHERE `warehousein`.`warehouseinid` = " + wareid );
+                if (executeUpdate > 0) {
+                    out.print("successfully updated");
+                }else{out.print("Error cant update");}
+
+                con.close();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

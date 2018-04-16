@@ -3,9 +3,11 @@
     Created on : Mar 4, 2018, 7:03:18 PM
     Author     : ishan
 --%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="edu.sliit.logistics_control_system.controller.ishan_controller.Stack_Cargo"%>
 <%@page import="java.util.logging.Logger"%>
 <%@page import="java.util.logging.Level"%>
+<%@page import="java.util.Date"%>
 <%@page import="edu.sliit.logistics_control_system.connection.MySQLConnection"%>
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
@@ -508,7 +510,8 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;"  id="insert_submit" onclick="validate()">Submit</button>
-                             <button type="button" class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;display: none;" id="insert_update"   onclick="insert_update()">Update</button>
+                            <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;display: none;" id="insert_update"   onclick="insert_updateeee()">Update</button>
+                            <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;display: none;" id="cancel_update"   onclick="cancel_updateeee()">Cancel</button>
                             <label id="get_item_id_for_isert_data" style="display: block;">item_ID</label>
                             <script>
 
@@ -546,6 +549,7 @@
                                 }
                             </script>
                             <label id="get_location_id_for_isert_data" style="display: block;">location</label>
+                            <label id="get_warehouse_id_for_isert_data" style="display: block;">warehouse ID</label>
                             <script>
                                 function get_locationDI() {
                                     var es = document.getElementById("sel1");
@@ -567,11 +571,12 @@
                             <div id="succeefully_inserted_data" style="display: block;"></div>
 
                             <label id="check_data_div" style="display:block;"></label>
+                            <input type="text" class="form-control"  id="search_insert_cargo"  onkeyup="search_insert_c(this.value)" placeholder="Search Customer Name or Item name or Item Type" style="width: 50%;">
                             <script>
                                 function  validate() {
                                     console.log("validate() executed");
                                     var duedate = document.getElementById("insertcargo_due_date").value;
-
+                                     var currentdate = document.getElementById("WI_currentdate").value;
                                     var today = new Date();
                                     var dd = today.getDate();
                                     var mm = today.getMonth() + 1; //January is 0!
@@ -586,7 +591,7 @@
                                     }
 
                                     today = mm + '/' + dd + '/' + yyyy;
-
+                  
 
                                     var esdd = document.getElementById("sel1");
                                     var odidccc = esdd.options[esdd.selectedIndex].value;
@@ -603,7 +608,10 @@
                                             if (cd == 12)
                                             {
                                                 alert("Already inserted");
-                                            } else
+                                            }else if(duedate<=currentdate){
+                                                alert("Due date must be greater than current date");
+                                            }
+                                            else
                                             {
                                                 insertdata();
                                             }
@@ -639,7 +647,8 @@
 
                                         var es = document.getElementById("sel1");
                                         var odid = es.options[es.selectedIndex].value;
-                                        var cargoname = document.getElementById("c_name").value;
+                                        var esdd = document.getElementById("c_name");
+                                        var cargoname = es.options[es.selectedIndex].value;
                                         var itemid = document.getElementById("get_item_id_for_isert_data").innerHTML;
                                         var locationid = document.getElementById("get_location_id_for_isert_data").innerHTML;
 
@@ -650,7 +659,7 @@
                                         var cost = document.getElementById("totalcoste_insercargo").value;
                                         var currentdate = document.getElementById("WI_currentdate").value;
                                         var duedate = document.getElementById("insertcargo_due_date").value;
-                                        if (cargotype != "" && odid != "" && itemid != "" && locationid != "" && quantity != "" && cusname != "" && cusid != "" && rent != "" && cost != "" && currentdate != "" && duedate != "") {
+                                        if (cargotype != "" && odid != "" && itemid != "" && locationid != "" && cargoname != "" && quantity != "" && cusname != "" && cusid != "" && rent != "" && cost != "" && currentdate != "" && duedate != "") {
 
                                             var xmlhttp = new XMLHttpRequest();
                                             xmlhttp.open("GET", "Stack_Cargo?odid=" + odid + "&cargoname=" + cargoname + "&cargotype=" + cargotype + "&quantity=" + quantity + "&cusname=" + cusname + "&cusid=" + cusid + "&rent=" + rent + "&cost=" + cost + "&currentdate=" + currentdate + "&duedate=" + duedate + "&itemid=" + itemid + "&locationid=" + locationid, true);
@@ -659,7 +668,7 @@
                                                 if (this.readyState == 4 && this.status == 200) {
 
                                                     document.getElementById("succeefully_inserted_data").innerHTML = this.responseText;
-                                                    getcargodetails_into_table()
+                                                    getcargodetails_into_table();
                                                 }
                                             };
 
@@ -706,7 +715,7 @@
                                     var xmlhttp6 = new XMLHttpRequest();
                                     xmlhttp6.onreadystatechange = function () {
                                         if (this.readyState == 4 && this.status == 200) {
-                                             console.log("After Deketed : "+this.responseText);
+                                            console.log("After Deketed : " + this.responseText);
                                             getcargodetails_into_table();
 
                                         }
@@ -724,28 +733,118 @@
                                     document.getElementById("rawindex_insert").innerHTML = rawIndex;
 
                                 }
-                               function edit_table(raw)
-                               {
-                                   
-                                   
-                                     document.getElementById("insertorderid").value= document.getElementById("insert_cargo_table").rows[raw].cells[1].innerHTML;
-                                     document.getElementById("cu_cusid").value= document.getElementById("insert_cargo_table").rows[raw].cells[2].innerHTML;
-                                    
-                                              
-                                      document.getElementById("cc_customername").value= document.getElementById("insert_cargo_table").rows[raw].cells[3].innerHTML;
-                                       var es = document.getElementById("c_name");
-                                 
-    es.value=document.getElementById("insert_cargo_table").rows[raw].cells[4].innerHTML;
-                                        document.getElementById("insert_cargo_type").value= document.getElementById("insert_cargo_table").rows[raw].cells[5].innerHTML;
-                                         document.getElementById("cargo_quantity").value= document.getElementById("insert_cargo_table").rows[raw].cells[6].innerHTML;
-                                         document.getElementById("rentalpriceperunit_isertcargo").value= document.getElementById("insert_cargo_table").rows[raw].cells[7].innerHTML;
-                                          document.getElementById("WI_currentdate").value= document.getElementById("insert_cargo_table").rows[raw].cells[8].innerHTML;
-                                           document.getElementById("insertcargo_due_date").value= document.getElementById("insert_cargo_table").rows[raw].cells[9].innerHTML;
-                                           
-                                           document.getElementById("insert_update").style.display='block';
-                                           document.getElementById("insert_submit").style.display='none';
-                               }
+                                function edit_table(raw)
+                                {
 
+                                    document.getElementById("get_warehouse_id_for_isert_data").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[0].innerHTML;
+
+                                    document.getElementById("cu_cusid").value = document.getElementById("insert_cargo_table").rows[raw].cells[2].innerHTML;
+                                    var es = document.getElementById("sel1");
+                                    es.value = document.getElementById("insert_cargo_table").rows[raw].cells[1].innerHTML;
+                                    document.getElementById("cc_customername").value = document.getElementById("insert_cargo_table").rows[raw].cells[3].innerHTML;
+                                    var es = document.getElementById("c_name");
+
+                                    es.value = document.getElementById("insert_cargo_table").rows[raw].cells[4].innerHTML;
+                                    document.getElementById("insert_cargo_type").value = document.getElementById("insert_cargo_table").rows[raw].cells[5].innerHTML;
+                                    document.getElementById("cargo_quantity").value = document.getElementById("insert_cargo_table").rows[raw].cells[6].innerHTML;
+                                    document.getElementById("rentalpriceperunit_isertcargo").value = document.getElementById("insert_cargo_table").rows[raw].cells[7].innerHTML;
+                                    document.getElementById("WI_currentdate").value = document.getElementById("insert_cargo_table").rows[raw].cells[8].innerHTML;
+                                    document.getElementById("insertcargo_due_date").value = document.getElementById("insert_cargo_table").rows[raw].cells[9].innerHTML;
+                                    document.getElementById("get_item_id_for_isert_data").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[10].innerHTML;
+                                    document.getElementById("get_location_id_for_isert_data").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[11].innerHTML;
+                                    document.getElementById("insert_update").style.display = 'block';
+                                    document.getElementById("insert_submit").style.display = 'none';
+
+
+
+                                    document.getElementById("totalcoste_insercargo").value = document.getElementById("insert_cargo_table").rows[raw].cells[7].innerHTML * document.getElementById("insert_cargo_table").rows[raw].cells[6].innerHTML;
+                                    document.getElementById("cancel_update").style.display = 'block';
+                                }
+
+
+                                function insert_updateeee() {
+                                    console.log("update data started");
+                                    var cargotype = document.getElementById("insert_cargo_type").value;
+
+                                    var es = document.getElementById("sel1");
+                                    var odid = es.options[es.selectedIndex].value;
+                                    var cargoname = document.getElementById("c_name").value;
+                                    var itemid = document.getElementById("get_item_id_for_isert_data").innerHTML;
+                                    var locationid = document.getElementById("get_location_id_for_isert_data").innerHTML;
+
+                                    var quantity = document.getElementById("cargo_quantity").value;
+                                    var cusname = document.getElementById("cc_customername").value;
+                                    var cusid = document.getElementById("cu_cusid").value;
+                                    var rent = document.getElementById("rentalpriceperunit_isertcargo").value;
+                                    var cost = document.getElementById("totalcoste_insercargo").value;
+                                    var currentdate = document.getElementById("WI_currentdate").value;
+                                    var duedate = document.getElementById("insertcargo_due_date").value;
+                                    var wareID = document.getElementById("get_warehouse_id_for_isert_data").innerHTML;
+
+                                    if (cargotype != "" && odid != "" && itemid != "" && locationid != "" && quantity != "" && cusname != "" && cusid != "" && rent != "" && cost != "" && currentdate != "" && duedate != "" && wareID != "") {
+
+                                        var xmlhttp20 = new XMLHttpRequest();
+                                        xmlhttp20.open("GET", "edit_stack_cargo?odid=" + odid + "&cargoname=" + cargoname + "&cargotype=" + cargotype + "&quantity=" + quantity + "&cusname=" + cusname + "&cusid=" + cusid + "&rent=" + rent + "&cost=" + cost + "&currentdate=" + currentdate + "&duedate=" + duedate + "&itemid=" + itemid + "&locationid=" + locationid + "&wareid=" + wareID, true);
+                                        xmlhttp20.send(null);
+                                        xmlhttp20.onreadystatechange = function () {
+                                            if (this.readyState == 4 && this.status == 200) {
+
+                                                document.getElementById("succeefully_inserted_data").innerHTML = this.responseText;
+                                                getcargodetails_into_table();
+                                            }
+                                        };
+
+                                        getcargodetails_into_table();
+                                        console.log("update data send ok");
+
+
+                                        console.log("update data executed");
+                                    } else {
+                                        alert("Data Fields must not be empty");
+                                    }
+
+
+                                }
+                                function cancel_updateeee() {
+                                    document.getElementById("insert_update").style.display = 'none';
+                                    document.getElementById("insert_submit").style.display = 'block';
+                                    document.getElementById("cancel_update").style.display = 'none';
+                                }
+                                function  search_insert_c(key) {
+                                <%--  https://www.w3schools.com/howto/howto_js_filter_table.asp    --%>
+                                    // Declare variables 
+                                    console.log("search_insert_c(key) executed");
+                                    var input, filter, table, tr, td,td1,td2, i,d;
+                                  
+                                    filter = key.toUpperCase();
+                                    table = document.getElementById("insert_cargo_table");
+                                    tr = table.getElementsByTagName("tr");
+
+                                    // Loop through all table rows, and hide those who don't match the search query
+                                    for (i = 1; i < tr.length; i++) {
+                                        
+                                        
+                                             td = tr[i].getElementsByTagName("td")[3];
+                                             td1 = tr[i].getElementsByTagName("td")[4];
+                                             td2 = tr[i].getElementsByTagName("td")[5];
+                                        if (td) {
+                                            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                                tr[i].style.display = "";
+                                                console.log("search found result");
+                                            }else if(td1.innerHTML.toUpperCase().indexOf(filter) > -1){
+                                                 tr[i].style.display = "";
+                                            }else if(td2.innerHTML.toUpperCase().indexOf(filter) > -1){
+                                                 tr[i].style.display = "";
+                                            }
+                                            
+                                            else {
+                                                tr[i].style.display = "none";
+                                                console.log("search NOT found result");
+                                            }
+                                        
+                                    }
+                                    }
+                                }
                             </script>
                             <label id="rawindex_insert"></label>
                         </form>
