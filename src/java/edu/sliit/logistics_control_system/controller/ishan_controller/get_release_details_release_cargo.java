@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ishan
  */
-@WebServlet(name = "get_cargo_details_stack_cargo", urlPatterns = {"/get_cargo_details_stack_cargo"})
-public class get_cargo_details_stack_cargo extends HttpServlet {
+@WebServlet(name = "get_release_details_release_cargo", urlPatterns = {"/get_release_details_release_cargo"})
+public class get_release_details_release_cargo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,7 +41,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ParseException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -52,120 +51,90 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                 Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
 
-                String getdetails = "SELECT DISTINCT warin.warehouseinid, warin.itemid ,warin.ldid,  warin.orderid,warin.rentalperunit,cu.custid,cu.firstname,it.it_name,car.ctype_name,warin.qty,warin.receiveddate,warin.duedate \n"
-                        + "FROM customer cu,item it,cargotype car,warehousein warin,order2,orderdetail \n"
-                        + "WHERE cu.custid=order2.custid and order2.orderid=warin.orderid and warin.itemid=it.itemid and orderdetail.orderid=order2.orderid and it.cargotypeid=car.cargotypeid order by warin.receiveddate desc";
-                ResultSet rsgetdetails = stmt.executeQuery(getdetails);
+                String sql = "SELECT warehouseout.warehouseoutid,warehouseout.warehouseinid,item.it_name, warehouseout.itemid,warehouseout.qty,warehouseout.releasedate,warehouseout.latedays,warehouseout.latefeeperday,warehouseout.totalcost,warehouseout.ldid\n"
+                        + "FROM warehouseout,item \n"
+                        + "WHERE warehouseout.itemid=item.itemid";
+                ResultSet rs = stmt.executeQuery(sql);
 
                 out.print("<table class=\"table table-bordered table-hover\"  id=\"insert_cargo_table\" >");
                 out.print("<thead>");
                 out.print("<tr>");
                 out.print("<th>");
-                out.print("Warehouse ID");
+                out.print("WarehouseOut ID");
                 out.print("</th>");
                 out.print("<th>");
-                out.print("Order ID");
+                out.print("Warehousein ID");
                 out.print("</th>");
                 out.print("<th>");
-                out.print("Customer ID");
-                out.print("</th>");
-                out.print("<th>");
-                out.print("Customer Name");
-                out.print("</th>");
-                out.print("<th>");
-                out.print("Cargo Name");
-                out.print("</th>");
-                out.print("<th>");
-                out.print("Cargo Type");
+                out.print("Item Name");
                 out.print("</th>");
                 out.print("<th>");
                 out.print("Quantity");
                 out.print("</th>");
                 out.print("<th>");
-                out.print("Rent per unit");
+                out.print("Release Date");
                 out.print("</th>");
                 out.print("<th>");
-                out.print("Receive Date");
+                out.print("Late Days");
                 out.print("</th>");
                 out.print("<th>");
-                out.print("Due Date");
+                out.print("Late fee per Day");
                 out.print("</th>");
                 out.print("<th>");
-                out.print("Item ID");
+                out.print("Total Cost");
                 out.print("</th>");
                 out.print("<th>");
                 out.print("Location ID");
                 out.print("</th>");
-                out.print("<th>");
-                out.print("options");
-                out.print("</th>");
+
                 out.print("</tr>");
                 out.print("</thead>");
                 out.print("<tbody>");
+                int get_wareOutid;
+                int get_wareINid;
 
-                int get_wareid;
-                int order_id;
-                int get_cusid;
-                String get_cusname;
                 String get_cargoname;
-                String get_cargotype;
+
                 int get_quantity;
-                double rent;
-                String get_currentdate;
+                int late_days;
+                double latefee;
+                String get_releasedate;
                 String get_duedate;
                 int get_ldid;
                 int get_itmid;
+                double totalcost;
 
                 int i = 0;
                 int x = 1;
                 int y = 1;
                 int z = 1;
-                while (rsgetdetails.next()) {
+                while (rs.next()) {
 
-                    get_wareid = Integer.parseInt(rsgetdetails.getString("warehouseinid"));
-                    order_id = rsgetdetails.getInt("orderid");
-                    get_cusid = Integer.parseInt(rsgetdetails.getString("custid"));
-                    get_cusname = rsgetdetails.getString("firstname");
-                    get_cargoname = rsgetdetails.getString("it_name");
-                    get_cargotype = rsgetdetails.getString("ctype_name");
-                    get_quantity = Integer.parseInt(rsgetdetails.getString("qty"));
-                    rent = rsgetdetails.getDouble("rentalperunit");
-                    get_currentdate = rsgetdetails.getString("receiveddate");
-                    get_duedate = rsgetdetails.getString("duedate");
-                    get_ldid = Integer.parseInt(rsgetdetails.getString("ldid"));
-                    get_itmid = Integer.parseInt(rsgetdetails.getString("itemid"));
+                    get_wareOutid = Integer.parseInt(rs.getString("warehouseoutid"));
+                    get_wareINid = Integer.parseInt(rs.getString("warehouseinid"));
 
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate localDate = LocalDate.now();
+                    late_days = Integer.parseInt(rs.getString("latedays"));
+                    get_cargoname = rs.getString("it_name");
+                    totalcost = Double.parseDouble("totalcost");
+                    get_quantity = Integer.parseInt(rs.getString("qty"));
+                    latefee = rs.getDouble("latefeeperday");
+                    get_releasedate = rs.getString("releasedate");
 
-                    String dat;
-                    dat = dtf.format(localDate);
-                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date due = sdf.parse(get_duedate);
-         Date curr = sdf.parse(dat);
-        
-                    if (due.compareTo(curr) < 0) {
-                        out.print("<tr id=\"" + x + "\" style=\"background-color:red; \" >");
-                    }else if(due.compareTo(curr) == 0){
-                        out.print("<tr id=\"" + x + "\" style=\"background-color:yellow; \" >");
-                    }else{
-                        out.print("<tr id=\"" + x + "\" >");
-                    }
+                    get_ldid = Integer.parseInt(rs.getString("ldid"));
+                    get_itmid = Integer.parseInt(rs.getString("itemid"));
+
+                    out.print("<tr id=\"" + x + "\" >");
 
                     out.print("<td>");
-                    out.print(get_wareid);
+                    out.print(get_wareOutid);
                     out.print("</td>");
 
                     out.print("<td>");
-                    out.print(order_id);
+                    out.print(get_wareINid);
                     out.print("</td>");
-
+                    
                     out.print("<td>");
-                    out.print(get_cusid);
-                    out.print("</td>");
-
-                    out.print("<td>");
-                    out.print(get_cusname);
+                    out.print(get_itmid);
                     out.print("</td>");
 
                     out.print("<td>");
@@ -173,33 +142,32 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                     out.print("</td>");
 
                     out.print("<td>");
-                    out.print(get_cargotype);
-                    out.print("</td>");
-
-                    out.print("<td>");
                     out.print(get_quantity);
                     out.print("</td>");
 
+                
+
                     out.print("<td>");
-                    out.print(rent);
+                    out.print(get_releasedate);
                     out.print("</td>");
 
                     out.print("<td>");
-                    out.print(get_currentdate);
+                    out.print(late_days);
                     out.print("</td>");
 
                     out.print("<td>");
-                    out.print(get_duedate);
+                    out.print(latefee);
                     out.print("</td>");
 
                     out.print("<td>");
-                    out.print(get_itmid);
+                    out.print(totalcost);
                     out.print("</td>");
 
                     out.print("<td>");
                     out.print(get_ldid);
                     out.print("</td>");
 
+                 
                     out.print("<td>");
                     out.print("<button class=\"btn btn-default\"  id=\"" + y + "\" onclick=\"edit_table(this.id)\">");
                     out.print(" <span class=\"glyphicon glyphicon-edit\">");
@@ -209,10 +177,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                     out.print(" <span class=\"glyphicon glyphicon-remove\"  id=\"" + x + "\" onclick=\"delete_table(this.id)\" style=\"color:white; \">");
                     out.print("</span>");
                     out.print("</button>");
-                    out.print("<button class=\"btn btn-default\">");
-                    out.print(" <span class=\"glyphicon glyphicon-export\"  id=\"" + z + "\" onclick=\"release_information(this.id)\" >");
-                    out.print("</span>");
-                    out.print("</button>");
+
                     out.print("</td>");
 
                     out.print("</tr>");
@@ -246,11 +211,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ParseException ex) {
-            Logger.getLogger(get_cargo_details_stack_cargo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -264,11 +225,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ParseException ex) {
-            Logger.getLogger(get_cargo_details_stack_cargo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

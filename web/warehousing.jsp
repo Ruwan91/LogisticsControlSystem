@@ -571,12 +571,20 @@
                             <div id="succeefully_inserted_data" style="display: block;"></div>
 
                             <label id="check_data_div" style="display:block;"></label>
-                            <input type="text" class="form-control"  id="search_insert_cargo"  onkeyup="search_insert_c(this.value)" placeholder="Search Customer Name or Item name or Item Type" style="width: 50%;">
+
+                            <div >
+
+
+                                <input type="text" class="form-control"  id="search_insert_cargo"  onkeyup="search_insert_c(this.value)" placeholder="Search Customer Name or Item name or Item Type" style="width: 50%;" >
+
+
+                            </div>
+
                             <script>
                                 function  validate() {
                                     console.log("validate() executed");
                                     var duedate = document.getElementById("insertcargo_due_date").value;
-                                     var currentdate = document.getElementById("WI_currentdate").value;
+                                    var currentdate = document.getElementById("WI_currentdate").value;
                                     var today = new Date();
                                     var dd = today.getDate();
                                     var mm = today.getMonth() + 1; //January is 0!
@@ -591,7 +599,7 @@
                                     }
 
                                     today = mm + '/' + dd + '/' + yyyy;
-                  
+
 
                                     var esdd = document.getElementById("sel1");
                                     var odidccc = esdd.options[esdd.selectedIndex].value;
@@ -608,10 +616,9 @@
                                             if (cd == 12)
                                             {
                                                 alert("Already inserted");
-                                            }else if(duedate<=currentdate){
+                                            } else if (duedate <= currentdate) {
                                                 alert("Due date must be greater than current date");
-                                            }
-                                            else
+                                            } else
                                             {
                                                 insertdata();
                                             }
@@ -814,35 +821,33 @@
                                 <%--  https://www.w3schools.com/howto/howto_js_filter_table.asp    --%>
                                     // Declare variables 
                                     console.log("search_insert_c(key) executed");
-                                    var input, filter, table, tr, td,td1,td2, i,d;
-                                  
+                                    var input, filter, table, tr, td, td1, td2, i, d;
+
                                     filter = key.toUpperCase();
                                     table = document.getElementById("insert_cargo_table");
                                     tr = table.getElementsByTagName("tr");
 
                                     // Loop through all table rows, and hide those who don't match the search query
                                     for (i = 1; i < tr.length; i++) {
-                                        
-                                        
-                                             td = tr[i].getElementsByTagName("td")[3];
-                                             td1 = tr[i].getElementsByTagName("td")[4];
-                                             td2 = tr[i].getElementsByTagName("td")[5];
+
+
+                                        td = tr[i].getElementsByTagName("td")[3];
+                                        td1 = tr[i].getElementsByTagName("td")[4];
+                                        td2 = tr[i].getElementsByTagName("td")[5];
                                         if (td) {
                                             if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                                                 tr[i].style.display = "";
                                                 console.log("search found result");
-                                            }else if(td1.innerHTML.toUpperCase().indexOf(filter) > -1){
-                                                 tr[i].style.display = "";
-                                            }else if(td2.innerHTML.toUpperCase().indexOf(filter) > -1){
-                                                 tr[i].style.display = "";
-                                            }
-                                            
-                                            else {
+                                            } else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                                tr[i].style.display = "";
+                                            } else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                                tr[i].style.display = "";
+                                            } else {
                                                 tr[i].style.display = "none";
                                                 console.log("search NOT found result");
                                             }
-                                        
-                                    }
+
+                                        }
                                     }
                                 }
                             </script>
@@ -877,13 +882,8 @@
                                 <label class="control-label col-sm-2">Order ID : </label>
                                 <div class="col-sm-3">
 
+                                    <input type="text" class="form-control" id="release_order_id" readonly>
 
-                                    <select class="form-control" id="sel1">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                    </select>
 
                                 </div>
 
@@ -894,26 +894,26 @@
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Cargo Name : </label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="cname" placeholder="Select a Cargo Name">
+                                    <input type="text" class="form-control" id="release_cname"  readonly>
                                 </div>
 
 
 
                                 <label class="control-label col-sm-3">Cargo Type : </label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="ctype">
+                                    <input type="text" class="form-control" id="release_ctype" readonly>
                                 </div>
                             </div>
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Quantity : </label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="cquantity">
+                                    <input type="text" class="form-control" id="release_cquantity" readonly>
                                 </div>
                             </div>
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Customer Name : </label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="ccustomer">
+                                    <input type="text" class="form-control" id="release_ccustomer" readonly>
                                 </div>
 
 
@@ -924,91 +924,156 @@
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Cost : </label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="crental">
+                                    <input type="text" class="form-control" id="release_cost" readonly>
                                 </div>
                             </div>
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Due Date : </label>
-                                <div class="input-group date col-sm-3" data-provide="datepicker">
-                                    <input type="text" class="form-control">
-                                    <div class="input-group-addon">
-                                        <span class="glyphicon glyphicon-th"></span>
-                                    </div>
+                                <div class="input-group date col-sm-3" >
+                                    <input type="text" class="form-control" readonly id="release_duedate">
+
                                 </div>
                             </div>
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">current Date : </label>
-                                <div class="input-group date col-sm-3" data-provide="datepicker">
-                                    <input type="text" class="form-control">
-                                    <div class="input-group-addon">
-                                        <span class="glyphicon glyphicon-th"></span>
-                                    </div>
+                                <div class="input-group date col-sm-3" >
+                                    <input type="text" class="form-control" id="release_current_date" readonly>
+
                                 </div>
+                                <script>
+                                    var today = new Date();
+                                    var dd = today.getDate();
+                                    var mm = today.getMonth() + 1; //January is 0!
+                                    var yyyy = today.getFullYear();
+
+                                    if (dd < 10) {
+                                        dd = '0' + dd
+                                    }
+
+                                    if (mm < 10) {
+                                        mm = '0' + mm
+                                    }
+
+                                    today = yyyy + '-' + mm + '-' + dd;
+                                    document.getElementById("release_current_date").value = today;
+                                </script>
                             </div>
-                            <div class="form-group" >
+                            <div class="form-group" id="late_release_div1" >
                                 <label class="control-label col-sm-2">Late Days : </label>
                                 <div class="col-sm-3">
-                                    <input type="number" class="form-control" id="ccustomer">
+                                    <input type="number" class="form-control" id="release_latedays">
                                 </div>
 
 
 
                                 <label class="control-label col-sm-3">cost per Late Day : </label>
                                 <div class="col-sm-3">
-                                    <input type="number" class="form-control" id="cuID">
+                                    <input type="number" class="form-control" id="release_cost_perday" min="0.01" step="0.01" value="00.00">
                                 </div>
                             </div>
-                            <div class="form-group" >
+                            <div class="form-group" id="late_release_div2">
                                 <label class="control-label col-sm-2">Total Cost : </label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="crental">
+                                    <input type="text" class="form-control" id="release_total_cost" readonly>
                                 </div>
                             </div>
-                            <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;">Submit</button>
-
+                            <button type="submit"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;"  onclick="release_cargo()">Release</button>
+                            <label id="release_wareid_label">wareid</label><br>
+                            <label id="release_cusid_label">cus id</label><br>
+                            <label id="release_itemid_label">item id</label><br>
+                            <label id="release_locationid_label">location id</label><br>
+                            <label id="release_receiveDate_label">receive date </label><br>
                         </form>
+                        <script>
+                            function release_information(raw) {
+                                
+                                show_release_cargo_table();
 
+                                document.getElementById("release_wareid_label").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[0].innerHTML;
+                                document.getElementById("release_order_id").value = document.getElementById("insert_cargo_table").rows[raw].cells[1].innerHTML;
+                                document.getElementById("release_cusid_label").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[2].innerHTML;
+
+
+                                document.getElementById("release_ccustomer").value = document.getElementById("insert_cargo_table").rows[raw].cells[3].innerHTML;
+
+                                document.getElementById("release_cname").value = document.getElementById("insert_cargo_table").rows[raw].cells[4].innerHTML;
+                                document.getElementById("release_ctype").value = document.getElementById("insert_cargo_table").rows[raw].cells[5].innerHTML;
+                                document.getElementById("release_cquantity").value = document.getElementById("insert_cargo_table").rows[raw].cells[6].innerHTML;
+                                document.getElementById("release_cost").value = document.getElementById("insert_cargo_table").rows[raw].cells[7].innerHTML * document.getElementById("insert_cargo_table").rows[raw].cells[6].innerHTML;
+                                document.getElementById("release_receiveDate_label").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[8].innerHTML;
+                                document.getElementById("release_duedate").value = document.getElementById("insert_cargo_table").rows[raw].cells[9].innerHTML;
+                                document.getElementById("release_itemid_label").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[10].innerHTML;
+                                document.getElementById("release_locationid_label").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[11].innerHTML;
+
+                                var dueD = document.getElementById("release_duedate").value;
+
+                                var today = new Date();
+                                var dd = today.getDate();
+                                var mm = today.getMonth() + 1; //January is 0!
+                                var yyyy = today.getFullYear();
+
+                                if (dd < 10) {
+                                    dd = '0' + dd
+                                }
+
+                                if (mm < 10) {
+                                    mm = '0' + mm
+                                }
+
+                                today = yyyy + '-' + mm + '-' + dd;
+
+
+
+                                var date1 = new Date(dueD);
+                                var date2 = new Date(today);
+                                var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+                                var lateDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                                if (lateDays == 0) {
+                                    document.getElementById("late_release_div2").style.display = "none";
+                                    document.getElementById("late_release_div1").style.display = "none";
+
+                                } else {
+                                    console.log("late days = " + lateDays);
+                                    document.getElementById("release_latedays").value = lateDays;
+
+                                }
+
+
+                                document.getElementById("Whead").innerHTML = 'Release Cargo ';
+                                document.getElementById("ware_home_div").style.display = 'none';
+                                document.getElementById("insertcargo").style.display = 'none';
+                                document.getElementById("searchC_div").style.display = 'none';
+                                document.getElementById("releaseC_div").style.display = 'block';
+                                document.getElementById("Wspace_div").style.display = 'none';
+                                document.getElementById("historyC_div").style.display = 'none';
+
+
+                            }
+                            function release_cargo() {
+
+
+                            }
+                            function show_release_cargo_table() {
+                                var xmlhttp6 = new XMLHttpRequest();
+                                xmlhttp6.onreadystatechange = function () {
+                                    if (this.readyState == 4 && this.status == 200) {
+
+                                        document.getElementById("release_cargo_table_div").innerHTML = this.responseText;
+
+                                    }
+                                };
+                                xmlhttp6.open("GET", "get_release_details_release_cargo", true);
+
+                                xmlhttp6.send();
+                                console.log("show_release_cargo_table() executed");
+
+                            }
+                        </script>
                         <%-- .............Released Table..................................................--%>
 
-                        <div style="margin-top: 20px;margin-bottom: 20px;">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Customer ID</th>
-                                        <th>Customer Name</th>
-                                        <th>Cargo Name</th>
-                                        <th>Cargo Type</th>
-                                        <th>Quantity</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>23</td>
-                                        <td>vishwa</td>
-                                        <td>Fuel Barell</td>
-                                        <td>Danger Cargo</td>
-                                        <td>22</td>
-                                        <td>1/2/2018</td>
-                                    </tr>
-                                    <tr>
-                                        <td>83</td>
-                                        <td>rishitha</td>
-                                        <td>Mortors</td>
-                                        <td>Normal Cargo</td>
-                                        <td>46</td>
-                                        <td>20/8/2018</td>
-                                    </tr>
-                                    <tr>
-                                        <td>238</td>
-                                        <td>ishan</td>
-                                        <td>Fish Barells</td>
-                                        <td>Food Cargo</td>
-                                        <td>89</td>
-                                        <td>7/2/2018</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div style="margin-top: 20px;margin-bottom: 20px;" id="release_cargo_table_div">
+
                         </div>
 
                     </div>  
@@ -1175,7 +1240,7 @@
                         document.getElementById("releaseC_div").style.display = 'block';
                         document.getElementById("Wspace_div").style.display = 'none';
                         document.getElementById("historyC_div").style.display = 'none';
-
+                        show_release_cargo_table();
                     }
                     function warehousingspace() {
 
