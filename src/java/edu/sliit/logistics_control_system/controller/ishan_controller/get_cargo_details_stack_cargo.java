@@ -54,7 +54,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
 
                 String getdetails = "SELECT DISTINCT warin.warehouseinid, warin.itemid ,warin.ldid,  warin.orderid,warin.rentalperunit,cu.custid,cu.firstname,it.it_name,car.ctype_name,warin.qty,warin.receiveddate,warin.duedate \n"
                         + "FROM customer cu,item it,cargotype car,warehousein warin,order2,orderdetail \n"
-                        + "WHERE cu.custid=order2.custid and order2.orderid=warin.orderid and warin.itemid=it.itemid and orderdetail.orderid=order2.orderid and it.cargotypeid=car.cargotypeid order by warin.receiveddate desc";
+                        + "WHERE warin.isreleased=0 and cu.custid=order2.custid and order2.orderid=warin.orderid and warin.itemid=it.itemid and orderdetail.orderid=order2.orderid and it.cargotypeid=car.cargotypeid order by warin.receiveddate desc";
                 ResultSet rsgetdetails = stmt.executeQuery(getdetails);
 
                 out.print("<table class=\"table table-bordered table-hover\"  id=\"insert_cargo_table\" >");

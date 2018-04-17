@@ -51,12 +51,12 @@ public class get_release_details_release_cargo extends HttpServlet {
                 Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
 
-                String sql = "SELECT warehouseout.warehouseoutid,warehouseout.warehouseinid,item.it_name, warehouseout.itemid,warehouseout.qty,warehouseout.releasedate,warehouseout.latedays,warehouseout.latefeeperday,warehouseout.totalcost,warehouseout.ldid\n"
-                        + "FROM warehouseout,item \n"
-                        + "WHERE warehouseout.itemid=item.itemid";
+                String sql = "SELECT  warehouseout.warehouseoutid,warehouseout.warehouseinid,item.it_name,customer.firstname,warehousein.duedate,cargotype.ctype_name,order2.orderid, warehouseout.itemid,warehouseout.qty,warehouseout.releasedate,warehouseout.latedays,warehouseout.latefeeperday,warehouseout.totalcost,warehouseout.ldid\n" +
+"FROM warehouseout,item ,order2,customer,warehousein,cargotype\n" +
+"WHERE warehouseout.itemid=item.itemid and warehousein.warehouseinid=warehouseout.warehouseinid  and warehousein.orderid=order2.orderid and item.cargotypeid=cargotype.cargotypeid and order2.custid=customer.custid order by warehouseout.releasedate desc";
                 ResultSet rs = stmt.executeQuery(sql);
 
-                out.print("<table class=\"table table-bordered table-hover\"  id=\"insert_cargo_table\" >");
+                out.print("<table class=\"table table-bordered table-hover\"  id=\"release_cargo_table\" >");
                 out.print("<thead>");
                 out.print("<tr>");
                 out.print("<th>");
@@ -65,11 +65,26 @@ public class get_release_details_release_cargo extends HttpServlet {
                 out.print("<th>");
                 out.print("Warehousein ID");
                 out.print("</th>");
+                 out.print("<th>");
+                out.print("Order ID");
+                out.print("</th>");
+                 out.print("<th>");
+                out.print("Customer Name");
+                out.print("</th>");
+                 out.print("<th>");
+                out.print("Item ID");
+                out.print("</th>");
                 out.print("<th>");
                 out.print("Item Name");
                 out.print("</th>");
                 out.print("<th>");
+                out.print("Item Type");
+                out.print("</th>");
+                out.print("<th>");
                 out.print("Quantity");
+                out.print("</th>");
+                out.print("<th>");
+                out.print("Due Date");
                 out.print("</th>");
                 out.print("<th>");
                 out.print("Release Date");
@@ -80,13 +95,16 @@ public class get_release_details_release_cargo extends HttpServlet {
                 out.print("<th>");
                 out.print("Late fee per Day");
                 out.print("</th>");
+            
                 out.print("<th>");
                 out.print("Total Cost");
                 out.print("</th>");
                 out.print("<th>");
                 out.print("Location ID");
                 out.print("</th>");
-
+                out.print("<th>");
+                out.print("Options");
+                out.print("</th>");
                 out.print("</tr>");
                 out.print("</thead>");
                 out.print("<tbody>");
@@ -94,32 +112,35 @@ public class get_release_details_release_cargo extends HttpServlet {
                 int get_wareINid;
 
                 String get_cargoname;
-
+                String get_customer;
                 int get_quantity;
                 int late_days;
+                int orderid;
                 double latefee;
                 String get_releasedate;
                 String get_duedate;
+                String get_itemtype;
                 int get_ldid;
                 int get_itmid;
                 double totalcost;
-
+                
                 int i = 0;
-                int x = 1;
-                int y = 1;
-                int z = 1;
+                int x = 11;
+                int y = 11;
+                
                 while (rs.next()) {
-
+          orderid = Integer.parseInt(rs.getString("orderid"));
                     get_wareOutid = Integer.parseInt(rs.getString("warehouseoutid"));
                     get_wareINid = Integer.parseInt(rs.getString("warehouseinid"));
-
+                    get_customer=rs.getString("firstname");
+                    get_duedate=rs.getString("duedate");
                     late_days = Integer.parseInt(rs.getString("latedays"));
                     get_cargoname = rs.getString("it_name");
-                    totalcost = Double.parseDouble("totalcost");
+                    totalcost = rs.getDouble("totalcost");
                     get_quantity = Integer.parseInt(rs.getString("qty"));
                     latefee = rs.getDouble("latefeeperday");
                     get_releasedate = rs.getString("releasedate");
-
+                    get_itemtype= rs.getString("ctype_name");
                     get_ldid = Integer.parseInt(rs.getString("ldid"));
                     get_itmid = Integer.parseInt(rs.getString("itemid"));
 
@@ -134,6 +155,14 @@ public class get_release_details_release_cargo extends HttpServlet {
                     out.print("</td>");
                     
                     out.print("<td>");
+                    out.print(orderid);
+                    out.print("</td>");
+                    
+                    out.print("<td>");
+                    out.print(get_customer);
+                    out.print("</td>");
+                    
+                    out.print("<td>");
                     out.print(get_itmid);
                     out.print("</td>");
 
@@ -141,11 +170,17 @@ public class get_release_details_release_cargo extends HttpServlet {
                     out.print(get_cargoname);
                     out.print("</td>");
 
+                     out.print("<td>");
+                    out.print(get_itemtype);
+                    out.print("</td>");
+                    
                     out.print("<td>");
                     out.print(get_quantity);
                     out.print("</td>");
 
-                
+                    out.print("<td>");
+                    out.print(get_duedate);
+                    out.print("</td>");
 
                     out.print("<td>");
                     out.print(get_releasedate);
@@ -169,12 +204,12 @@ public class get_release_details_release_cargo extends HttpServlet {
 
                  
                     out.print("<td>");
-                    out.print("<button class=\"btn btn-default\"  id=\"" + y + "\" onclick=\"edit_table(this.id)\">");
+                    out.print("<button class=\"btn btn-default\"  id=\"" + y + "\" onclick=\"edit_release_table(this.id)\">");
                     out.print(" <span class=\"glyphicon glyphicon-edit\">");
                     out.print("</span>");
                     out.print("</button>");
                     out.print("<button class=\"btn btn-default\" style=\"background-color:red; \">");
-                    out.print(" <span class=\"glyphicon glyphicon-remove\"  id=\"" + x + "\" onclick=\"delete_table(this.id)\" style=\"color:white; \">");
+                    out.print(" <span class=\"glyphicon glyphicon-remove\"  id=\"" + x + "\" onclick=\"delete_release_table(this.id)\" style=\"color:white; \">");
                     out.print("</span>");
                     out.print("</button>");
 
@@ -184,7 +219,7 @@ public class get_release_details_release_cargo extends HttpServlet {
                     i++;
                     x++;
                     y++;
-                    z++;
+                
                 }
 
                 out.print("</tbody>");

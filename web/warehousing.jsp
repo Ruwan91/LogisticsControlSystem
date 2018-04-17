@@ -86,8 +86,7 @@
                             <li><a data-toggle="tab"  onclick="insertcargo()">Insert Cargo</a></li>
 
                             <li><a data-toggle="tab" onclick="releasecargo()">Release Cargo</a></li>
-                            <li><a data-toggle="tab" onclick="warehousingspace()" >Warehousing space</a></li>
-                            <li><a data-toggle="tab" onclick="history()">History</a></li>
+
                         </ul>
                     </div>
                 </div>
@@ -649,7 +648,7 @@
 
 
                                     } else {
-
+                                        var isre = 0;
                                         var cargotype = document.getElementById("insert_cargo_type").value;
 
                                         var es = document.getElementById("sel1");
@@ -669,7 +668,7 @@
                                         if (cargotype != "" && odid != "" && itemid != "" && locationid != "" && cargoname != "" && quantity != "" && cusname != "" && cusid != "" && rent != "" && cost != "" && currentdate != "" && duedate != "") {
 
                                             var xmlhttp = new XMLHttpRequest();
-                                            xmlhttp.open("GET", "Stack_Cargo?odid=" + odid + "&cargoname=" + cargoname + "&cargotype=" + cargotype + "&quantity=" + quantity + "&cusname=" + cusname + "&cusid=" + cusid + "&rent=" + rent + "&cost=" + cost + "&currentdate=" + currentdate + "&duedate=" + duedate + "&itemid=" + itemid + "&locationid=" + locationid, true);
+                                            xmlhttp.open("GET", "Stack_Cargo?odid=" + odid + "&cargoname=" + cargoname + "&cargotype=" + cargotype + "&quantity=" + quantity + "&cusname=" + cusname + "&cusid=" + cusid + "&rent=" + rent + "&cost=" + cost + "&currentdate=" + currentdate + "&duedate=" + duedate + "&itemid=" + itemid + "&locationid=" + locationid + "&isre=" + isre, true);
                                             xmlhttp.send(null);
                                             xmlhttp.onreadystatechange = function () {
                                                 if (this.readyState == 4 && this.status == 200) {
@@ -853,7 +852,6 @@
                             </script>
                             <label id="rawindex_insert"></label>
                         </form>
-
                         <%-- .............Insertion Table..................................................--%>
 
                         <div style="margin-top: 20px;margin-bottom: 20px;" id="inerttablewarehousein_div">
@@ -861,15 +859,6 @@
                         </div>
 
                     </div>
-                </section>
-
-                <%-- .......................Search Form .............................................................................................................................................................    --%>
-
-                <section>
-                    <div class="search container" id="searchC_div" style="box-shadow: 0 0 1px black;display: none">
-
-
-                    </div>  
                 </section>
 
                 <%--............................Release Cargo Form ................................................................................................................................................................--%>
@@ -961,14 +950,14 @@
                             <div class="form-group" id="late_release_div1" >
                                 <label class="control-label col-sm-2">Late Days : </label>
                                 <div class="col-sm-3">
-                                    <input type="number" class="form-control" id="release_latedays">
+                                    <input type="number" class="form-control" id="release_latedays" value="0" readonly>
                                 </div>
 
 
 
                                 <label class="control-label col-sm-3">cost per Late Day : </label>
                                 <div class="col-sm-3">
-                                    <input type="number" class="form-control" id="release_cost_perday" min="0.01" step="0.01" value="00.00">
+                                    <input type="number" class="form-control" id="release_cost_perday" min="0.01" step="0.01" value="00.00" onkeyup="calculate()">
                                 </div>
                             </div>
                             <div class="form-group" id="late_release_div2">
@@ -977,18 +966,36 @@
                                     <input type="text" class="form-control" id="release_total_cost" readonly>
                                 </div>
                             </div>
-                            <button type="submit"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;"  onclick="release_cargo()">Release</button>
+                            <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;" id="release_submit" onclick="check_release_c()">Release</button>
+                            <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;display: none;"  id="release_update_submit" onclick="update_release_cargo()">Update</button>
+                            <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px; display: none;" id="release_cancel_submit"  onclick="cancel_release_cargo()">Cancel</button>
                             <label id="release_wareid_label">wareid</label><br>
                             <label id="release_cusid_label">cus id</label><br>
                             <label id="release_itemid_label">item id</label><br>
                             <label id="release_locationid_label">location id</label><br>
                             <label id="release_receiveDate_label">receive date </label><br>
+                            <label id="release_succesfull_label"></label><br>
+                            <label id="release_rawindex_label">raw index </label><br>
+                            <label id="release_wareout_label">warehouse out Id</label>
+
+                            <div >
+                                <input type="text" class="form-control"  id="search_release_cargo"  onkeyup="search_release_c(this.value)" placeholder="Search Customer Name or Item name or Item Type" style="width: 50%;" >
+                            </div>
                         </form>
                         <script>
-                            function release_information(raw) {
-                                
-                                show_release_cargo_table();
+                            function calculate() {
+                                var cost = document.getElementById("release_cost").value;
+                                var lated = document.getElementById("release_latedays").value;
+                                var latfeeperday = document.getElementById("release_cost_perday").value;
+                                var totalcost = (lated * latfeeperday);
+                                var totalcost2 = totalcost + parseInt(cost);
+                                document.getElementById("release_total_cost").value = totalcost2;
 
+                            }
+                            function release_information(raw) {
+
+                                show_release_cargo_table();
+                                document.getElementById("release_rawindex_label").innerHTML = raw;
                                 document.getElementById("release_wareid_label").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[0].innerHTML;
                                 document.getElementById("release_order_id").value = document.getElementById("insert_cargo_table").rows[raw].cells[1].innerHTML;
                                 document.getElementById("release_cusid_label").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[2].innerHTML;
@@ -1043,31 +1050,247 @@
                                 document.getElementById("Whead").innerHTML = 'Release Cargo ';
                                 document.getElementById("ware_home_div").style.display = 'none';
                                 document.getElementById("insertcargo").style.display = 'none';
-                                document.getElementById("searchC_div").style.display = 'none';
+
                                 document.getElementById("releaseC_div").style.display = 'block';
-                                document.getElementById("Wspace_div").style.display = 'none';
-                                document.getElementById("historyC_div").style.display = 'none';
 
 
                             }
                             function release_cargo() {
 
 
+
+                                var due = document.getElementById("release_duedate").value;
+                                var cusname = document.getElementById("release_ccustomer").value;
+                                var ware = document.getElementById("release_wareid_label").innerHTML;
+
+
+                                var raw = document.getElementById("release_rawindex_label").innerHTML
+
+
+
+                                var itmid = document.getElementById("release_itemid_label").innerHTML;
+
+                                var quan = document.getElementById("release_cquantity").value;
+                                var cost = document.getElementById("release_latedays").value * document.getElementById("release_cost_perday").value;
+                                var totalcost = document.getElementById("release_total_cost").value;
+
+                                var released = document.getElementById("release_current_date").value;
+                                var lated = document.getElementById("release_latedays").value;
+                                var latfeeperday = document.getElementById("release_cost_perday").value;
+                                var locid = document.getElementById("release_locationid_label").innerHTML;
+                                if (document.getElementById("late_release_div2").style.display == "none" &&
+                                        document.getElementById("late_release_div1").style.display == "none" && document.getElementById("release_cost_perday").value == "") {
+
+                                    alert("Release cost per Day cannot be empty");
+                                } else if (document.getElementById("release_order_id").value == "" && document.getElementById("late_release_div2").style.display == "none" &&
+                                        document.getElementById("late_release_div1").style.display == "none" && document.getElementById("release_cost_perday").value == "")
+                                {
+                                    alert("data fields canot be empty");
+                                } else {
+
+                                    var xmlhttpr1 = new XMLHttpRequest();
+                                    xmlhttpr1.open("GET", "Release_Cargo?ware=" + ware + "&due=" + due + "&cusname=" + cusname + "&itmid=" + itmid + "&quan=" + quan + "&cost=" + cost + "&totalcost=" + totalcost + "&released=" + released + "&lated=" + lated + "&cost=" + cost + "&latfeeperday=" + latfeeperday + "&locid=" + locid, true);
+                                    xmlhttpr1.send(null);
+                                    xmlhttpr1.onreadystatechange = function () {
+                                        if (this.readyState == 4 && this.status == 200) {
+
+                                            document.getElementById("release_succesfull_label").innerHTML = this.responseText;
+                                            show_release_cargo_table();
+                                        }
+                                    };
+
+                                    var isw = 1;
+                                    var xmlhttpr3 = new XMLHttpRequest();
+                                    xmlhttpr3.open("GET", "isReleased?isw=" + isw + "&ware=" + ware, true);
+                                    xmlhttpr3.send(null);
+                                    xmlhttpr3.onreadystatechange = function () {
+                                        if (this.readyState == 4 && this.status == 200) {
+
+                                            document.getElementById("release_succesfull_label").innerHTML = this.responseText;
+                                            show_release_cargo_table();
+                                            getcargodetails_into_table();
+                                        }
+                                    };
+
+                                }
+                                getcargodetails_into_table();
+                                show_release_cargo_table();
                             }
                             function show_release_cargo_table() {
-                                var xmlhttp6 = new XMLHttpRequest();
-                                xmlhttp6.onreadystatechange = function () {
+
+                                var xmlhttpr2 = new XMLHttpRequest();
+                                xmlhttpr2.onreadystatechange = function () {
                                     if (this.readyState == 4 && this.status == 200) {
 
                                         document.getElementById("release_cargo_table_div").innerHTML = this.responseText;
 
                                     }
                                 };
-                                xmlhttp6.open("GET", "get_release_details_release_cargo", true);
+                                xmlhttpr2.open("GET", "get_release_details_release_cargo", true);
 
-                                xmlhttp6.send();
+                                xmlhttpr2.send();
                                 console.log("show_release_cargo_table() executed");
 
+                            }
+                            function delete_release_table(raw) {
+                                raw = raw - 10;
+                                var wout_id = document.getElementById("release_cargo_table").rows[raw].cells[0].innerHTML;
+
+                                console.log(wout_id);
+
+                                var xmlhttpr6 = new XMLHttpRequest();
+                                xmlhttpr6.onreadystatechange = function () {
+                                    if (this.readyState == 4 && this.status == 200) {
+                                        console.log("After Deleted release cargo : " + this.responseText);
+                                        show_release_cargo_table();
+
+                                    }
+                                };
+                                xmlhttpr6.open("GET", "delete_release_cargo?wout_id=" + wout_id, true);
+
+                                xmlhttpr6.send();
+
+                                show_release_cargo_table();
+                                console.log("delete_release_table() executed");
+                            }
+                            function edit_release_table(raw) {
+                                raw = raw - 10;
+
+                                var lated = document.getElementById("release_cargo_table").rows[raw].cells[10].innerHTML;
+                                var latfeeperday = document.getElementById("release_cargo_table").rows[raw].cells[11].innerHTML;
+                                var totalcost = document.getElementById("release_cargo_table").rows[raw].cells[12].innerHTML;
+                                var cost = (lated * latfeeperday);
+
+                                var cost2 = parseInt(totalcost) - parseInt(cost);
+
+                                document.getElementById("release_cost").value = cost2;
+
+                                document.getElementById("release_wareout_label").innerHTML = document.getElementById("release_cargo_table").rows[raw].cells[0].innerHTML;
+
+                                document.getElementById("release_wareid_label").innerHTML = document.getElementById("release_cargo_table").rows[raw].cells[1].innerHTML;
+                                document.getElementById("release_order_id").value = document.getElementById("release_cargo_table").rows[raw].cells[2].innerHTML;
+                                document.getElementById("release_ccustomer").value = document.getElementById("release_cargo_table").rows[raw].cells[3].innerHTML;
+                                document.getElementById("release_itemid_label").innerHTML = document.getElementById("release_cargo_table").rows[raw].cells[4].innerHTML;
+
+
+                                document.getElementById("release_cname").value = document.getElementById("release_cargo_table").rows[raw].cells[5].innerHTML;
+                                document.getElementById("release_ctype").value = document.getElementById("release_cargo_table").rows[raw].cells[6].innerHTML;
+                                document.getElementById("release_cquantity").value = document.getElementById("release_cargo_table").rows[raw].cells[7].innerHTML;
+                                document.getElementById("release_duedate").value = document.getElementById("release_cargo_table").rows[raw].cells[8].innerHTML;
+                                document.getElementById("release_current_date").value = document.getElementById("release_cargo_table").rows[raw].cells[9].innerHTML;
+                                document.getElementById("release_latedays").value = document.getElementById("release_cargo_table").rows[raw].cells[10].innerHTML;
+                                document.getElementById("release_cost_perday").value = document.getElementById("release_cargo_table").rows[raw].cells[11].innerHTML;
+                                document.getElementById("release_total_cost").value = document.getElementById("release_cargo_table").rows[raw].cells[12].innerHTML;
+                                document.getElementById("release_locationid_label").innerHTML = document.getElementById("release_cargo_table").rows[raw].cells[13].innerHTML;
+
+                                document.getElementById("release_update_submit").style.display = 'block';
+                                document.getElementById("release_submit").style.display = 'none';
+
+
+
+
+                                document.getElementById("release_cancel_submit").style.display = 'block';
+
+                            }
+                            function cancel_release_cargo() {
+                                document.getElementById("release_update_submit").style.display = 'none';
+                                document.getElementById("release_submit").style.display = 'block';
+                                document.getElementById("release_cancel_submit").style.display = 'none';
+                            }
+                            function check_release_c() {
+                                console.log("check_release_c() started");
+                                var weinid = document.getElementById("release_wareid_label").innerHTML;
+                                var xmlhttpr2 = new XMLHttpRequest();
+
+                                xmlhttpr2.onreadystatechange = function () {
+                                    if (this.readyState == 4 && this.status == 200) {
+
+                                        var checkk = this.responseText;
+                                        if (checkk == "12") {
+                                            alert("Already Released");
+                                        } else {
+                                            release_cargo();
+                                            console.log("release_cargo() finished");
+                                        }
+                                        show_release_cargo_table();
+                                    }
+                                };
+                                xmlhttpr2.open("GET", "chechk_release_cargo?weinid=" + weinid, true);
+                                xmlhttpr2.send(null);
+                                console.log("check_release_c() finished");
+                            }
+                            function update_release_cargo() {
+                                var due = document.getElementById("release_duedate").value;
+                                var warout = document.getElementById("release_wareout_label").innerHTML;
+                                var cusname = document.getElementById("release_ccustomer").value;
+                                var ware = document.getElementById("release_wareid_label").innerHTML;
+
+
+                                var raw = document.getElementById("release_rawindex_label").innerHTML
+
+
+
+                                var itmid = document.getElementById("release_itemid_label").innerHTML;
+
+                                var quan = document.getElementById("release_cquantity").value;
+                                var cost = document.getElementById("release_latedays").value * document.getElementById("release_cost_perday").value;
+                                var totalcost = document.getElementById("release_total_cost").value;
+
+                                var released = document.getElementById("release_current_date").value;
+                                var lated = document.getElementById("release_latedays").value;
+                                var latfeeperday = document.getElementById("release_cost_perday").value;
+                                var locid = document.getElementById("release_locationid_label").innerHTML;
+
+
+                                var xmlhttpr4 = new XMLHttpRequest();
+                                xmlhttpr4.onreadystatechange = function () {
+                                    if (this.readyState == 4 && this.status == 200) {
+                                        console.log("After Deleted release cargo : " + this.responseText);
+                                        show_release_cargo_table();
+
+                                    }
+                                };
+                                xmlhttpr4.open("GET", "edit_release_cargo?warout=" + warout + "&ware=" + ware + "&due=" + due + "&cusname=" + cusname + "&itmid=" + itmid + "&quan=" + quan + "&cost=" + cost + "&totalcost=" + totalcost + "&released=" + released + "&lated=" + lated + "&cost=" + cost + "&latfeeperday=" + latfeeperday + "&locid=" + locid, true);
+
+                                xmlhttpr4.send();
+
+                                show_release_cargo_table();
+                                console.log("update_release_cargo() executed");
+                            }
+                            function search_release_c(key){
+                                
+                                 <%--  https://www.w3schools.com/howto/howto_js_filter_table.asp    --%>
+                                    // Declare variables 
+                                    console.log("search_release_c(key) executed");
+                                    var input, filter, table, tr, td, td1, td2, i, d;
+
+                                    filter = key.toUpperCase();
+                                    table = document.getElementById("release_cargo_table");
+                                    tr = table.getElementsByTagName("tr");
+
+                                    // Loop through all table rows, and hide those who don't match the search query
+                                    for (i = 1; i < tr.length; i++) {
+
+
+                                        td = tr[i].getElementsByTagName("td")[3];
+                                        td1 = tr[i].getElementsByTagName("td")[5];
+                                        td2 = tr[i].getElementsByTagName("td")[6];
+                                        if (td) {
+                                            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                                tr[i].style.display = "";
+                                                console.log("search found result");
+                                            } else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                                tr[i].style.display = "";
+                                            } else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                                tr[i].style.display = "";
+                                            } else {
+                                                tr[i].style.display = "none";
+                                                console.log("search NOT found result");
+                                            }
+
+                                        }
+                                    }
+                                
                             }
                         </script>
                         <%-- .............Released Table..................................................--%>
@@ -1079,106 +1302,6 @@
                     </div>  
                 </section>   
 
-                <%--............................Warehouse Space.............................................................................................................................................................................--%>
-
-                <section>
-                    <div class="space container" id="Wspace_div" style="box-shadow: 0 0 1px black;display: none;font-size: 20px;">
-
-                        <div id="chartContainer2" style="height: 370px; width: 50%;margin-left: 25%;margin-top: 50px;margin-bottom: 50px;"></div>
-
-
-                    </div>  
-                </section> 
-
-                <%--............................History..............................................................................................................................................................--%>
-
-                <section>
-                    <div class="history container" id="historyC_div" style="box-shadow: 0 0 1px black;display: none">
-
-                        <div class="content tab-pane fade in active">
-                            <h2> Cargo Stacking</h2> 
-                            <div style="margin-top: 20px;margin-bottom: 20px;" >
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Customer ID</th>
-                                            <th>Customer Name</th>
-                                            <th>Cargo Name</th>
-                                            <th>Cargo Type</th>
-                                            <th>Quantity</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>23</td>
-                                            <td>vishwa</td>
-                                            <td>Fuel Barell</td>
-                                            <td>Danger Cargo</td>
-                                            <td>22</td>
-                                            <td>1/2/2018</td>
-                                        </tr>
-                                        <tr>
-                                            <td>83</td>
-                                            <td>rishitha</td>
-                                            <td>Mortors</td>
-                                            <td>Normal Cargo</td>
-                                            <td>46</td>
-                                            <td>20/8/2018</td>
-                                        </tr>
-                                        <tr>
-                                            <td>238</td>
-                                            <td>ishan</td>
-                                            <td>Fish Barells</td>
-                                            <td>Food Cargo</td>
-                                            <td>89</td>
-                                            <td>7/2/2018</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="caontainer">
-                                <h2> Payments</h2>
-                                <div style="margin-top: 20px;margin-bottom: 20px;">
-                                    <table class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Customer ID</th>
-                                                <th>Customer Name</th>
-                                                <th>Cargo Type</th>
-                                                <th>Quantity</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>12</td>
-                                                <td>Ishan</td>
-                                                <td>Danger Cargo</td>
-                                                <td>25</td>
-                                                <td>2/5/2018</td>
-                                            </tr>
-                                            <tr>
-                                                <td>12</td>
-                                                <td>Ruwan.P</td>
-                                                <td>Food Cargo</td>
-                                                <td>225</td>
-                                                <td>6/5/2018</td>
-                                            </tr>
-                                            <tr>
-                                                <td>12</td>
-                                                <td>Kisal</td>
-                                                <td>Normal Cargo</td>
-                                                <td>23</td>
-                                                <td>25/5/2018</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>  
-                </section>   
 
 
                 <script>
@@ -1188,10 +1311,10 @@
                         document.getElementById("Whead").innerHTML = 'Warehouse Home';
                         document.getElementById("ware_home_div").style.display = 'block';
                         document.getElementById("insertcargo").style.display = 'none';
-                        document.getElementById("searchC_div").style.display = 'none';
+
                         document.getElementById("releaseC_div").style.display = 'none';
-                        document.getElementById("Wspace_div").style.display = 'none';
-                        document.getElementById("historyC_div").style.display = 'none';
+
+
 
                     }
                     function insertcargo() {
@@ -1200,10 +1323,9 @@
                         document.getElementById("Whead").innerHTML = 'Insert Cargo Details';
                         document.getElementById("ware_home_div").style.display = 'none';
                         document.getElementById("insertcargo").style.display = 'block';
-                        document.getElementById("searchC_div").style.display = 'none';
+
                         document.getElementById("releaseC_div").style.display = 'none';
-                        document.getElementById("Wspace_div").style.display = 'none';
-                        document.getElementById("historyC_div").style.display = 'none';
+
 
 
 
@@ -1226,20 +1348,19 @@
                         document.getElementById("Whead").innerHTML = 'Search Cargo Details';
                         document.getElementById("ware_home_div").style.display = 'none';
                         document.getElementById("insertcargo").style.display = 'none';
-                        document.getElementById("searchC_div").style.display = 'block';
+
                         document.getElementById("releaseC_div").style.display = 'none';
-                        document.getElementById("Wspace_div").style.display = 'none';
-                        document.getElementById("historyC_div").style.display = 'none';
+
 
                     }
                     function releasecargo() {
                         document.getElementById("Whead").innerHTML = 'Release Cargo ';
                         document.getElementById("ware_home_div").style.display = 'none';
                         document.getElementById("insertcargo").style.display = 'none';
-                        document.getElementById("searchC_div").style.display = 'none';
+
                         document.getElementById("releaseC_div").style.display = 'block';
-                        document.getElementById("Wspace_div").style.display = 'none';
-                        document.getElementById("historyC_div").style.display = 'none';
+
+
                         show_release_cargo_table();
                     }
                     function warehousingspace() {
@@ -1249,19 +1370,17 @@
                         document.getElementById("Whead").innerHTML = 'Warehouse Space';
                         document.getElementById("ware_home_div").style.display = 'none';
                         document.getElementById("insertcargo").style.display = 'none';
-                        document.getElementById("searchC_div").style.display = 'none';
+
                         document.getElementById("releaseC_div").style.display = 'none';
-                        document.getElementById("Wspace_div").style.display = 'block';
-                        document.getElementById("historyC_div").style.display = 'none';
+
                     }
                     function history() {
                         document.getElementById("Whead").innerHTML = 'Warehouse History';
                         document.getElementById("ware_home_div").style.display = 'none';
                         document.getElementById("insertcargo").style.display = 'none';
-                        document.getElementById("searchC_div").style.display = 'none';
+
                         document.getElementById("releaseC_div").style.display = 'none';
-                        document.getElementById("Wspace_div").style.display = 'none';
-                        document.getElementById("historyC_div").style.display = 'block';
+
 
                     }
 

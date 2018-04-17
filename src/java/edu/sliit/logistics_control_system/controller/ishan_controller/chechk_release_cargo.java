@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -25,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ishan
  */
-@WebServlet(name = "Stack_Cargo", urlPatterns = {"/Stack_Cargo"})
-public class Stack_Cargo extends HttpServlet {
+@WebServlet(name = "chechk_release_cargo", urlPatterns = {"/chechk_release_cargo"})
+public class chechk_release_cargo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,69 +40,26 @@ public class Stack_Cargo extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             try {
                 /* TODO output your page here. You may use following sample code. */
-              int odid = Integer.parseInt(request.getParameter("odid"));
-                int isre   = Integer.parseInt(request.getParameter("isre"));
-                String cargoname = request.getParameter("cargoname");
 
-                String cargotype = request.getParameter("cargotype");
-
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-                String cusname = request.getParameter("cusname");
-                int cusid = Integer.parseInt(request.getParameter("cusid"));
-                double rent = Double.parseDouble(request.getParameter("rent"));
-                double cost = Double.parseDouble(request.getParameter("cost"));
-                String currentdate = request.getParameter("currentdate");
-                String duedate = request.getParameter("duedate");
-                int itemid = Integer.parseInt(request.getParameter("itemid"));
-                int locationid = Integer.parseInt(request.getParameter("locationid"));
+            
+                int weinid = Integer.parseInt(request.getParameter("weinid"));
 
                 Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
+                String sql = "SELECT * FROM `warehouseout` WHERE warehouseinid=" +  weinid +  "";
 
-                String duedateconcat[] = new String[40];
-                String currentdateconcat[] = new String[40];
+                ResultSet rs = stmt.executeQuery(sql);
 
-                int i = 0;
-                out.print(duedate.indexOf('-'));
-                if (duedate.indexOf('-') >= 0) {
               
 
-                    int executeUpdate = stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid, isreleased) VALUES (NULL, " + quantity + ", " + odid + ", " + rent + ", '" +duedate+ "', '" + currentdate + "', " + itemid + ", " + locationid +","+isre + ")");
-                    if (executeUpdate > 0) {
-                        out.print("successfully added");
-                    }
+                if (rs.next()) {
 
+                    out.print("12");
                 } else {
-                    out.print("/ selected");
-                    StringTokenizer stdue = new StringTokenizer(duedate, "/");
-                    while (stdue.hasMoreTokens()) {
-                        duedateconcat[i] = stdue.nextToken();
-                        i++;
-                    }
-                    StringTokenizer stcurrent = new StringTokenizer(currentdate, "/");
-
-                    int v = 0;
-                    while (stcurrent.hasMoreTokens()) {
-                        currentdateconcat[v] = stcurrent.nextToken();
-                        v++;
-                    }
-                    String due_month = duedateconcat[0];
-                    String due_datee = duedateconcat[1];
-
-                    String due_year = duedateconcat[2];
-
-                    String current_month = currentdateconcat[0];
-                    String current_date = currentdateconcat[1];
-
-                    String current_year = currentdateconcat[2];
-
-                    int executeUpdate = stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid,isreleased) VALUES (NULL, " + quantity + ", " + odid + ", " + rent + ", '" + due_year + "-" + due_month + "-" + due_datee + "', '" + current_year + "-" + current_month + "-" + current_date + "', " + itemid + ", " + locationid +","+isre + ")");
-                    if (executeUpdate > 0) {
-                        out.print("successfully added");
-                    }
-
+                    out.print("");
                 }
 
                 con.close();
