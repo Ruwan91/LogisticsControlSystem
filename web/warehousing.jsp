@@ -23,7 +23,32 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Itim" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Mitr" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=McLaren" rel="stylesheet">
         <title>warehousing</title>
+        <style>
+            input[type="text"]
+            {
+                font-size:24px;
+            }
+
+            input[type="number"]
+            {
+                font-size:24px;
+            }
+
+            select>option
+            {
+                font-size:24px;
+            }
+            select
+            {
+                font-size:24px;
+            }
+
+        </style>
         <script>
 
 
@@ -31,7 +56,7 @@
 
                 var chart = new CanvasJS.Chart("chartContainer2", {
                     animationEnabled: true,
-                    theme: "light2", // "light1", "light2", "dark1", "dark2"
+                    theme: "dark2", // "light1", "light2", "dark1", "dark2"
                     title: {
                         text: ""
                     },
@@ -59,27 +84,18 @@
         </script>
 
     </head>
-    <body id="wareH" style="display: block;font-size: 60px;"  >
+    <body id="wareH" style="display: block;"  >
 
 
         <div class="warehousingfullbody container" style="background-color: #ffffff;box-shadow: 0 0 3px black;width: 100%;padding-top: 5px;padding-left: 0px;">
             <header>
                 <div class="header container" style="width: 100%;">
 
-                    <div class="warehousinghead container" style="background-color: #e1e1ec;    box-shadow: 0 0 5px black; width: 100%;padding-bottom: 20px;"><h1 id="nnnnnn">Warehousing</h1>
-                        <div class=" dropdown">
-                            <input type="text" class="form-control dropdown-toggle" data-toggle="dropdown" id="shearch" placeholder="Search" >
+                    <div class="warehousinghead container" style="background-color: #e1e1ec;    box-shadow: 0 0 5px black; width: 100%;padding-bottom: 20px;"><h1 id="nnnnnn" style="margin-left: 40%;font-family: 'Mitr', sans-serif;">Warehousing</h1>
 
-                            <ul class="dropdown-menu">
-                                <li><a >ishan</a></li>
-                                <li><a >kalindu</a></li>
-                                <li><a >rishitha</a></li>
-                            </ul>
-
-                        </div>
                     </div>
 
-                    <div class="mainbtn container" style="margin-top:5px;margin-left: 0%;">
+                    <div class="mainbtn container" style="margin-top:5px;margin-left: 30%;font-size: 30px;font-family: 'McLaren', cursive;">
 
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" onclick="home()">Home</a></li>
@@ -93,130 +109,90 @@
             </header>
 
             <div class="warehousecontent container" style="width: 100%;margin-left: 0%;margin-top: 5px;padding-left: 0px;padding-right: 0px;">
-                <div class="container" style="margin-left: 30%;"><h1 id="Whead">Warehouse Home</h1></div>
+                <div class="container" style="margin-left: 0%;background-color: #e1e1ec;"><h1 id="Whead" style="margin-left: 38%;font-family: 'Mitr', sans-serif;">Warehouse Home</h1></div>
 
                 <%--..................................Home.............................................................................................................................................................--%>
 
                 <section>
+
+
                     <div class="warehousing_home container tab-content" id="ware_home_div" style="box-shadow: 0 0 1px black;display: block;">
 
                         <div id="chartContainer" style="width: 100%; height: 300px ; display: block;margin-top: 50px;margin-bottom:  50px;"></div> 
                         <script type="text/javascript">
+                            var xmlhttph1 = new XMLHttpRequest();
+                            xmlhttph1.onreadystatechange = function () {
+                                if (this.readyState == 4 && this.status == 200) {
+
+                                    document.getElementById("home_table_warehousing_ish").innerHTML = this.responseText;
+
+                                    var normal_max = document.getElementById("home_quantity_warehouse_cargo_table").rows[1].cells[1].innerHTML;
+                                    var normal_onh = document.getElementById("home_quantity_warehouse_cargo_table").rows[2].cells[1].innerHTML;
+
+                                    var danger_max = document.getElementById("home_quantity_warehouse_cargo_table").rows[4].cells[1].innerHTML;
+                                    var danger_onh = document.getElementById("home_quantity_warehouse_cargo_table").rows[5].cells[1].innerHTML;
+
+                                    var food_max = document.getElementById("home_quantity_warehouse_cargo_table").rows[7].cells[1].innerHTML;
+                                    var food_onh = document.getElementById("home_quantity_warehouse_cargo_table").rows[8].cells[1].innerHTML;
+
+                                    var refregirator_max = document.getElementById("home_quantity_warehouse_cargo_table").rows[10].cells[1].innerHTML;
+                                    var refregirator_onh = document.getElementById("home_quantity_warehouse_cargo_table").rows[11].cells[1].innerHTML;
+
+
+                                    var no_perc = (normal_onh / normal_max) * 100;
+                                    var dn_perc = (danger_onh / danger_max) * 100;
+                                    var fo_perc = (food_onh / food_max) * 100;
+                                    var re_perc = (refregirator_onh / refregirator_max) * 100;
 
 
 
-                            $("#chartContainer").CanvasJSChart({
-                                title: {
-                                    text: "Stacked Cargo   - This Week",
-                                    fontSize: 24,
 
-                                },
-                                axisY: {
-                                    title: "Products in %"
-                                },
-                                legend: {
-                                    verticalAlign: "center",
-                                    horizontalAlign: "right"
-                                },
-                                data: [
-                                    {
-                                        type: "pie",
-                                        showInLegend: true,
-                                        toolTipContent: "{label} <br/> {y} %",
-                                        indexLabel: "{y} %",
-                                        dataPoints: [
-                                            {label: "Normal Cargo", y: 30.3, legendText: "Normal Cargo"},
-                                            {label: "Danger Cargo", y: 5.1, legendText: "Danger Cargo"},
-                                            {label: "Food Cargo", y: 4.0, legendText: "Food Cargo"},
-                                            {label: "Refregirator Cargo", y: 3.8, legendText: "Refregirator Cargo"},
+
+                                    var n = Math.round(no_perc * 10) / 10;
+                                    var d = Math.round(dn_perc * 10) / 10;
+                                    var f = Math.round(fo_perc * 10) / 10;
+                                    var r = Math.round(re_perc * 10) / 10;
+                                    $("#chartContainer").CanvasJSChart({
+                                        title: {
+                                            text: "Stacked Cargo   - This Week",
+                                            fontSize: 24,
+
+                                        },
+                                        axisY: {
+                                            title: "Products in %"
+                                        },
+                                        legend: {
+                                            verticalAlign: "center",
+                                            horizontalAlign: "right"
+                                        },
+                                        data: [
+                                            {
+                                                type: "pie",
+                                                showInLegend: true,
+                                                toolTipContent: "{label} <br/> {y} %",
+                                                indexLabel: "{y} %",
+                                                dataPoints: [
+                                                    {label: "Normal Cargo", y: n, legendText: "Normal Cargo"},
+                                                    {label: "Danger Cargo", y: d, legendText: "Danger Cargo"},
+                                                    {label: "Food Cargo", y: f, legendText: "Food Cargo"},
+                                                    {label: "Refregirator Cargo", y: r, legendText: "Refregirator Cargo"},
+                                                ]
+                                            }
                                         ]
-                                    }
-                                ]
-                            });
+                                    });
+                                }
+                            };
+                            xmlhttph1.open("GET", "get_quantities", true);
+                            xmlhttph1.send();
 
                         </script> 
-                        <div class="content tab-pane fade in active">
-                            <h2>Recent Cargo Stacking</h2> 
-                            <div style="margin-top: 20px;margin-bottom: 20px;">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Customer ID</th>
-                                            <th>Customer Name</th>
-                                            <th>Cargo Name</th>
-                                            <th>Cargo Type</th>
-                                            <th>Quantity</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>23</td>
-                                            <td>vishwa</td>
-                                            <td>Fuel Barell</td>
-                                            <td>Danger Cargo</td>
-                                            <td>22</td>
-                                            <td>1/2/2018</td>
-                                        </tr>
-                                        <tr>
-                                            <td>83</td>
-                                            <td>rishitha</td>
-                                            <td>Mortors</td>
-                                            <td>Normal Cargo</td>
-                                            <td>46</td>
-                                            <td>20/8/2018</td>
-                                        </tr>
-                                        <tr>
-                                            <td>238</td>
-                                            <td>ishan</td>
-                                            <td>Fish Barells</td>
-                                            <td>Food Cargo</td>
-                                            <td>89</td>
-                                            <td>7/2/2018</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="caontainer">
-                                <h2>Recent Payments</h2>
-                                <div style="margin-top: 20px;margin-bottom: 20px;">
-                                    <table class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Customer ID</th>
-                                                <th>Customer Name</th>
-                                                <th>Cargo Type</th>
-                                                <th>Quantity</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>12</td>
-                                                <td>Ishan</td>
-                                                <td>Danger Cargo</td>
-                                                <td>25</td>
-                                                <td>2/5/2018</td>
-                                            </tr>
-                                            <tr>
-                                                <td>12</td>
-                                                <td>Ruwan.P</td>
-                                                <td>Food Cargo</td>
-                                                <td>225</td>
-                                                <td>6/5/2018</td>
-                                            </tr>
-                                            <tr>
-                                                <td>12</td>
-                                                <td>Kisal</td>
-                                                <td>Normal Cargo</td>
-                                                <td>23</td>
-                                                <td>25/5/2018</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="container" id="home_table_warehousing_ish" ></div>
+
+                        <script>
+
+
+
+                        </script>
                     </div>
                 </section>
 
@@ -225,7 +201,7 @@
                 <section>
                     <div class="insert-cargo container" id="insertcargo" style="display:none;margin-left: 0%;padding-left: 0px;margin-top: 10px;box-shadow: 0 0 1px black;">
 
-                        <form class="form-horizontal"    style="margin-top: 20px;margin-left: 10%;display: block;font-size: 20px;">
+                        <form class="form-horizontal"    style="margin-top: 20px;margin-left: 0%;display: block;font-size: 25px;font-family: 'Julius Sans One', sans-serif;background-color: #b2beb559;padding-left: 50px;padding-top: 50px;">
 
 
                             <div class="form-group" style="">
@@ -245,6 +221,9 @@
                                             };
                                             xmlhttp.open("GET", "order_ID_stack_cargo", true);
                                             xmlhttp.send();
+
+
+
 
                                         </script>
 
@@ -508,10 +487,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;"  id="insert_submit" onclick="validate()">Submit</button>
-                            <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;display: none;" id="insert_update"   onclick="insert_updateeee()">Update</button>
-                            <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;display: none;" id="cancel_update"   onclick="cancel_updateeee()">Cancel</button>
-                            <label id="get_item_id_for_isert_data" style="display: block;">item_ID</label>
+                            <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 5px; font-size:24px;background-color: green;color: white;"  id="insert_submit" onclick="validate()">Submit</button>
+                            <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 5px;display: none; font-size:24px;background-color: blue;color: white;" id="insert_update"   onclick="insert_updateeee()">Update</button>
+                            <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 5px;display: none; font-size:24px;" id="cancel_update"   onclick="cancel_updateeee()">Cancel</button>
+                            <label id="get_item_id_for_isert_data" style="display: none;">item_ID</label>
                             <script>
 
 
@@ -547,8 +526,8 @@
                                     console.log("get_itemDI() executed");
                                 }
                             </script>
-                            <label id="get_location_id_for_isert_data" style="display: block;">location</label>
-                            <label id="get_warehouse_id_for_isert_data" style="display: block;">warehouse ID</label>
+                            <label id="get_location_id_for_isert_data" style="display: none;">location</label>
+                            <label id="get_warehouse_id_for_isert_data" style="display: none;">warehouse ID</label>
                             <script>
                                 function get_locationDI() {
                                     var es = document.getElementById("sel1");
@@ -571,13 +550,7 @@
 
                             <label id="check_data_div" style="display:block;"></label>
 
-                            <div >
-
-
-                                <input type="text" class="form-control"  id="search_insert_cargo"  onkeyup="search_insert_c(this.value)" placeholder="Search Customer Name or Item name or Item Type" style="width: 50%;" >
-
-
-                            </div>
+                            <input type="text" class="form-control"  id="search_insert_cargo"  onkeyup="search_insert_c(this.value)" placeholder="Search Customer Name or Item name or Item Type" style="width: 50%;" >
 
                             <script>
                                 function  validate() {
@@ -619,7 +592,7 @@
                                                 alert("Due date must be greater than current date");
                                             } else
                                             {
-                                                insertdata();
+                                                check_quantity();
                                             }
                                         }
                                     };
@@ -629,9 +602,30 @@
 
                                     console.log("check_data  executed");
 
+                                }
+                                function check_quantity() {
 
+                                    var quantity = document.getElementById("cargo_quantity").value;
+                                    var itemid = document.getElementById("get_item_id_for_isert_data").innerHTML;
+                                    var xmlhttpqu1 = new XMLHttpRequest();
+                                    xmlhttpqu1.open("GET", "quantities?quantity=" + quantity + "&itemid=" + itemid, true);
+                                    xmlhttpqu1.send(null);
+                                    xmlhttpqu1.onreadystatechange = function () {
+                                        if (this.readyState == 4 && this.status == 200) {
 
+                                            var ty = this.responseText;
+                                            if (ty == 1) {
+                                                alert("SORRY : There are No Space")
+                                            } else {
 
+                                                insertdata();
+                                                getcargodetails_into_table();
+
+                                            }
+
+                                        }
+                                    };
+                                    getcargodetails_into_table();
                                 }
 
                                 function insertdata() {
@@ -665,6 +659,8 @@
                                         var cost = document.getElementById("totalcoste_insercargo").value;
                                         var currentdate = document.getElementById("WI_currentdate").value;
                                         var duedate = document.getElementById("insertcargo_due_date").value;
+
+
                                         if (cargotype != "" && odid != "" && itemid != "" && locationid != "" && cargoname != "" && quantity != "" && cusname != "" && cusid != "" && rent != "" && cost != "" && currentdate != "" && duedate != "") {
 
                                             var xmlhttp = new XMLHttpRequest();
@@ -688,7 +684,7 @@
                                         }
 
                                     }
-//                                    document.getElementById("check_data_div").innerHTML = "";
+                                    //                                    document.getElementById("check_data_div").innerHTML = "";
                                 }
 
 
@@ -850,7 +846,7 @@
                                     }
                                 }
                             </script>
-                            <label id="rawindex_insert"></label>
+                            <label id="rawindex_insert" style="display: none;"></label>
                         </form>
                         <%-- .............Insertion Table..................................................--%>
 
@@ -866,7 +862,7 @@
                 <section>
                     <div class="release container" id="releaseC_div" style="box-shadow: 0 0 1px black;display: none">
 
-                        <form class="form-horizontal" action="#" style="margin-top: 20px;margin-left: 10%;">
+                        <form class="form-horizontal" action="#" style="margin-top: 20px;margin-left: 0%;display: block;font-size: 25px;font-family: 'Julius Sans One', sans-serif;background-color: #b2beb559;padding-left: 50px;padding-top: 50px;">
                             <div class="form-group" style="">
                                 <label class="control-label col-sm-2">Order ID : </label>
                                 <div class="col-sm-3">
@@ -966,21 +962,21 @@
                                     <input type="text" class="form-control" id="release_total_cost" readonly>
                                 </div>
                             </div>
-                            <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;" id="release_submit" onclick="check_release_c()">Release</button>
-                            <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px;display: none;"  id="release_update_submit" onclick="update_release_cargo()">Update</button>
-                            <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 30px; display: none;" id="release_cancel_submit"  onclick="cancel_release_cargo()">Cancel</button>
-                            <label id="release_wareid_label">wareid</label><br>
-                            <label id="release_cusid_label">cus id</label><br>
-                            <label id="release_itemid_label">item id</label><br>
-                            <label id="release_locationid_label">location id</label><br>
-                            <label id="release_receiveDate_label">receive date </label><br>
-                            <label id="release_succesfull_label"></label><br>
-                            <label id="release_rawindex_label">raw index </label><br>
-                            <label id="release_wareout_label">warehouse out Id</label>
+                            <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 5px; font-size:24px;background-color: red;color: white" id="release_submit" onclick="check_release_c()">Release</button>
+                            <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 5px;display: none; font-size:24px;background-color: blue;color: white;"  id="release_update_submit" onclick="update_release_cargo()">Update</button>
+                            <button type="button"  class="btn btn-default" style="margin-left: 60%;margin-bottom: 5px; display: none; font-size:24px;" id="release_cancel_submit"  onclick="cancel_release_cargo()">Cancel</button>
+                            <label id="release_wareid_label" style="display: none;">wareid</label>
+                            <label id="release_cusid_label" style="display: none;">cus id</label>
+                            <label id="release_itemid_label" style="display: none;">item id</label>
+                            <label id="release_locationid_label" style="display: none;">location id</label>
+                            <label id="release_receiveDate_label" style="display: none;">receive date </label>
+                            <label id="release_succesfull_label" style="display: none;"></label>
+                            <label id="release_rawindex_label" style="display: none;">raw index </label>
+                            <label id="release_wareout_label" style="display: none;">warehouse out Id</label>
 
-                            <div >
-                                <input type="text" class="form-control"  id="search_release_cargo"  onkeyup="search_release_c(this.value)" placeholder="Search Customer Name or Item name or Item Type" style="width: 50%;" >
-                            </div>
+
+                            <input type="text" class="form-control"  id="search_release_cargo"  onkeyup="search_release_c(this.value)" placeholder="Search Customer Name or Item name or Item Type" style="width: 50%;" >
+
                         </form>
                         <script>
                             function calculate() {
@@ -1257,40 +1253,40 @@
                                 show_release_cargo_table();
                                 console.log("update_release_cargo() executed");
                             }
-                            function search_release_c(key){
-                                
-                                 <%--  https://www.w3schools.com/howto/howto_js_filter_table.asp    --%>
-                                    // Declare variables 
-                                    console.log("search_release_c(key) executed");
-                                    var input, filter, table, tr, td, td1, td2, i, d;
+                            function search_release_c(key) {
 
-                                    filter = key.toUpperCase();
-                                    table = document.getElementById("release_cargo_table");
-                                    tr = table.getElementsByTagName("tr");
+                            <%--  https://www.w3schools.com/howto/howto_js_filter_table.asp    --%>
+                                // Declare variables 
+                                console.log("search_release_c(key) executed");
+                                var input, filter, table, tr, td, td1, td2, i, d;
 
-                                    // Loop through all table rows, and hide those who don't match the search query
-                                    for (i = 1; i < tr.length; i++) {
+                                filter = key.toUpperCase();
+                                table = document.getElementById("release_cargo_table");
+                                tr = table.getElementsByTagName("tr");
+
+                                // Loop through all table rows, and hide those who don't match the search query
+                                for (i = 1; i < tr.length; i++) {
 
 
-                                        td = tr[i].getElementsByTagName("td")[3];
-                                        td1 = tr[i].getElementsByTagName("td")[5];
-                                        td2 = tr[i].getElementsByTagName("td")[6];
-                                        if (td) {
-                                            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                                                tr[i].style.display = "";
-                                                console.log("search found result");
-                                            } else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                                                tr[i].style.display = "";
-                                            } else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                                                tr[i].style.display = "";
-                                            } else {
-                                                tr[i].style.display = "none";
-                                                console.log("search NOT found result");
-                                            }
-
+                                    td = tr[i].getElementsByTagName("td")[3];
+                                    td1 = tr[i].getElementsByTagName("td")[5];
+                                    td2 = tr[i].getElementsByTagName("td")[6];
+                                    if (td) {
+                                        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                            tr[i].style.display = "";
+                                            console.log("search found result");
+                                        } else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                            tr[i].style.display = "";
+                                        } else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                            tr[i].style.display = "";
+                                        } else {
+                                            tr[i].style.display = "none";
+                                            console.log("search NOT found result");
                                         }
+
                                     }
-                                
+                                }
+
                             }
                         </script>
                         <%-- .............Released Table..................................................--%>

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ishan_classes;
+package ishan_model;
 
 import edu.sliit.logistics_control_system.connection.MySQLConnection;
 import edu.sliit.logistics_control_system.controller.ishan_controller.Stack_Cargo;

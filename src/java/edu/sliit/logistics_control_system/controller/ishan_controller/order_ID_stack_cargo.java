@@ -55,7 +55,7 @@ public class order_ID_stack_cargo extends HttpServlet {
 
                 int i = 0;
 
-                out.print("<select class=\"form-control\" id=\"sel1\"  onchange=\" customer_id_selected(); customer_name_selected();  cargo_name_selected();  cargo_type_selected();\"  >");
+                out.print("<select class=\"form-control\" id=\"sel1\"  onchange=\" customer_id_selected(); customer_name_selected();  cargo_name_selected();  cargo_type_selected();\"  style=\"font-size:20px;\" >");
                 while (rs.next()) {
 
                     orderid[i] = rs.getInt("o.orderid");

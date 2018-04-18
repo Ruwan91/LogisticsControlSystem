@@ -86,7 +86,7 @@
                     </button>
 
 
-                    <div class="container">
+                    <div class="container" style="font-size: 30px;">
                         <ul class="nav navbar-nav navbar-collapse collapse" id="menu" style="">
                             <li> <a href="#!customer" id="customer" >Customer</a></li>
                             <li>  <a href="#!order" id="order" >Order</a></li>

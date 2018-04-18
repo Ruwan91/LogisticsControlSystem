@@ -57,9 +57,9 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                         + "WHERE warin.isreleased=0 and cu.custid=order2.custid and order2.orderid=warin.orderid and warin.itemid=it.itemid and orderdetail.orderid=order2.orderid and it.cargotypeid=car.cargotypeid order by warin.receiveddate desc";
                 ResultSet rsgetdetails = stmt.executeQuery(getdetails);
 
-                out.print("<table class=\"table table-bordered table-hover\"  id=\"insert_cargo_table\" >");
+                out.print("<table class=\"table table-bordered table-hover\"  id=\"insert_cargo_table\"  style=\" font-size:20px; font-family: 'Itim', cursive; \"  >");
                 out.print("<thead>");
-                out.print("<tr>");
+                out.print("<tr class=\"active\" >");
                 out.print("<th>");
                 out.print("Warehouse ID");
                 out.print("</th>");
@@ -90,7 +90,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                 out.print("<th>");
                 out.print("Due Date");
                 out.print("</th>");
-                out.print("<th>");
+                out.print("<th style=\"display:none;\">");
                 out.print("Item ID");
                 out.print("</th>");
                 out.print("<th>");
@@ -192,7 +192,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                     out.print(get_duedate);
                     out.print("</td>");
 
-                    out.print("<td>");
+                    out.print("<td style=\"display:none;\">");
                     out.print(get_itmid);
                     out.print("</td>");
 

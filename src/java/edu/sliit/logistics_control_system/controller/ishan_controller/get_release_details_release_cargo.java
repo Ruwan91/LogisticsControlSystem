@@ -56,14 +56,14 @@ public class get_release_details_release_cargo extends HttpServlet {
 "WHERE warehouseout.itemid=item.itemid and warehousein.warehouseinid=warehouseout.warehouseinid  and warehousein.orderid=order2.orderid and item.cargotypeid=cargotype.cargotypeid and order2.custid=customer.custid order by warehouseout.releasedate desc";
                 ResultSet rs = stmt.executeQuery(sql);
 
-                out.print("<table class=\"table table-bordered table-hover\"  id=\"release_cargo_table\" >");
+                out.print("<table class=\"table table-bordered table-hover\"  id=\"release_cargo_table\" style=\"font-size:20px;font-family: 'Itim', cursive;\" >");
                 out.print("<thead>");
-                out.print("<tr>");
+                out.print("<tr class=\"active\">");
                 out.print("<th>");
-                out.print("WarehouseOut ID");
+                out.print("W_Out ID");
                 out.print("</th>");
                 out.print("<th>");
-                out.print("Warehousein ID");
+                out.print("W_in ID");
                 out.print("</th>");
                  out.print("<th>");
                 out.print("Order ID");
@@ -71,14 +71,14 @@ public class get_release_details_release_cargo extends HttpServlet {
                  out.print("<th>");
                 out.print("Customer Name");
                 out.print("</th>");
-                 out.print("<th>");
+                 out.print("<th style=\"display:none;\">");
                 out.print("Item ID");
                 out.print("</th>");
                 out.print("<th>");
-                out.print("Item Name");
+                out.print("Item ");
                 out.print("</th>");
-                out.print("<th>");
-                out.print("Item Type");
+                out.print("<th style=\"display:none;\">");
+                out.print(" Type");
                 out.print("</th>");
                 out.print("<th>");
                 out.print("Quantity");
@@ -93,7 +93,7 @@ public class get_release_details_release_cargo extends HttpServlet {
                 out.print("Late Days");
                 out.print("</th>");
                 out.print("<th>");
-                out.print("Late fee per Day");
+                out.print("fine_per_Day");
                 out.print("</th>");
             
                 out.print("<th>");
@@ -162,7 +162,7 @@ public class get_release_details_release_cargo extends HttpServlet {
                     out.print(get_customer);
                     out.print("</td>");
                     
-                    out.print("<td>");
+                    out.print("<td style=\"display:none;\">");
                     out.print(get_itmid);
                     out.print("</td>");
 
@@ -170,7 +170,7 @@ public class get_release_details_release_cargo extends HttpServlet {
                     out.print(get_cargoname);
                     out.print("</td>");
 
-                     out.print("<td>");
+                     out.print("<td style=\"display:none;\">");
                     out.print(get_itemtype);
                     out.print("</td>");
                     
