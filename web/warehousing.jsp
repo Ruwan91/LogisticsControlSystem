@@ -50,7 +50,7 @@
 
         </style>
         <script>
-
+ <%-- https://canvasjs.com/javascript-charts/animated-chart/ ........................................................................................................--%>
 
             window.onload = function () {
 
@@ -152,10 +152,13 @@
                                     var d = Math.round(dn_perc * 10) / 10;
                                     var f = Math.round(fo_perc * 10) / 10;
                                     var r = Math.round(re_perc * 10) / 10;
-                                    $("#chartContainer").CanvasJSChart({
+                                    
+   <%--................................ https://canvasjs.com/javascript-charts/animated-chart/  .............................................................................................--%>
+                                   
+                                        $("#chartContainer").CanvasJSChart({
                                         title: {
-                                            text: "Stacked Cargo   - This Week",
-                                            fontSize: 24,
+                                            text: "Stacked Cargo",
+                                            fontSize: 50,
 
                                         },
                                         axisY: {
