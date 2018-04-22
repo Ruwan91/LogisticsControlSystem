@@ -42,48 +42,27 @@ public class get_location_id_stack_cargo extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             try {
-                                     /* TODO output your page here. You may use following sample code. */
-                                      int odid=Integer.parseInt(request.getParameter("odid"));
-                                       
-                        
-                          
-                         
-                                     Connection con=MySQLConnection.getConnection();
-                                     Statement stmt=con.createStatement();
-                                    
-                                    
-                                 
-                                  
-                                    String sqldid="SELECT locde.ldid  from item it,orderdetail ord ,order2 o, cargotype car,locationdescription locde WHERE   it.cargotypeid=car.cargotypeid and car.cargotypeid=locde.cargotypeid and it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid="+odid+"";
-                                   
-                                   
-                                   ResultSet rssqldid=stmt.executeQuery(sqldid);
-                                  
-                                  
-                                    
-                                   rssqldid.next();
-                                   int locationdescription_id=Integer.parseInt(rssqldid.getString("ldid"));
-                                   
-                                  
-                                  
-                                  
-                                  out.print(locationdescription_id);
-                                  
-                                    
-                       
-                          
-                                   
-                                
-                                      
-                                     
-                                   
-                    
-                                      con.close();
-                                } catch (ClassNotFoundException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+                /* TODO output your page here. You may use following sample code. */
+                int odid = Integer.parseInt(request.getParameter("odid"));
+
+                Connection con = MySQLConnection.getConnection();
+                Statement stmt = con.createStatement();
+
+                String sqldid = "SELECT locde.ldid  from item it,orderdetail ord ,order2 o, cargotype car,locationdescription locde WHERE   it.cargotypeid=car.cargotypeid and car.cargotypeid=locde.cargotypeid and it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid=" + odid + "";
+
+                ResultSet rssqldid = stmt.executeQuery(sqldid);
+
+                rssqldid.next();
+                int locationdescription_id = Integer.parseInt(rssqldid.getString("ldid"));
+
+                out.print(locationdescription_id);
+
+                con.close();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

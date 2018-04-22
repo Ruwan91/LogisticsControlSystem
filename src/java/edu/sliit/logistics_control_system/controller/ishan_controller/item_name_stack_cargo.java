@@ -57,7 +57,7 @@ public class item_name_stack_cargo extends HttpServlet {
 
                 int i = 0;
 
-                out.print("<select class=\"form-control\" id=\"c_name\"  onchange=\"cargo_type_selected();   get_locationDI();  get_itemDI(); \"   style=\"font-size:20px;\">");
+                out.print("<select class=\"form-control\" id=\"c_name\"  onchange=\"   get_locationDI();  get_itemDI();  cargo_type_selected();\"   style=\"font-size:20px;\">");
                 out.print("<option>");
                 out.print("Select a Cargo Name");
 

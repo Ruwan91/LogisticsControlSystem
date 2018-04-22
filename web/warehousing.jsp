@@ -493,7 +493,7 @@
                             <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 5px; font-size:24px;background-color: green;color: white;"  id="insert_submit" onclick="validate()">Submit</button>
                             <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 5px;display: none; font-size:24px;background-color: blue;color: white;" id="insert_update"   onclick="insert_updateeee()">Update</button>
                             <button type="submit" class="btn btn-default" style="margin-left: 60%;margin-bottom: 5px;display: none; font-size:24px;" id="cancel_update"   onclick="cancel_updateeee()">Cancel</button>
-                            <label id="get_item_id_for_isert_data" style="display: none;">item_ID</label>
+                            <label id="get_item_id_for_isert_data" style="display: block;">item_ID</label>
                             <script>
 
 
@@ -529,8 +529,8 @@
                                     console.log("get_itemDI() executed");
                                 }
                             </script>
-                            <label id="get_location_id_for_isert_data" style="display: none;">location</label>
-                            <label id="get_warehouse_id_for_isert_data" style="display: none;">warehouse ID</label>
+                            <label id="get_location_id_for_isert_data" style="display: block;">location</label>
+                            <label id="get_warehouse_id_for_isert_data" style="display: block;">warehouse ID</label>
                             <script>
                                 function get_locationDI() {
                                     var es = document.getElementById("sel1");
@@ -747,10 +747,10 @@
                                     var es = document.getElementById("sel1");
                                     es.value = document.getElementById("insert_cargo_table").rows[raw].cells[1].innerHTML;
                                     document.getElementById("cc_customername").value = document.getElementById("insert_cargo_table").rows[raw].cells[3].innerHTML;
-                                    var es = document.getElementById("c_name");
-
-                                    es.value = document.getElementById("insert_cargo_table").rows[raw].cells[4].innerHTML;
-                                    document.getElementById("insert_cargo_type").value = document.getElementById("insert_cargo_table").rows[raw].cells[5].innerHTML;
+                                   customer_id_selected(); 
+                                   customer_name_selected();  
+                                   cargo_name_selected();  
+                                   cargo_type_selected();
                                     document.getElementById("cargo_quantity").value = document.getElementById("insert_cargo_table").rows[raw].cells[6].innerHTML;
                                     document.getElementById("rentalpriceperunit_isertcargo").value = document.getElementById("insert_cargo_table").rows[raw].cells[7].innerHTML;
                                     document.getElementById("WI_currentdate").value = document.getElementById("insert_cargo_table").rows[raw].cells[8].innerHTML;
@@ -1032,12 +1032,14 @@
 
                                 var date1 = new Date(dueD);
                                 var date2 = new Date(today);
-                                var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+                                var timeDiff = date2.getTime() - date1.getTime();
                                 var lateDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-                                if (lateDays == 0) {
+                                if (lateDays <= 0) {
                                     document.getElementById("late_release_div2").style.display = "none";
                                     document.getElementById("late_release_div1").style.display = "none";
+                                    document.getElementById("release_latedays").value=0;
+                                    calculate();
 
                                 } else {
                                     console.log("late days = " + lateDays);

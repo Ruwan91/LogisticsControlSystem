@@ -69,9 +69,9 @@ public class quantities extends HttpServlet {
 
                 String cID = "SELECT item.cargotypeid, SUM(warehousein.qty)as qunonh FROM item,warehousein WHERE item.itemid=warehousein.itemid and item.itemid=" + itemid + " AND warehousein.isreleased=0 ";
                 String danger = "SELECT locationdescription.maxqty,locationdescription.qtyonhand FROM locationdescription WHERE locationdescription.cargotypeid=" + c_ID_danger + "";
-                String normal = "SELECT locationdescription.maxqty,locationdescription.qtyonhand FROM locationdescription WHERE locationdescription.cargotypeid=" + c_ID_danger + "";
-                String food = "SELECT locationdescription.maxqty,locationdescription.qtyonhand FROM locationdescription WHERE locationdescription.cargotypeid=" + c_ID_danger + "";
-                String refregirator = "SELECT locationdescription.maxqty,locationdescription.qtyonhand FROM locationdescription WHERE locationdescription.cargotypeid=" + c_ID_danger + "";
+                String normal = "SELECT locationdescription.maxqty,locationdescription.qtyonhand FROM locationdescription WHERE locationdescription.cargotypeid=" + c_ID_normal + "";
+                String food = "SELECT locationdescription.maxqty,locationdescription.qtyonhand FROM locationdescription WHERE locationdescription.cargotypeid=" + c_ID_food + "";
+                String refregirator = "SELECT locationdescription.maxqty,locationdescription.qtyonhand FROM locationdescription WHERE locationdescription.cargotypeid=" + c_ID_refregirator + "";
 
                 ResultSet rs_cID = stmt.executeQuery(cID);
                 ResultSet rs_danger = stmt2.executeQuery(danger);
@@ -92,7 +92,7 @@ public class quantities extends HttpServlet {
 
                 if (c_ID_danger == Integer.parseInt(rs_cID.getString("cargotypeid"))) {
 
-                    danger_onhand_quantity = Integer.parseInt(rs_danger.getString("qunonh"));
+                    danger_onhand_quantity = Integer.parseInt(rs_danger.getString("qtyonhand"));
                     danger_onhand_quantity=danger_onhand_quantity+quantity;
                     if(danger_onhand_quantity>danger_max_quantity){
                         out.print(1);
@@ -100,7 +100,7 @@ public class quantities extends HttpServlet {
 
                 } else if (c_ID_normal == Integer.parseInt(rs_cID.getString("cargotypeid"))) {
                     
-                    normal_onhand_quantity = Integer.parseInt(rs_danger.getString("qunonh"));
+                    normal_onhand_quantity = Integer.parseInt(rs_normal.getString("qtyonhand"));
                     normal_onhand_quantity =normal_onhand_quantity +quantity;
                     if(normal_onhand_quantity>normal_max_quantity ){
                          out.print(1);
@@ -110,7 +110,7 @@ public class quantities extends HttpServlet {
 
                 } else if (c_ID_food == Integer.parseInt(rs_cID.getString("cargotypeid"))) {
                     
-                   food_onhand_quantity = Integer.parseInt(rs_danger.getString("qunonh"));
+                   food_onhand_quantity = Integer.parseInt(rs_food.getString("qtyonhand"));
                    food_onhand_quantity = food_onhand_quantity+quantity;
                    if(food_onhand_quantity>food_max_quantity){
                          out.print(1);
@@ -119,7 +119,7 @@ public class quantities extends HttpServlet {
 
                 } else if (c_ID_refregirator == Integer.parseInt(rs_cID.getString("cargotypeid"))) {
                     
-                    refregirator_onhand_quantity = Integer.parseInt(rs_danger.getString("qunonh"));
+                    refregirator_onhand_quantity = Integer.parseInt(rs_refregirator.getString("qtyonhand"));
                      refregirator_onhand_quantity = refregirator_onhand_quantity +quantity;
                      if(refregirator_onhand_quantity>refregirator_max_quantity){
                          out.print(1);
