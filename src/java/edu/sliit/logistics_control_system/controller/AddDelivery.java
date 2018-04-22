@@ -73,12 +73,12 @@ public class AddDelivery extends HttpServlet {
                 double fixcharge = vehicle.getFixcharge();
                 double perkm = vehicle.getPerkm();
                 amount = (kms * perkm) + fixcharge;
-                System.out.println("Charge is:" + amount + "...........................");
+//                System.out.println("Charge is:" + amount + "...........................");
                 //creating delivery object
                 Delivery delivery = new Delivery(0, vehicle.getVehicleid(), deliveryDestination.getDdid(), driverId, amount, date, destaddress, orderId);
                 DeliveryAccess da = new DeliveryAccess();
                 try {
-                    //Adding Driver and print theresult
+                    //Adding Driver and print the result
                     if (da.addDelivery(delivery)) {
                         out.print("Delivery Added Successfully...");
                     } else {
@@ -87,6 +87,9 @@ public class AddDelivery extends HttpServlet {
                 } catch (ClassNotFoundException | SQLException ex) {
                     Logger.getLogger(AddDelivery.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }else{
+                //System.out.println("NUlllll.....");
+                out.print("Adding Failed...");
             }
         }
     }

@@ -14,10 +14,25 @@ import java.sql.SQLException;
  * @author Ruwan
  */
 public class MySQLConnection {
-
-    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+    
+    private static MySQLConnection dbConnection;
+    private Connection conn;
+    
+    //Constructer makes private , loading the driver and  set the connection in side it
+    private MySQLConnection () throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/logistics", "root", "");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/logistics", "root", "");
+    }
+    //Preventing create too many connection and only create one MySQLConnection object and share it 
+    public static MySQLConnection getInstance() throws ClassNotFoundException, SQLException {
+        if(dbConnection == null){
+            dbConnection=new MySQLConnection();
+        }
+        return dbConnection;
+    }
+    
+    public Connection getConnection(){
+        return conn;
     }
 
 }

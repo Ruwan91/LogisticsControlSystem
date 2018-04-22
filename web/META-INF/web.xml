@@ -32,6 +32,22 @@
         <servlet-name>SearchAllDriverNamesForAddDelivery</servlet-name>
         <servlet-class>edu.sliit.logistics_control_system.controller.SearchAllDriverNamesForAddDelivery</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearcheDeliveryDetails</servlet-name>
+        <servlet-class>edu.sliit.logistics_control_system.controller.SearcheDeliveryDetails</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetAllCustomers</servlet-name>
+        <servlet-class>edu.sliit.logistics_control_system.controller.GetAllCustomers</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchAllVehicleNumbersForSearch</servlet-name>
+        <servlet-class>edu.sliit.logistics_control_system.controller.SearchAllVehicleNumbersForSearch</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchAllDriverNamesForSearch</servlet-name>
+        <servlet-class>edu.sliit.logistics_control_system.controller.SearchAllDriverNamesForSearch</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AddDelivery</servlet-name>
         <url-pattern>/AddDelivery</url-pattern>
@@ -63,6 +79,22 @@
     <servlet-mapping>
         <servlet-name>SearchAllDriverNamesForAddDelivery</servlet-name>
         <url-pattern>/SearchAllDriverNamesForAddDelivery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearcheDeliveryDetails</servlet-name>
+        <url-pattern>/SearcheDeliveryDetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetAllCustomers</servlet-name>
+        <url-pattern>/GetAllCustomers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchAllVehicleNumbersForSearch</servlet-name>
+        <url-pattern>/SearchAllVehicleNumbersForSearch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchAllDriverNamesForSearch</servlet-name>
+        <url-pattern>/SearchAllDriverNamesForSearch</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

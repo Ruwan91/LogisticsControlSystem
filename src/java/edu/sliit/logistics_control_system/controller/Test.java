@@ -19,9 +19,8 @@ import java.util.logging.Logger;
 public class Test {
 
     public static void main(String[] args) {
-        MySQLConnection connection = new MySQLConnection();
         try {
-            Connection connection1 = connection.getConnection();
+            Connection connection1 = MySQLConnection.getInstance().getConnection();
             Statement createStatement = connection1.createStatement();
             int execute = createStatement.executeUpdate("insert into test value(0,'Saman')");
             if (execute > 0) {

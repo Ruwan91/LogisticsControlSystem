@@ -21,7 +21,7 @@ public class VehicleTypeAccess {
 
     //Retriving all vehicle types
     public ArrayList<VehicleType> getAllVehicleTypes() throws ClassNotFoundException, SQLException {
-        Connection connection = MySQLConnection.getConnection();
+        Connection connection = MySQLConnection.getInstance().getConnection();
         Statement createStatement = connection.createStatement();
         String sql = "select * from vehicletype";
         ResultSet executeQuery = createStatement.executeQuery(sql);
@@ -35,7 +35,7 @@ public class VehicleTypeAccess {
     }
 
     public VehicleType getVehicleTypeBYVTypeName(String vtypeName) throws SQLException, ClassNotFoundException {
-        Connection connection = MySQLConnection.getConnection();
+        Connection connection = MySQLConnection.getInstance().getConnection();
         Statement createStatement = connection.createStatement();
         String sql = "select * from vehicletype where type='" + vtypeName + "'";
         ResultSet executeQuery = createStatement.executeQuery(sql);

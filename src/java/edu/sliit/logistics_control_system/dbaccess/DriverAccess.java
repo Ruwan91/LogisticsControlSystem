@@ -22,7 +22,7 @@ public class DriverAccess {
 
     //Insert Driver details
     public boolean addDriver(Driver driver) throws ClassNotFoundException, SQLException {
-        Connection connection = MySQLConnection.getConnection();
+        Connection connection = MySQLConnection.getInstance().getConnection();
         PreparedStatement prepareStatement = connection.prepareStatement("insert into driver values(?,?,?,?,?,?)");
         prepareStatement.setInt(1, 0);
         prepareStatement.setString(2, driver.getName());
@@ -35,7 +35,7 @@ public class DriverAccess {
     }
 
     public Driver getDiverByDriverId(int driverid) throws ClassNotFoundException, SQLException {
-        Connection connection = MySQLConnection.getConnection();
+        Connection connection = MySQLConnection.getInstance().getConnection();
         Statement createStatement = connection.createStatement();
         String sql = "select * from driver where driverid='" + driverid + "'";
         ResultSet executeQuery = createStatement.executeQuery(sql);
@@ -47,7 +47,7 @@ public class DriverAccess {
     }
 
     public ArrayList<Driver> getAllDivers() throws ClassNotFoundException, SQLException {
-        Connection connection = MySQLConnection.getConnection();
+        Connection connection = MySQLConnection.getInstance().getConnection();
         Statement createStatement = connection.createStatement();
         String sql = "select * from driver";
         ResultSet executeQuery = createStatement.executeQuery(sql);

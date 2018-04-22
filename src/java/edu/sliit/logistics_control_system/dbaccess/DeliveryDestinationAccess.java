@@ -21,7 +21,7 @@ public class DeliveryDestinationAccess {
 
     //Get all Delivery Destination when give Delivery Destination Name
     public DeliveryDestination getDeliveryDestinationByName(String ddName) throws ClassNotFoundException, SQLException {
-        Connection connection = MySQLConnection.getConnection();
+        Connection connection = MySQLConnection.getInstance().getConnection();
         Statement createStatement = connection.createStatement();
         String sql = "select * from deliverydistance where destination='" + ddName + "'";
         ResultSet executeQuery = createStatement.executeQuery(sql);
@@ -35,7 +35,7 @@ public class DeliveryDestinationAccess {
 
     //Get all Delivery Destinations
     public ArrayList<DeliveryDestination> getAllDeliveryDestinations() throws ClassNotFoundException, SQLException {
-        Connection connection = MySQLConnection.getConnection();
+        Connection connection = MySQLConnection.getInstance().getConnection();
         Statement createStatement = connection.createStatement();
         String sql = "select * from deliverydistance";
         ResultSet executeQuery = createStatement.executeQuery(sql);
@@ -49,7 +49,7 @@ public class DeliveryDestinationAccess {
     }
 
     public DeliveryDestination getAllDeliveryDestinationBYDeliveryDestinationId(int ddid) throws ClassNotFoundException, SQLException {
-        Connection connection = MySQLConnection.getConnection();
+        Connection connection = MySQLConnection.getInstance().getConnection();
         Statement createStatement = connection.createStatement();
         String sql = "select * from deliverydistance where ddid='" + ddid + "'";
         ResultSet executeQuery = createStatement.executeQuery(sql);
