@@ -73,6 +73,7 @@
                                 {y: 266455, label: "Food Cargo"},
                                 {y: 169709, label: "Refregirator Cargo"},
                                 {y: 158400, label: "Normal Cargo"},
+                                {y: 158400, label: "free space"},
                             ]
                         }]
                 });
@@ -138,12 +139,15 @@
                                     var refregirator_max = document.getElementById("home_quantity_warehouse_cargo_table").rows[10].cells[1].innerHTML;
                                     var refregirator_onh = document.getElementById("home_quantity_warehouse_cargo_table").rows[11].cells[1].innerHTML;
 
-                                    var total_max=normal_max+danger_max+food_max+refregirator_max;
+                                    var total_max=2000;
+                                    var free=parseInt(normal_onh)+parseInt(danger_onh)+parseInt(food_onh)+parseInt(refregirator_onh);
+                                    var free2=2000-free;
+                                    
                                     var no_perc = (normal_onh / total_max) * 100;
                                     var dn_perc = (danger_onh / total_max) * 100;
                                     var fo_perc = (food_onh /total_max) * 100;
                                     var re_perc = (refregirator_onh / total_max) * 100;
-
+                                    var fre_perc=(free2 / total_max) * 100;
 
 
 
@@ -152,6 +156,7 @@
                                     var d = Math.round(dn_perc * 10) / 10;
                                     var f = Math.round(fo_perc * 10) / 10;
                                     var r = Math.round(re_perc * 10) / 10;
+                                     var g = Math.round(fre_perc * 10) / 10;
 
                             <%--................................ https://canvasjs.com/javascript-charts/animated-chart/  .............................................................................................--%>
 
@@ -179,6 +184,7 @@
                                                     {label: "Danger Cargo", y: d, legendText: "Danger Cargo"},
                                                     {label: "Food Cargo", y: f, legendText: "Food Cargo"},
                                                     {label: "Refregirator Cargo", y: r, legendText: "Refregirator Cargo"},
+                                                     {label: "Free Space", y: g, legendText: "Free space"},
                                                 ]
                                             }
                                         ]
