@@ -15,9 +15,12 @@ import java.sql.SQLException;
  */
 public class MySQLConnection {
     
-    public static Connection getConnection() throws ClassNotFoundException, SQLException{
+
+    
+   public static Connection getConnection() throws ClassNotFoundException, SQLException{
         Class.forName("com.mysql.jdbc.Driver");
         return DriverManager.getConnection("jdbc:mysql://localhost:3307/logistics","root","");
     }
-    
+      //Preventing create too many connection and only create one MySQLConnection object and share it 
+
 }

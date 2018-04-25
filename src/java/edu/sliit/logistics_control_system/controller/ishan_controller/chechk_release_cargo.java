@@ -62,7 +62,7 @@ public class chechk_release_cargo extends HttpServlet {
                     out.print("");
                 }
 
-                con.close();
+               con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

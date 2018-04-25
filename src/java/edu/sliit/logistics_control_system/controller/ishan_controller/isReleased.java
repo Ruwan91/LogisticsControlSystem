@@ -45,7 +45,7 @@ public class isReleased extends HttpServlet {
                 int isw = Integer.parseInt(request.getParameter("isw"));
                 int wareid = Integer.parseInt(request.getParameter("ware"));
                
-                Connection con = MySQLConnection.getConnection();
+               Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
                 
               
@@ -55,7 +55,7 @@ public class isReleased extends HttpServlet {
                     out.print("successfully updated");
                 }else{out.print("Error cant update");}
 
-                con.close();
+               con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

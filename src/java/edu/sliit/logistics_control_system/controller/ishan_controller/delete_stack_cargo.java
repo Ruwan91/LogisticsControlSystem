@@ -50,7 +50,7 @@ public class delete_stack_cargo extends HttpServlet {
 
                 stmt.executeUpdate("DELETE FROM `warehousein` WHERE `warehousein`.`warehouseinid` =" + w_id + "");
                 out.print(w_id);
-                con.close();
+               con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

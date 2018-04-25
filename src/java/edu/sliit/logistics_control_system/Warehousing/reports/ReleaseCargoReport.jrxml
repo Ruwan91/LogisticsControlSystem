@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0fd961c1-da4b-4791-9be6-fffe952996eb">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="6f24f2cc-0026-47e0-8927-757ed69ed591"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="133" splitType="Stretch">
+			<staticText>
+				<reportElement x="79" y="25" width="375" height="52" uuid="f1af5c97-396d-406b-9e42-fe4082e7b56e"/>
+				<textElement>
+					<font fontName="Times New Roman" size="40"/>
+				</textElement>
+				<text><![CDATA[Continental Freighters]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="43" y="0" width="464" height="35" uuid="24afa724-03c1-475a-b0c7-176c4b0eff74"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="26"/>
+				</textElement>
+				<text><![CDATA[Release Cargo INVOICE]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="535" splitType="Stretch">
+			<staticText>
+				<reportElement x="-1" y="19" width="166" height="38" uuid="2bdf7f88-5168-401a-a2a3-ef9619e0c300"/>
+				<textElement>
+					<font fontName="Times New Roman" size="20"/>
+				</textElement>
+				<text><![CDATA[Warehouse ID : ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="19" width="174" height="38" uuid="84dab857-7ed2-404f-9133-f7cf1a3570e2"/>
+				<textFieldExpression><![CDATA[$P{wid}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="82" width="166" height="31" uuid="77e4dc32-252c-4fb1-b1e7-b8d132261585"/>
+				<text><![CDATA[Customer name]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="82" width="174" height="31" uuid="81686c05-50a8-432e-ab4e-3ff43b201b49"/>
+				<textFieldExpression><![CDATA[$P{Customer}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="145" width="166" height="31" uuid="f8836cd6-20b2-498e-b455-9c0fc856019f"/>
+				<text><![CDATA[Cargo Name]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="145" width="174" height="31" uuid="5a0a43da-27e5-45aa-828b-0bf0341c33f2"/>
+				<textFieldExpression><![CDATA[$P{cargo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="210" width="166" height="31" uuid="88f3ccc2-b61e-4036-9c0c-b077a98d029e"/>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="210" width="174" height="31" uuid="76c1477f-08c4-46e9-9a03-6d388291c3ce"/>
+				<textFieldExpression><![CDATA[$P{qty}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="267" width="166" height="31" uuid="bc89c974-a6db-4852-a27a-d0a205b43b02"/>
+				<text><![CDATA[Receive Date]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="267" width="174" height="31" uuid="bca9d73f-a352-4d8c-8f22-0952aa74d83c"/>
+				<textFieldExpression><![CDATA[$P{r_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="328" width="166" height="31" uuid="939764fd-968c-4e04-9f43-7bcf594054a8"/>
+				<text><![CDATA[Due Date]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="328" width="174" height="31" uuid="c8e61c0f-1996-4633-a217-9cfdfa93fa0b"/>
+				<textFieldExpression><![CDATA[$P{d_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="383" width="166" height="31" uuid="12e707ce-b61a-41c1-83fb-f54e82376ce8"/>
+				<text><![CDATA[Late Days]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="383" width="174" height="31" uuid="ddc4e31b-9300-46c0-b46a-8badb6a7bc1a"/>
+				<textFieldExpression><![CDATA[$P{late_d}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-1" y="436" width="167" height="31" uuid="3adc6f56-35b8-48b2-9139-bc5c045e0fce"/>
+				<text><![CDATA[Fines per Late Day]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="436" width="174" height="31" uuid="385e41eb-902f-4b1e-8015-1db2207f3234"/>
+				<textFieldExpression><![CDATA[$P{cost_per_d}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="497" width="166" height="31" uuid="e0750346-f071-4878-8e3e-1259b62164c6"/>
+				<text><![CDATA[Total Cost]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="497" width="174" height="31" uuid="5a5e1ca9-6a6b-46d6-b27e-db4b844fbeb2"/>
+				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="410" y="19" width="131" height="38" uuid="6a84092b-edd5-4632-95d6-700b450b4e17"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="31" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

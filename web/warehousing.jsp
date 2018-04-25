@@ -50,7 +50,7 @@
 
         </style>
         <script>
- <%-- https://canvasjs.com/javascript-charts/animated-chart/ ........................................................................................................--%>
+            <%-- https://canvasjs.com/javascript-charts/animated-chart/ ........................................................................................................--%>
 
             window.onload = function () {
 
@@ -138,11 +138,11 @@
                                     var refregirator_max = document.getElementById("home_quantity_warehouse_cargo_table").rows[10].cells[1].innerHTML;
                                     var refregirator_onh = document.getElementById("home_quantity_warehouse_cargo_table").rows[11].cells[1].innerHTML;
 
-
-                                    var no_perc = (normal_onh / normal_max) * 100;
-                                    var dn_perc = (danger_onh / danger_max) * 100;
-                                    var fo_perc = (food_onh / food_max) * 100;
-                                    var re_perc = (refregirator_onh / refregirator_max) * 100;
+                                    var total_max=normal_max+danger_max+food_max+refregirator_max;
+                                    var no_perc = (normal_onh / total_max) * 100;
+                                    var dn_perc = (danger_onh / total_max) * 100;
+                                    var fo_perc = (food_onh /total_max) * 100;
+                                    var re_perc = (refregirator_onh / total_max) * 100;
 
 
 
@@ -152,10 +152,10 @@
                                     var d = Math.round(dn_perc * 10) / 10;
                                     var f = Math.round(fo_perc * 10) / 10;
                                     var r = Math.round(re_perc * 10) / 10;
-                                    
-   <%--................................ https://canvasjs.com/javascript-charts/animated-chart/  .............................................................................................--%>
-                                   
-                                        $("#chartContainer").CanvasJSChart({
+
+                            <%--................................ https://canvasjs.com/javascript-charts/animated-chart/  .............................................................................................--%>
+
+                                    $("#chartContainer").CanvasJSChart({
                                         title: {
                                             text: "Stacked Cargo",
                                             fontSize: 50,
@@ -552,7 +552,7 @@
                             <div id="succeefully_inserted_data" style="display: block;"></div>
 
                             <label id="check_data_div" style="display:block;"></label>
-
+                             <label id="insert_raw_index_label" style="display:block;">rawindex</label>
                             <input type="text" class="form-control"  id="search_insert_cargo"  onkeyup="search_insert_c(this.value)" placeholder="Search Customer Name or Item name or Item Type" style="width: 50%;" >
 
                             <script>
@@ -560,20 +560,7 @@
                                     console.log("validate() executed");
                                     var duedate = document.getElementById("insertcargo_due_date").value;
                                     var currentdate = document.getElementById("WI_currentdate").value;
-                                    var today = new Date();
-                                    var dd = today.getDate();
-                                    var mm = today.getMonth() + 1; //January is 0!
-                                    var yyyy = today.getFullYear();
-
-                                    if (dd < 10) {
-                                        dd = '0' + dd
-                                    }
-
-                                    if (mm < 10) {
-                                        mm = '0' + mm
-                                    }
-
-                                    today = mm + '/' + dd + '/' + yyyy;
+                                  
 
 
                                     var esdd = document.getElementById("sel1");
@@ -673,6 +660,7 @@
                                                 if (this.readyState == 4 && this.status == 200) {
 
                                                     document.getElementById("succeefully_inserted_data").innerHTML = this.responseText;
+                                                    alert("Sucessfully Inserted Cargo");
                                                     getcargodetails_into_table();
                                                 }
                                             };
@@ -740,17 +728,17 @@
                                 }
                                 function edit_table(raw)
                                 {
-
+                                    document.getElementById("insert_raw_index_label").innerHTML=raw;
                                     document.getElementById("get_warehouse_id_for_isert_data").innerHTML = document.getElementById("insert_cargo_table").rows[raw].cells[0].innerHTML;
 
                                     document.getElementById("cu_cusid").value = document.getElementById("insert_cargo_table").rows[raw].cells[2].innerHTML;
                                     var es = document.getElementById("sel1");
                                     es.value = document.getElementById("insert_cargo_table").rows[raw].cells[1].innerHTML;
                                     document.getElementById("cc_customername").value = document.getElementById("insert_cargo_table").rows[raw].cells[3].innerHTML;
-                                   customer_id_selected(); 
-                                   customer_name_selected();  
-                                   cargo_name_selected();  
-                                   cargo_type_selected();
+                                    customer_id_selected();
+                                    customer_name_selected();
+                                    cargo_name_selected();
+                                    cargo_type_selected();
                                     document.getElementById("cargo_quantity").value = document.getElementById("insert_cargo_table").rows[raw].cells[6].innerHTML;
                                     document.getElementById("rentalpriceperunit_isertcargo").value = document.getElementById("insert_cargo_table").rows[raw].cells[7].innerHTML;
                                     document.getElementById("WI_currentdate").value = document.getElementById("insert_cargo_table").rows[raw].cells[8].innerHTML;
@@ -768,48 +756,89 @@
 
 
                                 function insert_updateeee() {
-                                    console.log("update data started");
-                                    var cargotype = document.getElementById("insert_cargo_type").value;
-
-                                    var es = document.getElementById("sel1");
-                                    var odid = es.options[es.selectedIndex].value;
-                                    var cargoname = document.getElementById("c_name").value;
-                                    var itemid = document.getElementById("get_item_id_for_isert_data").innerHTML;
-                                    var locationid = document.getElementById("get_location_id_for_isert_data").innerHTML;
-
-                                    var quantity = document.getElementById("cargo_quantity").value;
-                                    var cusname = document.getElementById("cc_customername").value;
-                                    var cusid = document.getElementById("cu_cusid").value;
-                                    var rent = document.getElementById("rentalpriceperunit_isertcargo").value;
-                                    var cost = document.getElementById("totalcoste_insercargo").value;
-                                    var currentdate = document.getElementById("WI_currentdate").value;
+                                      var raw=document.getElementById("insert_raw_index_label").innerHTML;
+                                    console.log("validate() executed");
                                     var duedate = document.getElementById("insertcargo_due_date").value;
-                                    var wareID = document.getElementById("get_warehouse_id_for_isert_data").innerHTML;
-
-                                    if (cargotype != "" && odid != "" && itemid != "" && locationid != "" && quantity != "" && cusname != "" && cusid != "" && rent != "" && cost != "" && currentdate != "" && duedate != "" && wareID != "") {
-
-                                        var xmlhttp20 = new XMLHttpRequest();
-                                        xmlhttp20.open("GET", "edit_stack_cargo?odid=" + odid + "&cargoname=" + cargoname + "&cargotype=" + cargotype + "&quantity=" + quantity + "&cusname=" + cusname + "&cusid=" + cusid + "&rent=" + rent + "&cost=" + cost + "&currentdate=" + currentdate + "&duedate=" + duedate + "&itemid=" + itemid + "&locationid=" + locationid + "&wareid=" + wareID, true);
-                                        xmlhttp20.send(null);
-                                        xmlhttp20.onreadystatechange = function () {
+                                    var currentdate =  document.getElementById("insert_cargo_table").rows[raw].cells[8].innerHTML;
+                                  var cur_sort_da=currentdate.split("-");
+                                  var  currentdate_year=cur_sort_da[0];
+                                    var  currentdate_month=cur_sort_da[1];
+                                      var  currentdate_date=cur_sort_da[2];
+                                      var cu=currentdate_month+"/"+currentdate_date+"/"+currentdate_year;
+                                    if (duedate <= cu) {
+                                        alert("Due date must be greater than Receive date");
+                                    } else
+                                    {
+                                        var raw=document.getElementById("insert_raw_index_label").innerHTML;
+                                        var quantity = document.getElementById("cargo_quantity").value;
+                                        var itemid = document.getElementById("get_item_id_for_isert_data").innerHTML;
+                                        var privious_quan = document.getElementById("insert_cargo_table").rows[raw].cells[6].innerHTML;
+                                        var locationid = document.getElementById("get_location_id_for_isert_data").innerHTML;
+                                        var xmlhttpqupd2 = new XMLHttpRequest();
+                                        xmlhttpqupd2.open("GET", "update_quantity?quantity=" + quantity + "&itemid=" + itemid + "&privious_quan=" + privious_quan+"&locationid="+locationid, true);
+                                        xmlhttpqupd2.send(null);
+                                        xmlhttpqupd2.onreadystatechange = function () {
                                             if (this.readyState == 4 && this.status == 200) {
 
-                                                document.getElementById("succeefully_inserted_data").innerHTML = this.responseText;
-                                                getcargodetails_into_table();
+                                                var ty = this.responseText;
+                                                if (ty == 1) {
+                                                    alert("SORRY : There are No Space")
+                                                } else {
+
+                                                    console.log("update data started");
+                                                    var cargotype = document.getElementById("insert_cargo_type").value;
+
+                                                    var es = document.getElementById("sel1");
+                                                    var odid = es.options[es.selectedIndex].value;
+                                                    var cargoname = document.getElementById("c_name").value;
+                                                    var itemid = document.getElementById("get_item_id_for_isert_data").innerHTML;
+                                                    var locationid = document.getElementById("get_location_id_for_isert_data").innerHTML;
+
+                                                    var quantity = document.getElementById("cargo_quantity").value;
+                                                    var cusname = document.getElementById("cc_customername").value;
+                                                    var cusid = document.getElementById("cu_cusid").value;
+                                                    var rent = document.getElementById("rentalpriceperunit_isertcargo").value;
+                                                    var cost = document.getElementById("totalcoste_insercargo").value;
+                                                    var currentdate = document.getElementById("WI_currentdate").value;
+                                                    var duedate = document.getElementById("insertcargo_due_date").value;
+                                                    var wareID = document.getElementById("get_warehouse_id_for_isert_data").innerHTML;
+
+                                                    if (cargotype != "" && odid != "" && itemid != "" && locationid != "" && quantity != "" && cusname != "" && cusid != "" && rent != "" && cost != "" && currentdate != "" && duedate != "" && wareID != "") {
+
+                                                        var xmlhttp20 = new XMLHttpRequest();
+                                                        xmlhttp20.open("GET", "edit_stack_cargo?odid=" + odid + "&cargoname=" + cargoname + "&cargotype=" + cargotype + "&quantity=" + quantity + "&cusname=" + cusname + "&cusid=" + cusid + "&rent=" + rent + "&cost=" + cost + "&currentdate=" + currentdate + "&duedate=" + duedate + "&itemid=" + itemid + "&locationid=" + locationid + "&wareid=" + wareID, true);
+                                                        xmlhttp20.send(null);
+                                                        xmlhttp20.onreadystatechange = function () {
+                                                            if (this.readyState == 4 && this.status == 200) {
+
+                                                                document.getElementById("succeefully_inserted_data").innerHTML = this.responseText;
+                                                                alert("Successfully Updated");
+                                                                getcargodetails_into_table();
+                                                            }
+                                                        };
+
+                                                        getcargodetails_into_table();
+                                                        console.log("update data send ok");
+
+
+                                                        console.log("update data executed");
+                                                    } else {
+                                                        alert("Data Fields must not be empty");
+                                                    }
+
+                                                    getcargodetails_into_table();
+
+                                                }
+
                                             }
                                         };
-
                                         getcargodetails_into_table();
-                                        console.log("update data send ok");
-
-
-                                        console.log("update data executed");
-                                    } else {
-                                        alert("Data Fields must not be empty");
                                     }
-
-
                                 }
+
+
+
+
                                 function cancel_updateeee() {
                                     document.getElementById("insert_update").style.display = 'none';
                                     document.getElementById("insert_submit").style.display = 'block';
@@ -1038,7 +1067,7 @@
                                 if (lateDays <= 0) {
                                     document.getElementById("late_release_div2").style.display = "none";
                                     document.getElementById("late_release_div1").style.display = "none";
-                                    document.getElementById("release_latedays").value=0;
+                                    document.getElementById("release_latedays").value = 0;
                                     calculate();
 
                                 } else {
@@ -1096,6 +1125,7 @@
                                         if (this.readyState == 4 && this.status == 200) {
 
                                             document.getElementById("release_succesfull_label").innerHTML = this.responseText;
+                                            alert("Sucessfully Released Cargo");
                                             show_release_cargo_table();
                                         }
                                     };

@@ -46,7 +46,7 @@ public class get_item_id_stack_cargo extends HttpServlet {
                 int odid = Integer.parseInt(request.getParameter("odid"));
                 String itname = request.getParameter("itname");
 
-                Connection con = MySQLConnection.getConnection();
+               Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
 
                 String sql = "SELECT it.itemid ,it.it_name from item it,orderdetail ord ,order2 o WHERE it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid=" + odid + " and  it.it_name='" + itname + "'";
@@ -60,7 +60,7 @@ public class get_item_id_stack_cargo extends HttpServlet {
 
                 out.print(item_id);
 
-                con.close();
+               con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

@@ -46,7 +46,7 @@ public class customer_id_stack_cargo extends HttpServlet {
                 String cus_id;
 
                 int c = Integer.parseInt(request.getParameter("odidc"));
-                Connection con = MySQLConnection.getConnection();
+               Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
 
                 String sql = "SELECT cu.custid,cu.lastname FROM customer cu,order2 o WHERE cu.custid=o.custid AND o.orderid =" + c;
@@ -56,7 +56,7 @@ public class customer_id_stack_cargo extends HttpServlet {
 
                 out.print(cus_id);
 
-                con.close();
+               con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

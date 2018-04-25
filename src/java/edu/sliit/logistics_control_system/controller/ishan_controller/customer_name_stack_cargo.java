@@ -46,7 +46,7 @@ public class customer_name_stack_cargo extends HttpServlet {
                 String cus_first_name;
                 String cus_last_name;
                 int c = Integer.parseInt(request.getParameter("odidc"));
-                Connection con = MySQLConnection.getConnection();
+               Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
 
                 String sql = "SELECT cu.firstname,cu.lastname FROM customer cu,order2 o WHERE cu.custid=o.custid AND o.orderid =" + c;

@@ -66,6 +66,7 @@ public class quantities extends HttpServlet {
                 Statement stmt3 = con.createStatement();
                 Statement stmt4 = con.createStatement();
                 Statement stmt5 = con.createStatement();
+                Statement stmt6 = con.createStatement();
 
                 String cID = "SELECT item.cargotypeid, SUM(warehousein.qty)as qunonh FROM item,warehousein WHERE item.itemid=warehousein.itemid and item.itemid=" + itemid + " AND warehousein.isreleased=0 ";
                 String danger = "SELECT locationdescription.maxqty,locationdescription.qtyonhand FROM locationdescription WHERE locationdescription.cargotypeid=" + c_ID_danger + "";
@@ -95,8 +96,13 @@ public class quantities extends HttpServlet {
                     danger_onhand_quantity = Integer.parseInt(rs_danger.getString("qtyonhand"));
                     danger_onhand_quantity=danger_onhand_quantity+quantity;
                     if(danger_onhand_quantity>danger_max_quantity){
+                        
+                        
                         out.print(1);
-                    }else{out.print(0);}
+                    }else{out.print(0);
+                    
+                       
+                    }
 
                 } else if (c_ID_normal == Integer.parseInt(rs_cID.getString("cargotypeid"))) {
                     
@@ -130,7 +136,7 @@ public class quantities extends HttpServlet {
 
                
 
-                con.close();
+               con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

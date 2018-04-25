@@ -59,7 +59,7 @@ public class get_quantities extends HttpServlet {
                 int food_onhand_quantity=0;
                 int refregirator_onhand_quantity = 0;
 
-                Connection con = MySQLConnection.getConnection();
+               Connection con = MySQLConnection.getConnection();
              
                 Statement stmt5 = con.createStatement();
 

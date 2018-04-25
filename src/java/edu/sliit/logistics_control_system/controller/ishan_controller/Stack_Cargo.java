@@ -43,8 +43,8 @@ public class Stack_Cargo extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             try {
                 /* TODO output your page here. You may use following sample code. */
-              int odid = Integer.parseInt(request.getParameter("odid"));
-                int isre   = Integer.parseInt(request.getParameter("isre"));
+                int odid = Integer.parseInt(request.getParameter("odid"));
+                int isre = Integer.parseInt(request.getParameter("isre"));
                 String cargoname = request.getParameter("cargoname");
 
                 String cargotype = request.getParameter("cargotype");
@@ -59,19 +59,30 @@ public class Stack_Cargo extends HttpServlet {
                 int itemid = Integer.parseInt(request.getParameter("itemid"));
                 int locationid = Integer.parseInt(request.getParameter("locationid"));
 
-                Connection con = MySQLConnection.getConnection();
+               Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
-
+                Statement stmt2 = con.createStatement();
+                Statement stmt3 = con.createStatement();
+                 Statement stmt4 = con.createStatement();
                 String duedateconcat[] = new String[40];
                 String currentdateconcat[] = new String[40];
+                String cid="SELECT item.cargotypeid FROM item WHERE item.itemid="+itemid+"";
+                String sql = "SELECT locationdescription.maxqty,locationdescription.qtyonhand FROM locationdescription,item WHERE  locationdescription.cargotypeid=item.cargotypeid and item.itemid=" + itemid + "";
+                ResultSet rs = stmt3.executeQuery(sql);
+                 ResultSet rs_cid = stmt4.executeQuery(cid);
+                  rs_cid.next();
+                rs.next();
+                int cargo_id=Integer.parseInt(rs_cid.getString("cargotypeid"));
+                int danger_onhand_quantity = Integer.parseInt(rs.getString("qtyonhand"));
+                danger_onhand_quantity = danger_onhand_quantity + quantity;
 
                 int i = 0;
                 out.print(duedate.indexOf('-'));
                 if (duedate.indexOf('-') >= 0) {
-              
 
-                    int executeUpdate = stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid, isreleased) VALUES (NULL, " + quantity + ", " + odid + ", " + rent + ", '" +duedate+ "', '" + currentdate + "', " + itemid + ", " + locationid +","+isre + ")");
+                    int executeUpdate = stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid, isreleased) VALUES (NULL, " + quantity + ", " + odid + ", " + rent + ", '" + duedate + "', '" + currentdate + "', " + itemid + ", " + locationid + "," + isre + ")");
                     if (executeUpdate > 0) {
+                        int executeUpdate2 = stmt2.executeUpdate("UPDATE `locationdescription` SET `qtyonhand` = " + danger_onhand_quantity + " WHERE locationdescription.cargotypeid=" +cargo_id+ "");
                         out.print("successfully added");
                     }
 
@@ -99,14 +110,15 @@ public class Stack_Cargo extends HttpServlet {
 
                     String current_year = currentdateconcat[2];
 
-                    int executeUpdate = stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid,isreleased) VALUES (NULL, " + quantity + ", " + odid + ", " + rent + ", '" + due_year + "-" + due_month + "-" + due_datee + "', '" + current_year + "-" + current_month + "-" + current_date + "', " + itemid + ", " + locationid +","+isre + ")");
+                    int executeUpdate = stmt.executeUpdate("INSERT INTO `warehousein` (warehouseinid, qty, orderid, rentalperunit, duedate, receiveddate, itemid, ldid,isreleased) VALUES (NULL, " + quantity + ", " + odid + ", " + rent + ", '" + due_year + "-" + due_month + "-" + due_datee + "', '" + current_year + "-" + current_month + "-" + current_date + "', " + itemid + ", " + locationid + "," + isre + ")");
                     if (executeUpdate > 0) {
+                        int executeUpdate2 = stmt2.executeUpdate("UPDATE `locationdescription` SET `qtyonhand` = " + danger_onhand_quantity + " WHERE locationdescription.cargotypeid=" +cargo_id+ "");
                         out.print("successfully added");
                     }
 
                 }
-
-                con.close();
+//
+//                con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

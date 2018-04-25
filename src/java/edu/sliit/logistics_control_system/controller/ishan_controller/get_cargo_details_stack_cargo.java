@@ -225,7 +225,7 @@ public class get_cargo_details_stack_cargo extends HttpServlet {
                 out.print("</tbody>");
                 out.print("</table>");
 
-                con.close();
+               con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

@@ -46,7 +46,7 @@ public class item_name_stack_cargo extends HttpServlet {
                 /* TODO output your page here. You may use following sample code. */
                 int odid = Integer.parseInt(request.getParameter("odid"));
 
-                Connection con = MySQLConnection.getConnection();
+               Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
 
                 String sql = "SELECT it.itemid , it.it_name from item it,orderdetail ord ,order2 o WHERE it.itemid=ord.itemid and o.orderid=ord.orderid and ord.iswarehouse=1 and o.orderid=" + odid + "  ";
@@ -76,7 +76,7 @@ public class item_name_stack_cargo extends HttpServlet {
                 }
                 out.print("</select>");
 
-                con.close();
+               con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

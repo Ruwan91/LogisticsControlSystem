@@ -49,7 +49,7 @@ public class delete_release_cargo extends HttpServlet {
 
                 stmt.executeUpdate("DELETE FROM `warehouseout` WHERE `warehouseout`.`warehouseoutid` =" + w_id + "");
                 out.print(w_id);
-                con.close();
+               con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

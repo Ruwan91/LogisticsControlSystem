@@ -48,7 +48,7 @@ public class get_release_details_release_cargo extends HttpServlet {
             try {
                 /* TODO output your page here. You may use following sample code. */
 
-                Connection con = MySQLConnection.getConnection();
+               Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
 
                 String sql = "SELECT  warehouseout.warehouseoutid,warehouseout.warehouseinid,item.it_name,customer.firstname,warehousein.duedate,cargotype.ctype_name,order2.orderid, warehouseout.itemid,warehouseout.qty,warehouseout.releasedate,warehouseout.latedays,warehouseout.latefeeperday,warehouseout.totalcost,warehouseout.ldid\n" +
@@ -225,7 +225,7 @@ public class get_release_details_release_cargo extends HttpServlet {
                 out.print("</tbody>");
                 out.print("</table>");
 
-                con.close();
+              con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {

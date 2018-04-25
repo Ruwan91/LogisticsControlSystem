@@ -60,51 +60,56 @@ public class edit_stack_cargo extends HttpServlet {
                 int itemid = Integer.parseInt(request.getParameter("itemid"));
                 int locationid = Integer.parseInt(request.getParameter("locationid"));
 
-                Connection con = MySQLConnection.getConnection();
+               Connection con = MySQLConnection.getConnection();
                 Statement stmt = con.createStatement();
                 
                 String duedateconcat[] = new String[40];
                 String currentdateconcat[] = new String[40];
-
-                int i = 0;
-                if(duedate.indexOf('-')>=0){
-                StringTokenizer stdue = new StringTokenizer(duedate, "-");
-                while (stdue.hasMoreTokens()) {
-                    duedateconcat[i] = stdue.nextToken();
-                    i++;
-                }
-                }else{
-                 StringTokenizer stdue = new StringTokenizer(duedate, "/"); 
-                 while (stdue.hasMoreTokens()) {
-                    duedateconcat[i] = stdue.nextToken();
-                    i++;
-                }
-                }
-                StringTokenizer stcurrent = new StringTokenizer(currentdate, "-");
+                
+                  StringTokenizer stcurrent = new StringTokenizer(currentdate, "-");
                 
                 int v = 0;
                 while (stcurrent.hasMoreTokens()) {
                     currentdateconcat[v] = stcurrent.nextToken();
                     v++;
                 }
-                String due_month = duedateconcat[2];
-                String due_date = duedateconcat[0];
-
-                String due_year = duedateconcat[1];
-
-                String current_month = currentdateconcat[2];
+                   String current_month = currentdateconcat[2];
                 String current_date = currentdateconcat[0];
 
                 String current_year = currentdateconcat[1];
-                out.print("due date "+due_date);
-                out.print("due month "+due_month);
-                out.print("due year "+due_year);
-                int executeUpdate = stmt.executeUpdate("UPDATE `warehousein` SET `qty` = " + quantity + ", `orderid`=" + odid + ", `rentalperunit` = " + rent + ", `duedate` = '"+ due_date    +"-"+due_year   +"-"+ due_month+"', `receiveddate` = '" +current_date    + "-" +current_year     + "-" +current_month + "', `itemid` = " + itemid + ", `ldid` = " + locationid + " WHERE `warehousein`.`warehouseinid` = " + wareid );
+                
+                int i = 0;
+                if(duedate.indexOf('-')>=0){
+         
+                int executeUpdate = stmt.executeUpdate("UPDATE `warehousein` SET `qty` = " + quantity + ", `orderid`=" + odid + ", `rentalperunit` = " + rent + ", `duedate` = '"+duedate+"', `receiveddate` = '" +current_date    + "-" +current_year     + "-" +current_month + "', `itemid` = " + itemid + ", `ldid` = " + locationid + " WHERE `warehousein`.`warehouseinid` = " + wareid );
                 if (executeUpdate > 0) {
                     out.print("successfully updated");
                 }else{out.print("Error cant update");}
 
-                con.close();
+                }else{
+                 StringTokenizer stdue = new StringTokenizer(duedate, "/"); 
+                 while (stdue.hasMoreTokens()) {
+                    duedateconcat[i] = stdue.nextToken();
+                    i++;
+                }
+                    String due_year = duedateconcat[2];
+                String due_date = duedateconcat[0];
+
+                String due_month = duedateconcat[1];
+
+             
+                out.print("due date "+due_date);
+                out.print("due month "+due_month);
+                out.print("due year "+due_year);
+                int executeUpdate = stmt.executeUpdate("UPDATE `warehousein` SET `qty` = " + quantity + ", `orderid`=" + odid + ", `rentalperunit` = " + rent + ", `duedate` = '"+due_year     +"-"+ due_date +"-"+  due_month+"', `receiveddate` = '" +current_date    + "-" +current_year     + "-" +current_month + "', `itemid` = " + itemid + ", `ldid` = " + locationid + " WHERE `warehousein`.`warehouseinid` = " + wareid );
+                if (executeUpdate > 0) {
+                    out.print("successfully updated");
+                }else{out.print("Error cant update");}
+
+                }
+              
+             
+               con.close();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Stack_Cargo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
