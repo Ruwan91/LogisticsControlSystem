@@ -12,6 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
         <title>delivery</title>
         <script>
             //creating XML HTTP Request
@@ -29,22 +30,30 @@
         </script>
 
     </head>
-    <body id="wareH" style="display: block;" >
+    <body id="wareH" style="display: block;">
         <div class="container" style="background-color: #ffffff;box-shadow: 0 0 3px black;width: 100%;padding-top: 5px;padding-left: 0px;">
             <header>
                 <div class="container" style="width: 100%;">
 
-                    <div class="container" style="background-color: #e1e1ec;    box-shadow: 0 0 5px black; width: 100%;"><h1>Delivery</h1></div>
+                    <div class="container" style="background-color: #e1e1ec;    box-shadow: 0 0 5px black; width: 100%;"><img src="delivery-truck.png" style="margin-left: 5px;widows: 150px;height: 50px;float: left;margin-left: 40%"/><h1 style="margin-left: 45%">Delivery</h1></div>
 
                     <div class="navcontainer container" style="margin-top:5px;margin-left: 0%;">
 
                         <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" onclick="deliverydash()">Dashboard</a></li>
-                            <li><a data-toggle="tab" onclick="newdelivery(); fillTheDeliveryDestinationList(); fillTheDeliveryVehicleNumberList(); fillTheDriverList();">New Delivery</a></li>
-                            <li><a data-toggle="tab" onclick="searchdelivery(); fillTheVehicleNumberList();fillDriverList(); fillTheCustomersList();"><span class="glyphicon glyphicon-search"></span> Search Delivery</a></li>
-                            <li><a data-toggle="tab" onclick="alldelivery(); loadAllDeliveries();">All Delivery</a></li>
-                            <li><a data-toggle="tab" onclick="newdriver()">Add New Driver</a></li>
-                            <li><a data-toggle="tab" onclick="newvehicle(); fillVihicleTypeList();">Add New Vehicle</a></li>
+                            <li class="active"><a data-toggle="tab" onclick="deliverydash()"><img src="dashboard.png" style="margin-left: 5px;widows: 100px;height: 50px;float: left;margin-left: 40%"/><h5 style="margin-left: 20%">Dashboard</h5></a></li>
+                            <li><a data-toggle="tab" onclick="newdelivery();
+                                    fillTheDeliveryDestinationList();
+                                    fillTheDeliveryVehicleNumberList();
+                                    fillTheDriverList();"><img src="truck.png" style="margin-left: 5px;widows: 100px;height: 50px;float: left;margin-left: 10%"/><h5 style="margin-left: 20%">New Delivery</h5></a></li>
+                            <li><a data-toggle="tab" onclick="searchdelivery();
+                                    fillTheVehicleNumberList();
+                                    fillDriverList();
+                                    fillTheCustomersList();"><img src="search.png" style="margin-left: 5px;widows: 100px;height: 50px;float: left;margin-left: 10%"/><h5 style="margin-left: 20%">Search Delivery</h5></a></li>
+                            <li><a data-toggle="tab" onclick="alldelivery();
+                                    loadAllDeliveries();"><img src="list.png" style="margin-left: 5px;widows: 100px;height: 50px;float: left;margin-left: 10%"/><h5 style="margin-left: 20%">All Delivery</h5></a></li>
+                            <li><a data-toggle="tab" onclick="newdriver()"><img src="Driver.png" style="margin-left: 5px;widows: 100px;height: 50px;float: left;margin-left: 10%"/><h5 style="margin-left: 20%">Add New Driver</h5></a></li>
+                            <li><a data-toggle="tab" onclick="newvehicle();
+                                    fillVihicleTypeList();"><img src="refridgerated.png" style="margin-left: 5px;widows: 100px;height: 50px;float: left;margin-left: 10%"/><h5 style="margin-left: 20%">Add New Vehicle</h5></a></li>
                         </ul>
                     </div>
                 </div>
@@ -61,10 +70,76 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2"></label>
                                 <div class="col-sm-5">
+                                    <div id="chartContainer" style="height: 400px; width: 150%;">
+                                    </div>
+                                    <div id="inputsDiv">
+                                    </div>
+                                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                                    <script>
+                                //Loading Dashboard
+                                
+                                //Create XMLHttpRequest object
+                                var request = createXMLHttpRequest();
+                                //Create url to communicate with the server with ajax
+                                var url = "DeliveryDashboardDetail";
+                                //XMLHttpRequest object contains request method open GET method and pass the url through it
+                                request.open("GET", url, true);
+                                //Setting request header
+                                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                //We use GET method to send data to server there for we don't have anything to send with body there for we set it as null
+                                request.send(null);
+                                //Every time ready stage changes hold the states of XMLHttpRequest
+                                request.onreadystatechange = function () {
+                                    //Check is thet request is finished and respond is ready
+                                    if (request.readyState == 4) {
+                                        //Check that the server side status success
+                                        if (request.status == 200) {
+                                            //After server side process happen successfully set the result to chartContainer there are some hidden type input field
+                                            document.getElementById("inputsDiv").innerHTML = request.responseText;
+                                            loadChart();
+                                        }
+                                    }
+                                }
+
+                                function loadChart() {
+                                    var a = parseInt(document.getElementById("20FeetContainerCount").value);
+                                    var b = parseInt(document.getElementById("40FeetContainerCount").value);
+                                    var c = parseInt(document.getElementById("20FeetRefrigeratedLorryCount").value);
+                                    var d = parseInt(document.getElementById("14FeetRefrigeratedMiniLorryCount").value);
+                                    var e = parseInt(document.getElementById("30FeetCargoTruckCount").value);
+                                    
+                                    var chart = new CanvasJS.Chart("chartContainer", {
+                                        animationEnabled: true,
+                                        theme: "light2", // "light1", "light2", "dark1", "dark2"
+                                        title: {
+                                            text: "Delivery"
+                                        },
+                                        axisY: {
+                                            title: "# Deliveries"
+                                        },
+                                        data: [{
+                                                type: "column",
+                                                showInLegend: true,
+                                                legendMarkerColor: "grey",
+                                                legendText: "Number of deliveries according to the Vehicle type",
+                                                dataPoints: [
+                                                    {y: a, label: "20' Container"},
+                                                    {y: b, label: "40' Container"},
+                                                    {y: c, label: "20' Refrigerated Lorry"},
+                                                    {y: d, label: "14' Refrigerated mini Lorry"},
+                                                    {y: e, label: "30' Cargo Truck"}
+                                                ]
+                                            }]
+                                    });
+                                    chart.render();
+
+                                }
+
+                                    </script>
+
 
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </section>
@@ -104,7 +179,7 @@
                             <div class="form-group" >
                                 <label class="control-label col-sm-2">Order Id</label>
                                 <div class="col-sm-5">
-                                    <input type="number" class="form-control" placeholder="Enter Invoice Number." id="delorderId" required="true">
+                                    <input type="text" class="form-control" placeholder="Enter Invoice Number." id="delorderId" required="true" onkeyup="validateOrderIdField()">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -248,6 +323,20 @@
                                 }
 
                             }
+
+                            //Validating order Id 
+                            function validateOrderIdField() {
+                                //Creating regular expression start character equals 0
+                                var regex = /^[0]+$/;
+                                var x = document.getElementById("delorderId").value;
+                                //Check that the first charater of var x value is 0 , then chaeck is not a numeric value
+                                if (regex.test(x) || isNaN(x)) {
+                                    //If abouve conditions true then var x length will be reduce by 1 then assign it to var x 
+                                    x = x.substring(0, x.length - 1);
+                                    //set new value to id contains fixcharge input field
+                                    document.getElementById("delorderId").value = x;
+                                }
+                            }
                         </script>
                     </div>
                 </section>
@@ -291,7 +380,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2"></label>
                                 <div class="col-sm-2" >
-                                    <button type="button" class="btn btn-primary" onclick="searchDeliveryDetails()">Search Delivery</button>
+                                    <button type="button" class="btn btn-primary" onclick="searchDeliveryDetails()"><span class="glyphicon glyphicon-search"></span> Search Delivery</button>
                                 </div>
                             </div>
                             <div class="container" id="searchedDeliveryDetails_div">
@@ -406,34 +495,6 @@
                                     }
                                 }
                             }
-
-
-
-
-                            //Loading all the Deliveries function
-//                            function loadDeliveries() {
-//                                //Create XMLHttpRequest object
-//                                var request = createXMLHttpRequest();
-//                                //Create url to communicate with the server with ajax
-//                                var url = "SearchedAllDeliveryDetail";
-//                                //XMLHttpRequest object contains request method open GET method and pass the url through it
-//                                request.open("GET", url, true);
-//                                //Setting request header
-//                                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//                                //We use GET method to send data to server there for we don't have anything to send with body there for we set it as null
-//                                request.send(null);
-//                                //Every time ready stage changes hold the states of XMLHttpRequest
-//                                request.onreadystatechange = function () {
-//                                    //Check is thet request is finished and respond is ready
-//                                    if (request.readyState == 4) {
-//                                        //Check that the server side status success
-//                                        if (request.status == 200) {
-//                                            //After server side process happen successfully set the result to searchedDeliveryDetails_div this is a table
-//                                            document.getElementById("searchedDeliveryDetails_div").innerHTML = request.responseText;
-//                                        }
-//                                    }
-//                                }
-//                            }
                         </script>
                     </div>  
                 </section>
@@ -896,7 +957,8 @@
                 <script>
 
                     function deliverydash() {
-                        document.getElementById("Whead").innerHTML = 'Analitical View of Delivery';
+                        location.reload(true);
+                        document.getElementById("Whead").innerHTML = 'Delivery Dashboard';
                         document.getElementById("delivery_dash_div").style.display = 'block';
                         document.getElementById("new_delivery").style.display = 'none';
                         document.getElementById("search_delivery_div").style.display = 'none';

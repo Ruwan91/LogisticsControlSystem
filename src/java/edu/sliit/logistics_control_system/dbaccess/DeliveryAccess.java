@@ -134,4 +134,75 @@ public class DeliveryAccess {
         }
         return deliveryViewList;
     }
+    
+    public int getLastIsertDeliveryId() throws ClassNotFoundException, SQLException{
+        Connection connection = MySQLConnection.getInstance().getConnection();
+        Statement createStatement = connection.createStatement();
+        String sql = "Select * from delivery order by deliveryid desc limit 1";
+        ResultSet executeQuery = createStatement.executeQuery(sql);
+        Delivery dv = null;
+        int delnumber=0;
+        while (executeQuery.next()) {
+            dv = new Delivery(executeQuery.getInt(1));
+            delnumber=dv.getDeliveryid();
+        }
+        return delnumber;
+    }
+    
+    public int getDeliveryCountTwentyFeetContainer() throws ClassNotFoundException, SQLException {
+        Connection connection = MySQLConnection.getInstance().getConnection();
+        Statement createStatement = connection.createStatement();
+        String sql = "select v.vtypeid,count(*) from delivery d,vehicle v,vehicletype t where v.vehicleid=d.vehicleid and v.vtypeid=t.vtypeid and v.vtypeid=1 group by v.vtypeid";
+        ResultSet executeQuery = createStatement.executeQuery(sql);
+        int count=0;
+        while (executeQuery.next()) {
+            count=executeQuery.getInt(2);
+        }
+        return count;
+    }
+    
+    public int getDeliveryCountFortyFeetContainer() throws ClassNotFoundException, SQLException {
+        Connection connection = MySQLConnection.getInstance().getConnection();
+        Statement createStatement = connection.createStatement();
+        String sql = "select v.vtypeid,count(*) from delivery d,vehicle v,vehicletype t where v.vehicleid=d.vehicleid and v.vtypeid=t.vtypeid and v.vtypeid=2 group by v.vtypeid";
+        ResultSet executeQuery = createStatement.executeQuery(sql);
+        int count=0;
+        while (executeQuery.next()) {
+            count=executeQuery.getInt(2);
+        }
+        return count;
+    }
+    public int getDeliveryCountTwentyFeetRefrigeratedLorry() throws ClassNotFoundException, SQLException {
+        Connection connection = MySQLConnection.getInstance().getConnection();
+        Statement createStatement = connection.createStatement();
+        String sql = "select v.vtypeid,count(*) from delivery d,vehicle v,vehicletype t where v.vehicleid=d.vehicleid and v.vtypeid=t.vtypeid and v.vtypeid=3 group by v.vtypeid";
+        ResultSet executeQuery = createStatement.executeQuery(sql);
+        int count=0;
+        while (executeQuery.next()) {
+            count=executeQuery.getInt(2);
+        }
+        return count;
+    }
+    public int getDeliveryCountFourteenFeetRefrigeratedMiniLorry() throws ClassNotFoundException, SQLException {
+        Connection connection = MySQLConnection.getInstance().getConnection();
+        Statement createStatement = connection.createStatement();
+        String sql = "select v.vtypeid,count(*) from delivery d,vehicle v,vehicletype t where v.vehicleid=d.vehicleid and v.vtypeid=t.vtypeid and v.vtypeid=4 group by v.vtypeid";
+        ResultSet executeQuery = createStatement.executeQuery(sql);
+        int count=0;
+        while (executeQuery.next()) {
+            count=executeQuery.getInt(2);
+        }
+        return count;
+    }
+    public int getDeliveryCountThertyFeetCargoTruck() throws ClassNotFoundException, SQLException {
+        Connection connection = MySQLConnection.getInstance().getConnection();
+        Statement createStatement = connection.createStatement();
+        String sql = "select v.vtypeid,count(*) from delivery d,vehicle v,vehicletype t where v.vehicleid=d.vehicleid and v.vtypeid=t.vtypeid and v.vtypeid=5 group by v.vtypeid";
+        ResultSet executeQuery = createStatement.executeQuery(sql);
+        int count=0;
+        while (executeQuery.next()) {
+            count=executeQuery.getInt(2);
+        }
+        return count;
+    }
 }

@@ -48,6 +48,10 @@
         <servlet-name>SearchAllDriverNamesForSearch</servlet-name>
         <servlet-class>edu.sliit.logistics_control_system.controller.SearchAllDriverNamesForSearch</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeliveryDashboardDetail</servlet-name>
+        <servlet-class>edu.sliit.logistics_control_system.controller.DeliveryDashboardDetail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AddDelivery</servlet-name>
         <url-pattern>/AddDelivery</url-pattern>
@@ -95,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>SearchAllDriverNamesForSearch</servlet-name>
         <url-pattern>/SearchAllDriverNamesForSearch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeliveryDashboardDetail</servlet-name>
+        <url-pattern>/DeliveryDashboardDetail</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

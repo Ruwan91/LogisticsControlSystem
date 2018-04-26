@@ -10,16 +10,29 @@ import edu.sliit.logistics_control_system.dbaccess.DeliveryDestinationAccess;
 import edu.sliit.logistics_control_system.dbaccess.VehicleAccess;
 import edu.sliit.logistics_control_system.model.Delivery;
 import edu.sliit.logistics_control_system.model.DeliveryDestination;
+import edu.sliit.logistics_control_system.model.DeliveryView;
 import edu.sliit.logistics_control_system.model.Vehicle;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -52,6 +65,8 @@ public class AddDelivery extends HttpServlet {
             String date = request.getParameter("deldate");
             String destaddress = request.getParameter("deldestaddress");
             int orderId = Integer.parseInt(request.getParameter("delorderId"));
+            //Driver Name
+            String dname = splitedString[0];
 
             //creating DB Access objects
             VehicleAccess va = new VehicleAccess();
@@ -81,13 +96,41 @@ public class AddDelivery extends HttpServlet {
                     //Adding Driver and print the result
                     if (da.addDelivery(delivery)) {
                         out.print("Delivery Added Successfully...");
+                        //Here starts Jasper Report
+//                        try {
+//                            JasperReport compileReport = JasperCompileManager.compileReport("./src/java/edu/sliit/logistics_control_system/report/DEliveryreport.jrxml");
+//                            Map<String, Object> map = new HashMap<>();
+//                            int lastIsertDeliveryId = da.getLastIsertDeliveryId();
+//                            String customerName="No Name";
+//                            ArrayList<DeliveryView> deliveryDetailsByDeliveryId = da.getDeliveryDetailsByDeliveryId(driverId);
+//                            for (DeliveryView dv : deliveryDetailsByDeliveryId) {
+//                                customerName=dv.getFirstName()+" "+dv.getLastName();
+//                            }
+//                            
+//                            JRDataSource dataSource=new JREmptyDataSource();
+//                            map.put("delDate", date);
+//                            map.put("delid", lastIsertDeliveryId);
+//                            map.put("orderid", orderId);
+//                            map.put("vehicleNumber", vnumber);
+//                            map.put("driverName", dname);
+//                            map.put("destaddress", destaddress);
+//                            map.put("customerName",customerName);
+//                            map.put("total",amount);
+//                            map.put("deliveryDestinationName", ddname + "-" + kms + "km");
+//
+//                            JasperPrint printReport = JasperFillManager.fillReport(compileReport, map,dataSource);
+//                            JasperExportManager.exportReportToPdfFile(printReport,"D:\\MyReports\\DeliveryReport.pdf");
+//                            //JasperViewer.viewReport(printReport, false);
+//                        } catch (JRException ex) {
+//                            Logger.getLogger(AddDelivery.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
                     } else {
                         out.print("Adding Failed...");
                     }
                 } catch (ClassNotFoundException | SQLException ex) {
                     Logger.getLogger(AddDelivery.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }else{
+            } else {
                 //System.out.println("NUlllll.....");
                 out.print("Adding Failed...");
             }

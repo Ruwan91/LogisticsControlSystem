@@ -31,6 +31,9 @@ public class Delivery {
         this.orderid = orderid;
     }
 
+    public Delivery(int deliveryid) {
+        this.deliveryid = deliveryid;
+    }
     /**
      * @return the deliveryid
      */
