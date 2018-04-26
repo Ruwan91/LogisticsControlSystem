@@ -10,29 +10,16 @@ import edu.sliit.logistics_control_system.dbaccess.DeliveryDestinationAccess;
 import edu.sliit.logistics_control_system.dbaccess.VehicleAccess;
 import edu.sliit.logistics_control_system.model.Delivery;
 import edu.sliit.logistics_control_system.model.DeliveryDestination;
-import edu.sliit.logistics_control_system.model.DeliveryView;
 import edu.sliit.logistics_control_system.model.Vehicle;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *

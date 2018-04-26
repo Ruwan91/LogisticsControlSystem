@@ -6,11 +6,9 @@
 package edu.sliit.logistics_control_system.controller;
 
 import edu.sliit.logistics_control_system.dbaccess.DeliveryAccess;
-import edu.sliit.logistics_control_system.model.Delivery;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
